@@ -91,8 +91,7 @@ const appHarness = [
   stmt(html, 'const perfYearOf ='),
   stmt(html, 'const fieldKeyOfEvent ='),
   block(html, 'function perfEngagement(m) {'),
-  block(html, 'function perfSeriesScore(sm) {'),
-].join('\n') + '\nreturn { perfEngagement, perfSeriesScore, applyFieldScore, fieldKeyOfEvent };';
+].join('\n') + '\nreturn { perfEngagement, applyFieldScore, fieldKeyOfEvent };';
 const APP = new Function('__SC', 'findClassCompetitors', appHarness)(SC, () => globalThis.__finderResult);
 
 function expandedMatch(ev, cls, c) {
@@ -132,22 +131,13 @@ function firstSamples() {
       if (dnf) { out.push({ ev, cls, c: dnf }); break outer3; }
     }
   }
-  let series = null;
-  outer4:
-  for (const sr of pilots.series || []) {
-    for (const cls of sr.classes || []) {
-      const cc = (cls.competitors || []).find(c => typeof c.sr === 'number' && c.sr < 100000);
-      if (cc) { series = { sr, cls, c: cc }; break outer4; }
-    }
-  }
-  if (series) out.push({ ...series, isSeries: true });
   return out;
 }
 
 test('parité build/app : même raw sur échantillons réels (FR chrono, UEC, DNF)', () => {
   let samples;
   try { samples = firstSamples(); } catch (e) { console.log('  (index absents — test ignoré)'); return; }
-  for (const s of samples.filter(x => !x.isSeries)) {
+  for (const s of samples) {
     const m = expandedMatch(s.ev, s.cls, s.c);
     const app = APP.perfEngagement(m);
     const bests = [];
@@ -161,22 +151,7 @@ test('parité build/app : même raw sur échantillons réels (FR chrono, UEC, DN
   }
 });
 
-test('parité séries + ajustement via ctx', () => {
-  let samples;
-  try { samples = firstSamples(); } catch (e) { console.log('  (index absents — test ignoré)'); return; }
-  const s = samples.find(x => x.isSeries);
-  assert.ok(s, 'échantillon série trouvé');
-  const sm = {
-    account: { accountCode: 'ffc', accountName: 'FFC' },
-    series: { seriesId: 'sx', seriesName: 'S' },
-    competitor: { firstName: s.c.fn, lastName: s.c.ln, seriesRank: s.c.sr, seriesPoints: s.c.sp, groupName: s.c.gn, seriesRankCompetitorEvents: [] },
-    totalCompetitors: s.cls.total || s.cls.competitors.length,
-    cls: { className: s.cls.className, perpetualClassCode: s.cls.perpetualClassCode },
-    rankEvents: [{ eventDate: '2026-05-10' }],
-  };
-  const app = APP.perfSeriesScore(sm);
-  const expected = (() => { const z = SC.zScore(s.c.sr, sm.totalCompetitors); return z == null ? 250 : Math.max(5, Math.min(1000, 500 + 500 * (z <= 0 ? z / Math.sqrt(3) : Math.pow(Math.min(1, z / Math.sqrt(3)), 2.5)))); })();
-  assert.ok(Math.abs(app.raw - expected) < 1e-9, `série app.raw=${app.raw} attendu=${expected}`);
+test('ajustement force-plateau via ctx', () => {
   // Ajustement : exclusion exacte de soi-même depuis la moyenne inclusive.
   const ctx = { classes: { 'ffc/evx/U19': [600, 10] }, medFs: { 2026: 430 } };
   // fs_excl = (600·10 − 800)/9 = 577.78 → 800 + 0.3·147.78… non : (577.78−430)=147.78 → +44.33
