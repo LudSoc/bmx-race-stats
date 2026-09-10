@@ -3334,25 +3334,30 @@
       <ol>
         <li><strong>Tes places, à contexte égal.</strong> Chaque course est notée selon ton rang, ajusté par la taille du plateau (gagner à 100 vaut plus qu'à 10) et par sa force (battre des pilotes forts vaut plus). En haut du classement, chaque place compte double : un podium vaut nettement plus qu'une place en fond de top-20.</li>
         <li><strong>La manière.</strong> Léger bonus pour la régularité en manches et les finales atteintes ; sur les épreuves chronométrées, ton meilleur temps (comparé à la catégorie du jour) compte pour environ un quart du score.</li>
-        <li><strong>La prudence.</strong> Peu de courses = indice tiré vers 500 — d'autant plus si les plateaux étaient petits (2 finales mondiales pèsent ~11 courses régionales). Un abandon n'est pas un zéro : pénalisé selon la phase atteinte (manches ≈ 250 … finale ≈ 700).</li>
+        <li><strong>La prudence.</strong> Avec peu de courses, l'indice est ramené vers 500 : chaque course apporte une « preuve » proportionnelle à son plateau (12 pilotes ≈ 1 preuve, un abandon ≈ 0,25), et il manque toujours 2 preuves à 500 dans la balance. Exemple : 2 courses à 60 pilotes prouvent autant que 10 courses à 12.</li>
       </ol>
       <details class="perf-how-detail">
-        <summary>Détail du calcul et exemple chiffré</summary>
+        <summary>Détail du calcul (tous les coefficients)</summary>
         <ul>
-          <li><strong>Rang</strong> — 1ᵉʳ d'un gros champ ≈ 980-1000, médiane ≈ 500 (ex. 5ᵉ/40 ≈ 764 contre ≈ 990 au 1ᵉʳ : l'écart se resserre en haut).</li>
-          <li><strong>Constance</strong> — facteur ×0,97 à ×1,05 (top 4 en manches + finale atteinte ; pas de bonus finale pour un éliminé en demie).</li>
-          <li><strong>Championnats</strong> — un classement de série compte comme une course.</li>
-          <li><strong>Niveau</strong> — régional ×0,93, national ×1,0, international ×1,05.</li>
+          <li><strong>Rang</strong> — courbe 500 + 500·(z/√3)<sup>2,5</sup> au-dessus de la médiane (exposant 2,5 : l'écart se resserre en haut), linéaire en dessous. 1ᵉʳ d'un gros champ ≈ 980-1000, médiane = 500. Score borné entre 5 et 1000.</li>
+          <li><strong>Constance</strong> — facteur ×0,97 à ×1,05 : moitié régularité en manches (% de top-4), moitié finale atteinte (ou non).</li>
+          <li><strong>Chrono</strong> — sur épreuves chronométrées uniquement (≥3 temps dans la classe) : (score + 0,3 × chrono) / 1,3, le temps pèse donc ~23 %.</li>
+          <li><strong>Niveau</strong> — régional ×0,93, national ×1,0, UEC et UCI ×1,05.</li>
+          <li><strong>Force du plateau</strong> — +0,3 × (force de la classe ce jour-là − médiane annuelle), appliqué après le coef de niveau. En pratique ± quelques dizaines de points.</li>
+          <li><strong>Abandons (DNF/DNS/DSQ)</strong> — pas de zéro : 250 (manches), 400 (quart), 550 (demie) ou 700 (finale) selon la phase atteinte, et ça ne vaut que 0,25 preuve.</li>
+          <li><strong>Championnats</strong> — un classement de série compte comme une course (noté avec la même courbe de rang, année de sa dernière manche).</li>
+          <li><strong>Année</strong> — moyenne simple des courses, puis ramenée vers 500 selon la preuve totale : (moyenne × preuves + 500 × 2) / (preuves + 2).</li>
+          <li><strong>Carrière</strong> — moyenne des années, à égalité (une saison chargée ne pèse pas plus).</li>
         </ul>
         <div class="perf-example">
-          <p><strong>Exemple</strong> — pilote national, 4 engagements en 2025 :</p>
+          <p><strong>Exemple</strong> — pilote national (coef ×1,0, neutre), 4 engagements en 2025, hors ajustement plateau :</p>
           <ul>
             <li>5ᵉ sur 40 (chrono 35,20 s) → (764×1,05 + 0,3×846)/1,3 ≈ <strong>812</strong></li>
-            <li>12ᵉ sur 30 (sans chrono) → <strong>526</strong></li>
+            <li>12ᵉ sur 30 (sans chrono, constance ×1,025) → 513×1,025 ≈ <strong>526</strong></li>
             <li>DNF en manches → <strong>250</strong> (en finale, ≈ 700)</li>
             <li>série 4ᵉ sur 25 → <strong>720</strong></li>
           </ul>
-          <p>Moyenne 577, resserrée selon la preuve (poids 8,2) → <strong>562</strong>. Carrière = moyenne des années (une saison chargée ne pèse pas plus).</p>
+          <p>Moyenne 577 sur 4 courses. Preuves : 40/12 + 30/12 + 0,25 (DNF) + 25/12 ≈ <strong>8,2</strong>. Indice annuel = (577×8,2 + 500×2)/(8,2+2) ≈ <strong>562</strong>.</p>
         </div>
       </details>
     </div>
