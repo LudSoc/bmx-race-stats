@@ -1,4 +1,6 @@
 <!doctype html>
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later
+     Copyright (c) 2026 ludovic.socie -->
 <html lang="fr">
 <head>
 <meta charset="utf-8">
@@ -83,14 +85,10 @@
   .donate-btn:active{transform:scale(.95)}
   .donate-icon{font-size:1.15rem;display:inline-flex;align-items:center}
   @media(max-width:520px){.donate-btn .donate-label{display:none}}
-  .share-btn{
-    background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.22);
-    color:#fff; border-radius:6px; padding:6px 12px;
-    font-size:0.82rem; cursor:pointer; transition:background .15s;
-  }
-  .share-btn:hover{background:rgba(255,255,255,.2)}
-  .hub-back{display:inline-block;margin-top:10px;font-size:12px;color:rgba(255,255,255,.65);text-decoration:none;letter-spacing:.1px}
-  .hub-back:hover{color:#fff}
+  
+  
+  .hub-back{display:inline-flex;align-items:center;gap:6px;margin-top:14px;color:#fff;font-size:13px;font-weight:600;text-decoration:none;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);padding:6px 12px;border-radius:99px}
+  .hub-back:hover{background:rgba(255,255,255,.28)}
   #retryBtn:not([hidden]){display:block;margin:8px auto 0;padding:6px 18px;background:var(--accent,#4e80ee);color:#fff;border:none;border-radius:6px;font-size:13px;cursor:pointer}
   #retryBtn:hover{opacity:.85}
   .brand .logo{
@@ -432,6 +430,11 @@
     color:color-mix(in srgb,var(--peach) 55%, var(--ink));
     font-weight:500;
   }
+  .phase.is-tt{
+    background:color-mix(in srgb,var(--teal) 12%, var(--card-soft));
+    border-color:color-mix(in srgb,var(--teal) 30%, var(--line));
+  }
+  .phase.is-tt b{color:var(--teal)}
   a.phase{text-decoration:none; cursor:pointer; transition:border-color .15s, background .15s, transform .05s; border-color:color-mix(in srgb,var(--accent) 35%, var(--line))}
   a.phase::after{content:'↗'; font-size:10px; opacity:.5; margin-left:1px; line-height:1}
   a.phase:hover{border-color:var(--accent); background:color-mix(in srgb,var(--accent) 10%, transparent)}
@@ -1233,9 +1236,11 @@
         </span>
         Sqorz Stats
       </div>
-      <button type="button" id="shareBtn" class="share-btn" onclick="copyLink()">Copier le lien</button>
+      
+      <div style="display:flex; gap:8px; align-items:center">
       <a href="https://ko-fi.com/sqorz_tools" target="_blank" rel="noopener noreferrer" class="donate-btn" title="Soutenir le projet sur Ko-fi"><span class="donate-icon">☕</span><span class="donate-label">Soutenir</span></a>
       <button type="button" id="themeBtn" class="theme-btn" aria-label="Changer le thème" title="Changer le thème (auto / clair / sombre)"></button>
+      </div>
     </div>
     <a class="hub-back" id="hubBackLink" href="#" aria-label="Retour au Sqorz Hub">← Sqorz Hub</a>
     <h1>Sqorz · Stats Pilote</h1>
@@ -1335,7 +1340,7 @@
   // Socle partagé (common.js) : utils, expansion d'index, chargeur à cache, indice de perf.
   const {
     norm, escape, humanError, zScore,
-    isFinalPhase, isMotoPhase, isNotTimedPhase, num, perfHasKnockout,
+    isFinalPhase, isMotoPhase, isTimeTrialPhase, isNotTimedPhase, num, perfHasKnockout,
     expandIndex, loadIndexCached, loadFieldStrength,
     PERF_LEVEL_COEFS, PERF_CHRONO_W, PERF_DNF_SCORES, PERF_FIELD_K,
     perfClamp, perfScoreRang, perfBestTime, perfChronoScore,
@@ -1346,6 +1351,7 @@
   let pilotsIndex = null;
   let uciIndex = null; // index UCI (Mondiaux BMX Racing) — chargé en parallèle, optionnel
   let uecIndex = null; // index UEC (Coupe/Championnats d'Europe, JSTiming) — optionnel
+  let wcIndex = null; // index Coupe du monde UCI — fusionné dans le niveau UCI (même coef, pas de recouvrement)
   let perfFrField = null;  // { classes, medFs } — forces de plateau FR (indice v2, optionnel)
   let perfUecField = null; // idem UEC — silent fallback v1 si absents
   // --- Noms complets des clubs (clubs.json, cf. club_stats/tools/clubs/README.md) ---
@@ -1434,7 +1440,10 @@
     return searchInIndex(pilotsIndex, query);
   }
   function searchUci(query) {
-    return searchInIndex(uciIndex, query);
+    // Coupe du monde fusionnée dans le niveau UCI (spec World Cup §4).
+    const a = searchInIndex(uciIndex, query);
+    const b = searchInIndex(wcIndex, query);
+    return { events: a.events.concat(b.events), series: a.series };
   }
   function searchUec(query) {
     return searchInIndex(uecIndex, query);
@@ -1451,7 +1460,8 @@
     return {
       account: { accountCode: m.account.accountCode, accountName: m.account.accountName },
       event: { eventId: m.event.eventId, eventName: m.event.eventName,
-               eventDate: m.event.eventDate, eventEndDate: m.event.eventEndDate },
+               eventDate: m.event.eventDate, eventEndDate: m.event.eventEndDate,
+               ...(m.event.url ? { url: m.event.url } : {}) },
       cls: { className: m.cls?.className || '', perpetualClassCode: m.cls?.perpetualClassCode || null },
       competitor: m.competitor,
       totalParticipants: m.totalParticipants,
@@ -1753,10 +1763,11 @@
   const IS_LOCAL = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname);
 
   // Clés du cache client (Cache API `sqorz-index-v1`, gérée par SqorzCommon.loadIndexCached).
-  const INDEX_CACHE_URLS = {
+  const   INDEX_CACHE_URLS = {
     pilots: 'https://sqorz.local/cache/pilots-index.json',
     uci:    'https://sqorz.local/cache/uci-index.json',
     uec:    'https://sqorz.local/cache/uec-index.json',
+    wc:     'https://sqorz.local/cache/uci-worldcup-index.json',
   };
   // Clés cache des forces de plateau (indice v2, cf. SqorzCommon.loadFieldStrength).
   const FIELD_CACHE_URLS = {
@@ -1775,7 +1786,7 @@
 
   // Configs de chargement : FR (requis) puis UCI/UEC en arrière-plan (optionnels).
   function indexCfg(key, name, estimatedSize) {
-    const file = key === 'pilots' ? 'pilots-index' : key + '-index';
+    const file = key === 'pilots' ? 'pilots-index' : key === 'wc' ? 'uci-worldcup-index' : key + '-index';
     return {
       metaUrl: `./${file}.meta.json`,
       cacheKey: INDEX_CACHE_URLS[key],
@@ -1789,10 +1800,11 @@
 
   // Fraîcheur par source dans le pied de page (une seule date si identiques).
   function showDataDates() {
+    const uciIso = [uciIndex && uciIndex.generated, wcIndex && wcIndex.generated].filter(Boolean).sort().pop();
     renderDataDates([
       { tag: 'FR', iso: pilotsIndex && pilotsIndex.generated },
       { tag: 'UEC', iso: uecIndex && uecIndex.generated },
-      { tag: 'UCI', iso: uciIndex && uciIndex.generated },
+      { tag: 'UCI', iso: uciIso },
     ]);
   }
 
@@ -1826,7 +1838,7 @@
   }
 
   async function loadSecondaryIndexes() {
-    const [uci, uec] = await Promise.all([
+    const [uci, uec, wc] = await Promise.all([
       loadIndexCached({ ...indexCfg('uci', 'index UCI', 8_000_000), quiet: true }).catch(e => {
         console.warn('[sqorz] uci-index.json indisponible :', e.message);
         return { events: [], series: [] };
@@ -1835,9 +1847,14 @@
         console.warn('[sqorz] uec-index.json indisponible :', e.message);
         return { events: [], series: [] };
       }),
+      loadIndexCached({ ...indexCfg('wc', 'index Coupe du monde UCI', 2_000_000), quiet: true }).catch(e => {
+        console.warn('[sqorz] uci-worldcup-index.json indisponible :', e.message);
+        return { events: [], series: [] };
+      }),
     ]);
     uciIndex = uci;
     uecIndex = uec;
+    wcIndex = wc;
     showDataDates();
     refreshSearchWithSecondary();
     // Forces de plateau (indice v2, optionnel) puis refresh final si chargées.
@@ -2012,6 +2029,21 @@
     const gate = d.racePosition;
     const label = escape(frPhaseName(d.phaseName || d.phaseCode || ''));
     const isDnx = specialResultLabel(pos) != null;
+    if (isTimeTrialPhase(d)) {
+      // Contre-la-montre : runs en solo, result=1 pour tous (1er de son run) — jamais
+      // une victoire. On montre le chrono ; le vrai classement est sur la pastille.
+      const t = num(d.time);
+      const ttTxt = t != null
+        ? `<b title="Temps : ${escape(d.time)} s">⏱ ${escape(d.time)}</b>`
+        : (isDnx ? `<b>${specialResultLabel(pos)}</b>` : '');
+      const ttCls = ['phase', 'is-tt', isDnx ? 'dnx' : ''].filter(Boolean).join(' ');
+      const ttInner = `${label} ${ttTxt} ${gate != null ? `<span class="gate">gr.${gate}</span>` : ''}`;
+      if (ctx && (d.raceName != null || d.phaseBlockCode)) {
+        const url = raceUrl(ctx.accountCode, ctx.eventId, ctx.perpetualClassCode, d.phaseBlockCode, d.phaseCode, d.raceName);
+        if (url) return `<a class="${ttCls}" href="${escape(url)}" target="_blank" rel="noopener noreferrer" title="${label} — ouvrir sur Sqorz">${ttInner}</a>`;
+      }
+      return `<span class="${ttCls}" title="${label} (contre-la-montre : voir le classement final sur la pastille)">${ttInner}</span>`;
+    }
     const posClass = !isDnx && pos === 1 ? 'pos-1' : !isDnx && pos === 2 ? 'pos-2' : !isDnx && pos === 3 ? 'pos-3' : '';
     const typeClass = isFinalPhase(d) ? 'is-final' : isMotoPhase(d) ? 'is-moto' : '';
     const cls = ['phase', posClass, typeClass, isDnx ? 'dnx' : ''].filter(Boolean).join(' ');
@@ -2101,7 +2133,9 @@
       // certains événements (ex. Mondiaux UCI) ne publient pas toujours les phases de
       // knock-out (rang classé avec uniquement les manches enregistrées, par ex.).
       const classified = typeof c.rank === 'number' && c.rank < 100000;
-      const finalPh = details.find(isFinalPhase);
+      // Hors contre-la-montre : en TT les runs sont en solo (result=1 partout),
+      // une « Super Final » n'est ni une victoire ni un podium de phase.
+      const finalPh = details.find(d => isFinalPhase(d) && !isTimeTrialPhase(d));
       if ((finalPh && finalPh.result != null) || (classified && c.rank <= 8)) {
         s.finalsReached++;
         if (finalPh && finalPh.result != null) {
@@ -2114,7 +2148,7 @@
         s.semiFinalsReached++;
         if (semiPh.result === 1) s.semiFinalWins++;
       }
-      if (details.some(d => isKnockoutPhase(d) && d.result != null) || classified) {
+      if (details.some(d => isKnockoutPhase(d) && !isTimeTrialPhase(d) && d.result != null) || classified) {
         s.finalPhasesReached++;
       }
       let hasMoto = false;
@@ -2159,7 +2193,9 @@
   const CLUB_BASE = window.location.protocol === 'file:'
     ? '../club_stats/index.html'
     : 'https://ludsoc.github.io/sqorz-club/';
-  function eventUrl(accountCode, eventId) {
+  function eventUrl(accountCode, eventId, event) {
+    // Coupe du monde UCI : pas de page Sqorz → lien vers la manche sur uci.org (ou rien).
+    if (accountCode === 'uciworldcup') return (event && event.url) || null;
     if (!accountCode || !eventId) return null;
     return `${SQORZ_WEB_BASE}/org/${encodeURIComponent(accountCode)}/event/${encodeURIComponent(eventId)}`;
   }
@@ -2171,7 +2207,8 @@
     if (!accountCode || !seriesId || !perpetualClassCode) return seriesUrl(accountCode, seriesId);
     return `${SQORZ_WEB_BASE}/org/${encodeURIComponent(accountCode)}/series/${encodeURIComponent(seriesId)}/class/${encodeURIComponent(perpetualClassCode)}`;
   }
-  function classUrl(accountCode, eventId, perpetualClassCode) {
+  function classUrl(accountCode, eventId, perpetualClassCode, event) {
+    if (accountCode === 'uciworldcup') return (event && event.url) || null;
     const base = eventUrl(accountCode, eventId);
     if (!base || !perpetualClassCode) return null;
     return `${base}/class/${encodeURIComponent(perpetualClassCode)}`;
@@ -2449,7 +2486,7 @@
       const r = m.competitor && m.competitor.rank;
       if (typeof r === 'number') { s.rankSum += r; s.rankCount++; if (r === 1) s.wins++; }
       const details = (m.competitor && m.competitor.competitorRankDetails) || [];
-      if (details.find(isFinalPhase) || (typeof r === 'number' && r >= 1 && r <= 8)) s.finals++;
+      if (details.find(d => isFinalPhase(d) && !isTimeTrialPhase(d)) || (typeof r === 'number' && r >= 1 && r <= 8)) s.finals++;
     }
     const years = [...byYear.keys()].sort();
     const points = years
@@ -3392,7 +3429,7 @@
         html.push(`<div class="timeline-item">`);
         html.push(`<div class="timeline-dot ${dotClass}"></div>`);
 
-        const evUrl = eventUrl(account.accountCode, event.eventId);
+        const evUrl = eventUrl(account.accountCode, event.eventId, event);
         const evName = escape(event.eventName);
         const evNameHtml = evUrl
           ? `<a class="sqorz-link" href="${escape(evUrl)}" target="_blank" rel="noopener noreferrer" title="Ouvrir sur Sqorz">${evName}</a>`
@@ -3424,7 +3461,7 @@
             : (rk != null && total ? `<div><span class="top-pct">${ordFr(rk)} / ${total}</span></div>` : '');
           const phaseCtx = { accountCode: m.account.accountCode, eventId: m.event.eventId, perpetualClassCode: cls.perpetualClassCode };
           const phases = (c.competitorRankDetails || []).map(d => phaseTag(d, phaseCtx)).join('');
-          const clUrl = classUrl(m.account.accountCode, m.event.eventId, cls.perpetualClassCode);
+          const clUrl = classUrl(m.account.accountCode, m.event.eventId, cls.perpetualClassCode, m.event);
           const clName = escape(cls.className);
           const clNameHtml = clUrl
             ? `<a class="sqorz-link" href="${escape(clUrl)}" target="_blank" rel="noopener noreferrer" title="Ouvrir la catégorie sur Sqorz">${clName}</a>`
@@ -4025,21 +4062,7 @@
 })();
 </script>
 <button id="backToTop" aria-label="Retour en haut" title="Retour en haut"><span aria-hidden="true">↑</span></button>
-<script>
-  function copyLink() {
-    const btn = document.getElementById('shareBtn');
-    const url = window.location.href;
-    const restore = () => { btn.textContent = 'Copier le lien'; };
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(url).then(() => { btn.textContent = '✓ Lien copié !'; setTimeout(restore, 2000); });
-    } else {
-      const el = document.createElement('textarea');
-      el.value = url; document.body.appendChild(el); el.select();
-      document.execCommand('copy'); document.body.removeChild(el);
-      btn.textContent = '✓ Lien copié !'; setTimeout(restore, 2000);
-    }
-  }
-</script>
+
 <script>
   (() => {
     const btn = document.getElementById('backToTop');

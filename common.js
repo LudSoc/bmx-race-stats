@@ -61,6 +61,17 @@
   function isSemiPhase(d) {
     return /semi/i.test(d.phaseName || '');
   }
+  // Contre-la-montre : runs en solo, `result` vaut 1 pour tout le monde (1er de son
+  // run) et ne dit rien du classement — seuls le chrono et le rang final comptent.
+  // Phases Sqorz : "Time Trial" (TT) et "Super Final" (TTF). Accepte les formes
+  // expansées (phaseName/phaseCode) et slim (n/pc).
+  function isTimeTrialPhase(d) {
+    if (!d) return false;
+    const code = ((d.phaseCode || d.pc) || '').toUpperCase();
+    if (code === 'TT' || code === 'TTF') return true;
+    const n = ((d.phaseName || d.n) || '').toLowerCase().trim();
+    return /\btime.trial\b/.test(n) || n === 'super final';
+  }
   // Temps non valable : phase absente, sans résultat, ou DNF/DNS/DSQ (result ≥ 100 000).
   const isNotTimedPhase = d => d == null || d.result == null || Number(d.result) >= 100000;
   const num = s => { const n = parseFloat(s); return isFinite(n) && n > 0 ? n : null; }; // temps > 0 requis
@@ -500,7 +511,7 @@
 
   window.SqorzCommon = {
     norm, escape, humanError, zScore,
-    isFinalPhase, isMotoPhase, isSemiPhase, isNotTimedPhase, num, perfHasKnockout,
+    isFinalPhase, isMotoPhase, isSemiPhase, isTimeTrialPhase, isNotTimedPhase, num, perfHasKnockout,
     expandIndex, INDEX_CACHE_NAME, openIndexCache, loadIndexCached,
     PERF_LEVEL_COEFS, PERF_RANG_EXP, PERF_CHRONO_W, PERF_FIELD_K, PERF_SHRINK_M, PERF_SHRINK_DIV, PERF_DNF_SCORES,
     loadFieldStrength, perfShrinkMean, perfWeight, fieldAdjust, applyFieldScore,

@@ -230,3 +230,16 @@ test('récents : dédupliqués, plus récent d’abord, plafonnés', () => {
   });
 });
 
+
+// --- contre-la-montre (runs en solo : result=1 partout, seul le chrono + le rang final comptent) ---
+test('isTimeTrialPhase : TT/TTF + noms, jamais les courses en peloton', () => {
+  assert.equal(SC.isTimeTrialPhase({ phaseCode: 'TT', phaseName: 'Time Trial', result: 1 }), true);
+  assert.equal(SC.isTimeTrialPhase({ phaseCode: 'TTF', phaseName: 'Super Final', result: 1 }), true);
+  assert.equal(SC.isTimeTrialPhase({ phaseName: 'Super Final' }), true, 'sans code');
+  assert.equal(SC.isTimeTrialPhase({ pc: 'TTF', n: 'Super Final', r: 1 }), true, 'forme slim');
+  assert.equal(SC.isTimeTrialPhase({ phaseName: 'Finale', result: 1 }), false, 'vraie finale');
+  assert.equal(SC.isTimeTrialPhase({ phaseName: '1/2 Finale' }), false);
+  assert.equal(SC.isTimeTrialPhase({ phaseName: 'Manche 1', result: 1 }), false);
+  assert.equal(SC.isTimeTrialPhase({ phaseName: 'SUPER FINALE REGIONALE' }), false, 'pas de faux positif large');
+  assert.equal(SC.isTimeTrialPhase(null), false);
+});

@@ -13,3 +13,7 @@ field-strength-uec.json
 
 # Cache de crawl (build-uec.js, JSTiming)
 .cache/
+
+# Index Coupe du monde UCI (publié sur R2, jamais commité)
+uci-worldcup-index.json
+uci-worldcup-index.events.ndjson
