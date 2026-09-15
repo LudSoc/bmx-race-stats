@@ -17,10 +17,10 @@ function block(start, indent = '  ') {
   return html.slice(i, j + ('\n' + indent + '}\n').length);
 }
 const commonSrc = fs.readFileSync(path.join(__dirname, '..', 'common.js'), 'utf8');
-const SC = new Function('window', commonSrc + '\nreturn window.SqorzCommon;')({});
+const SC = new Function('window', commonSrc + '\nreturn window.BmxCommon;')({});
 // computeStats est longue : extraction bornée (finit juste avant SQORZ_WEB_BASE).
 const csStart = html.indexOf('function computeStats(matches) {');
-const csEnd = html.indexOf('\n  const SQORZ_WEB_BASE', csStart);
+const csEnd = html.indexOf('\n  const SQORZ_SITE', csStart);
 if (csStart < 0 || csEnd < 0) throw new Error('computeStats introuvable');
 const computeSrc = html.slice(csStart, csEnd);
 const H = new Function(

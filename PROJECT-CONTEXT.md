@@ -6,11 +6,11 @@
 
 ## Vue d'ensemble
 
-**sqorz_stats** — SPA statique de stats BMX : recherche un pilote, affiche son historique complet, stats agrégées, graphiques, championnats, comparaison de 2 pilotes. Déployée sur GitHub Pages : `https://ludsoc.github.io/sqorz-stats/`.
+**bmx-race-stats** — SPA statique de stats BMX : recherche un pilote, affiche son historique complet, stats agrégées, graphiques, championnats, comparaison de 2 pilotes. Déployée sur GitHub Pages : `https://ludsoc.github.io/bmx-race-stats/`.
 
 **Architecture** : tout-en-un dans `index.html` (~3 440 lignes : CSS inline + HTML + 4 blocs `<script>`). Aucun framework, aucun build step. Les données viennent d'un **fichier pré-construit** `pilots-index.json` (~79 Mo) — **pas d'appels API au runtime** (sauf rien : tout est dans l'index).
 
-C'est un outil de la suite « Sqorz Hub » (frères : `sqorz-head2head`, `sqorz-club`, `sqorz-category`), tous partageant le même `pilots-index.json` et le même thème.
+C'est un outil de la suite « BMX-Race » (frères : `bmx-race-head2head`, `bmx-race-club`, `bmx-race-category`), tous partageant le même `pilots-index.json` et le même thème.
 
 ---
 
@@ -19,7 +19,7 @@ C'est un outil de la suite « Sqorz Hub » (frères : `sqorz-head2head`, `sqorz-
 | Fichier | Rôle |
 |---------|------|
 | `index.html` | L'app complète (HTML+CSS+JS inline + `common.js`). |
-| `common.js` | Socle partagé 100 % sans DOM (`window.SqorzCommon` : norm/escape/humanError, zScore, phases, `expandIndex` — modes `false` économe / `'chrono'` phases chronométrées seules, `loadIndexCached` à cache meta.json, helpers purs de l'indice perf, `formatDataDates`). Chargé avant `index.html` (`./common.js`) et par les apps sœurs (club/h2h/category) via `https://ludsoc.github.io/sqorz-stats/common.js` (+ fallback local `../sqorz_stats/common.js`). Testé par `tests/common.test.js`. Toute évolution d'une fonction partagée se fait ICI, pas dans les apps. |
+| `common.js` | Socle partagé 100 % sans DOM (`window.BmxCommon` : norm/escape/humanError, zScore, phases, `expandIndex` — modes `false` économe / `'chrono'` phases chronométrées seules, `loadIndexCached` à cache meta.json, helpers purs de l'indice perf, `formatDataDates`). Chargé avant `index.html` (`./common.js`) et par les apps sœurs (club/h2h/category) via `https://ludsoc.github.io/bmx-race-stats/common.js` (+ fallback local `../bmx-race-stats/common.js`). Testé par `tests/common.test.js`. Toute évolution d'une fonction partagée se fait ICI, pas dans les apps. |
 | `pilots-index.json` | Index pré-calculé de tous les pilotes FR (~79 Mo). **Généré, jamais édité à la main.** |
 | `uci-index.json` | Index UCI (Mondiaux BMX Racing, ~2,8 Mo). Chargé en **arrière-plan** après l'index FR, optionnel (si absent, l'app continue sans l'onglet UCI). **Généré, jamais édité à la main.** |
 | `uec-index.json` | Index UEC (Coupe/Championnats d'Europe via JSTiming, ~10 Mo). Chargé en **arrière-plan** après l'index FR (onglet 🇪🇺 UEC + refresh de la recherche affichée à son arrivée), optionnel. **Généré par `build-uec.js`, jamais édité à la main.** |
@@ -86,7 +86,7 @@ Points délicats :
 
 ### Indice de performance (spec indice-perf-design.md + spec force-plateau v2 2026-09-08)
 Échelle **0–1000**, calculé côté client, aucune donnée ajoutée. Coefs de niveau : `PERF_LEVEL_COEFS` = Régional 0,93 / National 1,0 / **UEC 1,05** / UCI 1,05. Helpers : `perfScoreRang` (500 + 500·(z/√3)^2,5 pour z > 0 via `zScore` — courbe convexe qui creuse l'écart podium vs fond de top-20, linéaire sous la médiane), `perfConstance`/`perfCoefConstance` (`0,95 + 0,1·c` ∈ [0,97, 1,05] ; finale atteinte = phase finale valide **ou** rang classé sans phases KO publiées — `perfHasKnockout`, proxy Mondiaux conservé), `perfChronoScore` (z-score sur log temps, centré, strict — biais linéaire éliminé par calibration), `perfEngagement` (blend chrono `PERF_CHRONO_W`=0,3 ; DNF/DNS/DSQ = `PERF_DNF_SCORES` gradué par phase la plus profonde atteinte via `perfDeepestPhase` : finale 700 / demi 550 / quart 400 / manche 250 — un DNF en manche n'est pas éliminatoire, seule la progression compte ; phases des non-classés conservées par `build-index.js`), `perfSeriesScore` (z sur S classés, année = dernier événement conné), `perfLevel`/`computePerfIndices` (**carrière = moyenne des moyennes annuelles**, §4.7).
-**v2 (spec force-plateau)** : `SqorzCommon.applyFieldScore` — `clamp(clamp(raw·coef) + 0,3·(fs−medFs))` sur les classés (même ordre qu'au build ; `fs` lue dans `field-strength-{fr,uec}.json` via `perfFrField`/`perfUecField`, fallback v1 silencieux, jamais sur DNF) ; shrinkage `perfShrinkMean` (m = 2) sur les moyennes annuelles (badges, Stats, colonne category).
+**v2 (spec force-plateau)** : `BmxCommon.applyFieldScore` — `clamp(clamp(raw·coef) + 0,3·(fs−medFs))` sur les classés (même ordre qu'au build ; `fs` lue dans `field-strength-{fr,uec}.json` via `perfFrField`/`perfUecField`, fallback v1 silencieux, jamais sur DNF) ; shrinkage `perfShrinkMean` (m = 2) sur les moyennes annuelles (badges, Stats, colonne category).
 
 Rendu : `renderPerfComponent` (composant « 🏅 Indice de performance » dans l'onglet Stats de chaque niveau : carrière + par année, avec encadré « ℹ️ Comment est-il calculé ? »), chip `🏅` sur la carte pilote (5ᵉ paramètre de `renderPilotCard` = carrière Global), badges `🏅 N · M eng.` par année dans `renderTimeline` (3ᵉ paramètre `perfByYear`). Calibré sur données réelles 2026-09-02, resserré 2026-09-08 (ancrage : médiane population ≈ 500 inchangée, HEITZ 759, Mondiaux ≈ 960–1000).
 
@@ -100,7 +100,7 @@ Rendu : `renderPerfComponent` (composant « 🏅 Indice de performance » dans l
 - `renderOrgDonut(matches)` — donut SVG par organisation, max 7 segments visibles + « Autres ».
 - `renderChampionships(seriesMatches)` — cartes championnat avec `<details>` par manche (rang, points, tallied ✓/○, lignes `absent` en grisé = pas de résultat).
 - `renderTimeline(sortedEvents, pilotColor, perfByYear = null)` — timeline verticale par année (desc), points de couleur par meilleur rang (r1/r2/r3), phases cliquables. Badge d'indice de performance par année quand `perfByYear` est fourni. **Chronos transpondeur** : sous chaque `.class-line` avec manches chronométrées, un `.chrono-block` de lignes `.chrono-line` (une par métrique `time`/`corner2Time`/`hillTime` présente) — meilleur temps du pilote, rang compétition parmi les pilotes chronométrés de la classe (retrouvée dans l'index via `findClassCompetitors`, mémoïsée), meilleur temps absolu de la classe + détenteur ; si la classe est introuvable (cache), temps seul sans rang. Rien si aucun chrono (D4).
-- `renderPilotCard(matches, seriesMatches, stats)` — hero card : avatar (plaque ou initiales), club (lien vers sqorz-club), âge, badges DNF/DNS/DSQ, compteurs.
+- `renderPilotCard(matches, seriesMatches, stats)` — hero card : avatar (plaque ou initiales), club (lien vers bmx-race-club), âge, badges DNF/DNS/DSQ, compteurs.
 - `renderCompareSection(...)` — comparaison 2 pilotes : lignes avec barres proportionnelles, meilleure valeur en gras, lien vers H2H.
 - `phaseTag(d, ctx)` — chip de phase, avec lien race Sqorz si `raceName`+`phaseCode` dispo.
 
@@ -108,7 +108,7 @@ Rendu : `renderPerfComponent` (composant « 🏅 Indice de performance » dans l
 - `eventUrl(acc, eventId)` → `https://our.sqorz.com/org/{acc}/event/{eventId}`
 - `classUrl` → `…/class/{perpetualClassCode}` ; `raceUrl` → `…/race/{raceName}%{phaseCode}?perpetualClassCode=…` (fallback `…/phase/{phaseBlockCode}`)
 - `seriesUrl` / `seriesClassUrl` → `…/series/{seriesId}/classes` et `…/class/{pcc}`
-- `H2H_BASE` = `https://ludsoc.github.io/sqorz-head2head/`, `CLUB_BASE` = `https://ludsoc.github.io/sqorz-club/` (fallback `../…` en dev `file:`).
+- `H2H_BASE` = `https://ludsoc.github.io/bmx-race-head2head/`, `CLUB_BASE` = `https://ludsoc.github.io/bmx-race-club/` (fallback `../…` en dev `file:`).
 
 ### UI / état
 - Thème : cycle **auto → clair → sombre**, icônes 🌓/☀️/🌙, script inline en `<head>` avant rendu (anti-flash).
@@ -150,7 +150,7 @@ Rendu : `renderPerfComponent` (composant « 🏅 Indice de performance » dans l
 - Proxy `https://our.sqorz.com/json/*` → KV `SQORZ_CACHE`, TTL 7j pour `/json/region/` + `/json/org/`, 4h sinon. CORS `*`. Utilisé par `warm-kv.sh` (et potentiellement d'autres outils de la suite), **pas par cette app** (qui lit l'index local).
 
 ### Service Worker (`service-worker.js`)
-- Enregistré dans `index.html` (`navigator.serviceWorker.register('./service-worker.js')`). Chemins **relatifs** (`./`, `./index.html`) — l'app vit sur un sous-chemin (/sqorz-stats/). Stratégie réseau d'abord avec fallback cache ; fallback de navigation vers le shell hors-ligne.
+- Enregistré dans `index.html` (`navigator.serviceWorker.register('./service-worker.js')`). Chemins **relatifs** (`./`, `./index.html`) — l'app vit sur un sous-chemin (/bmx-race-stats/). Stratégie réseau d'abord avec fallback cache ; fallback de navigation vers le shell hors-ligne.
 - **Les index de données ne sont JAMAIS cachés** (`NO_CACHE` : `pilots-index.json`, `uci-index.json`, `uec-index.json`) — ils passent directement par le navigateur.
 - Bump de version : `CACHE_NAME = 'sqorz-v2'` (l'activate purge les anciens caches).
 

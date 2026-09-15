@@ -9,14 +9,14 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>Stats Pilote BMX — Sqorz Hub</title>
+<title>BMX-Race · Stats Pilote</title>
 <meta name="description" content="Recherchez un pilote BMX Race et consultez son historique complet : résultats, podiums, progressions et comparaisons.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://ludsoc.github.io/sqorz-stats/">
-<meta property="og:title" content="Stats Pilote BMX — Sqorz Hub">
+<meta property="og:url" content="https://ludsoc.github.io/bmx-race-stats/">
+<meta property="og:title" content="BMX-Race · Stats Pilote">
 <meta property="og:description" content="Recherchez un pilote BMX Race et consultez son historique complet : résultats, podiums, progressions et comparaisons.">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Stats Pilote BMX — Sqorz Hub">
+<meta name="twitter:title" content="BMX-Race · Stats Pilote">
 <meta name="twitter:description" content="Recherchez un pilote BMX Race et consultez son historique complet : résultats, podiums, progressions et comparaisons.">
 <link rel="manifest" href="./manifest.json">
 <meta name="theme-color" content="#6a8caf">
@@ -365,13 +365,13 @@
   }
   .event-head .left{display:flex; flex-direction:column; gap:4px; min-width:0}
   .event-head .name{font-weight:600; font-size:15px; color:var(--ink)}
-  .sqorz-link{color:inherit; text-decoration:none; border-bottom:1px solid transparent; transition:border-color .15s, color .15s}
-  .sqorz-link:hover{color:var(--accent-hi); border-bottom-color:color-mix(in srgb,var(--accent) 40%, transparent)}
-  .sqorz-link::after{
+  .bmx-link{color:inherit; text-decoration:none; border-bottom:1px solid transparent; transition:border-color .15s, color .15s}
+  .bmx-link:hover{color:var(--accent-hi); border-bottom-color:color-mix(in srgb,var(--accent) 40%, transparent)}
+  .bmx-link::after{
     content:"↗"; font-size:.75em; margin-left:4px; color:var(--muted);
     transition:color .15s; vertical-align:baseline;
   }
-  .sqorz-link:hover::after{color:var(--accent-hi)}
+  .bmx-link:hover::after{color:var(--accent-hi)}
   .event-head .right{display:flex; flex-direction:column; align-items:flex-end; gap:4px}
   .event-head .date{
     font-size:12px; color:var(--muted); font-variant-numeric:tabular-nums;
@@ -1234,7 +1234,7 @@
             <circle cx="12" cy="7" r="4"/>
           </svg>
         </span>
-        Sqorz Stats
+        BMX-Race Stats
       </div>
       
       <div style="display:flex; gap:8px; align-items:center">
@@ -1242,8 +1242,8 @@
       <button type="button" id="themeBtn" class="theme-btn" aria-label="Changer le thème" title="Changer le thème (auto / clair / sombre)"></button>
       </div>
     </div>
-    <a class="hub-back" id="hubBackLink" href="#" aria-label="Retour au Sqorz Hub">← Sqorz Hub</a>
-    <h1>Sqorz · Stats Pilote</h1>
+    <a class="hub-back" id="hubBackLink" href="#" aria-label="Retour au BMX-Race Hub">← BMX-Race Hub</a>
+    <h1>BMX-Race · Stats Pilote</h1>
     <p>Recherchez un pilote BMX parmi les organisations françaises référencées sur Sqorz — historique complet, statistiques agrégées, championnats et accès aux résultats détaillés.</p>
   </div>
 </div>
@@ -1336,7 +1336,7 @@
 <script src="./common.js"></script>
 <script>
 (() => {
-  if (!window.SqorzCommon) throw new Error('[sqorz] common.js introuvable — recharge la page.');
+  if (!window.BmxCommon) throw new Error('[bmx] common.js introuvable — recharge la page.');
   // Socle partagé (common.js) : utils, expansion d'index, chargeur à cache, indice de perf.
   const {
     norm, escape, humanError, zScore,
@@ -1347,7 +1347,7 @@
     perfConstance, perfCoefConstance, perfDeepestPhase, perfShrinkMean, perfWeight, applyFieldScore,
     renderDataDates, setTextStatus,
     getFavs, isFav, toggleFav, pushRecent, getRecent,
-  } = window.SqorzCommon;
+  } = window.BmxCommon;
   let pilotsIndex = null;
   let uciIndex = null; // index UCI (Mondiaux BMX Racing) — chargé en parallèle, optionnel
   let uecIndex = null; // index UEC (Coupe/Championnats d'Europe, JSTiming) — optionnel
@@ -1453,7 +1453,7 @@
   // Versionné : à chaque changement de format des données en cache (ex. ajout des
   // chronos tm/ht/ct) on incrémente, pour ignorer les caches périmés (D8 spec chronos).
   const RESULTS_CACHE_VERSION = 3; // V3 : ajout des matches UEC (spec UEC §5.4)
-  const RESULTS_CACHE_KEY = 'sqorzResultsCacheV' + RESULTS_CACHE_VERSION;
+  const RESULTS_CACHE_KEY = 'bmxResultsCacheV' + RESULTS_CACHE_VERSION;
   const RESULTS_CACHE_TTL = 6 * 60 * 60 * 1000; // 6h
 
   function slimMatch(m) {
@@ -1497,7 +1497,7 @@
       });
       localStorage.setItem(RESULTS_CACHE_KEY, payload);
     } catch (e) {
-      console.warn('[sqorz] saveResultsCache failed:', e.message);
+      console.warn('[bmx] saveResultsCache failed:', e.message);
     }
   }
   function loadResultsCache(query) {
@@ -1759,20 +1759,20 @@
   // En dev local (localhost/127.0.0.1), on inverse : fichiers du dossier en premier (same-origin,
   // aucun CORS, aucun réseau) — pratique pour tester sans bucket.
   const R2_BASE = 'https://pub-7af06f138c97425f8062b881846803cb.r2.dev';
-  const RELEASE_BASE = 'https://github.com/LudSoc/sqorz-stats/releases/latest/download';
+  const RELEASE_BASE = 'https://github.com/LudSoc/bmx-race-stats/releases/latest/download';
   const IS_LOCAL = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname);
 
-  // Clés du cache client (Cache API `sqorz-index-v1`, gérée par SqorzCommon.loadIndexCached).
+  // Clés du cache client (Cache API `bmx-index-v1`, gérée par BmxCommon.loadIndexCached).
   const   INDEX_CACHE_URLS = {
-    pilots: 'https://sqorz.local/cache/pilots-index.json',
-    uci:    'https://sqorz.local/cache/uci-index.json',
-    uec:    'https://sqorz.local/cache/uec-index.json',
-    wc:     'https://sqorz.local/cache/uci-worldcup-index.json',
+    pilots: 'https://bmx-race.local/cache/pilots-index.json',
+    uci:    'https://bmx-race.local/cache/uci-index.json',
+    uec:    'https://bmx-race.local/cache/uec-index.json',
+    wc:     'https://bmx-race.local/cache/uci-worldcup-index.json',
   };
-  // Clés cache des forces de plateau (indice v2, cf. SqorzCommon.loadFieldStrength).
+  // Clés cache des forces de plateau (indice v2, cf. BmxCommon.loadFieldStrength).
   const FIELD_CACHE_URLS = {
-    fr:  'https://sqorz.local/cache/field-strength-fr.json',
-    uec: 'https://sqorz.local/cache/field-strength-uec.json',
+    fr:  'https://bmx-race.local/cache/field-strength-fr.json',
+    uec: 'https://bmx-race.local/cache/field-strength-uec.json',
   };
   // Config d'un fichier de forces : meta en même-origine, données R2 (local d'abord en dev).
   function fieldCfg(key, file) {
@@ -1780,7 +1780,7 @@
       metaUrl: `./${file}.meta.json`,
       url: IS_LOCAL ? `./${file}.json` : `${R2_BASE}/${file}.json`,
       cacheKey: FIELD_CACHE_URLS[key],
-      tag: `[sqorz:fs-${key}]`,
+      tag: `[bmx:fs-${key}]`,
     };
   }
 
@@ -1793,7 +1793,7 @@
       sources: IS_LOCAL
         ? [`./${file}.json`, `${R2_BASE}/${file}.json`, `${RELEASE_BASE}/${file}.json`]
         : [`${R2_BASE}/${file}.json`, `${RELEASE_BASE}/${file}.json`, `./${file}.json`],
-      tag: '[sqorz]', label: name, estimatedSize,
+      tag: '[bmx]', label: name, estimatedSize,
       onStatus: setStatus, onProgress: setProgress,
     };
   }
@@ -1840,15 +1840,15 @@
   async function loadSecondaryIndexes() {
     const [uci, uec, wc] = await Promise.all([
       loadIndexCached({ ...indexCfg('uci', 'index UCI', 8_000_000), quiet: true }).catch(e => {
-        console.warn('[sqorz] uci-index.json indisponible :', e.message);
+        console.warn('[bmx] uci-index.json indisponible :', e.message);
         return { events: [], series: [] };
       }),
       loadIndexCached({ ...indexCfg('uec', 'index UEC (Europe)', 8_000_000), quiet: true }).catch(e => {
-        console.warn('[sqorz] uec-index.json indisponible :', e.message);
+        console.warn('[bmx] uec-index.json indisponible :', e.message);
         return { events: [], series: [] };
       }),
       loadIndexCached({ ...indexCfg('wc', 'index Coupe du monde UCI', 2_000_000), quiet: true }).catch(e => {
-        console.warn('[sqorz] uci-worldcup-index.json indisponible :', e.message);
+        console.warn('[bmx] uci-worldcup-index.json indisponible :', e.message);
         return { events: [], series: [] };
       }),
     ]);
@@ -2186,26 +2186,26 @@
     return s;
   }
 
-  const SQORZ_WEB_BASE = 'https://our.sqorz.com';
+  const SQORZ_SITE = 'https://our.sqorz.com';
   const H2H_BASE = window.location.protocol === 'file:'
     ? '../h2h_stats/index.html'
-    : 'https://ludsoc.github.io/sqorz-head2head/';
+    : 'https://ludsoc.github.io/bmx-race-head2head/';
   const CLUB_BASE = window.location.protocol === 'file:'
     ? '../club_stats/index.html'
-    : 'https://ludsoc.github.io/sqorz-club/';
+    : 'https://ludsoc.github.io/bmx-race-club/';
   function eventUrl(accountCode, eventId, event) {
     // Coupe du monde UCI : pas de page Sqorz → lien vers la manche sur uci.org (ou rien).
     if (accountCode === 'uciworldcup') return (event && event.url) || null;
     if (!accountCode || !eventId) return null;
-    return `${SQORZ_WEB_BASE}/org/${encodeURIComponent(accountCode)}/event/${encodeURIComponent(eventId)}`;
+    return `${SQORZ_SITE}/org/${encodeURIComponent(accountCode)}/event/${encodeURIComponent(eventId)}`;
   }
   function seriesUrl(accountCode, seriesId) {
     if (!accountCode || !seriesId) return null;
-    return `${SQORZ_WEB_BASE}/org/${encodeURIComponent(accountCode)}/series/${encodeURIComponent(seriesId)}/classes`;
+    return `${SQORZ_SITE}/org/${encodeURIComponent(accountCode)}/series/${encodeURIComponent(seriesId)}/classes`;
   }
   function seriesClassUrl(accountCode, seriesId, perpetualClassCode) {
     if (!accountCode || !seriesId || !perpetualClassCode) return seriesUrl(accountCode, seriesId);
-    return `${SQORZ_WEB_BASE}/org/${encodeURIComponent(accountCode)}/series/${encodeURIComponent(seriesId)}/class/${encodeURIComponent(perpetualClassCode)}`;
+    return `${SQORZ_SITE}/org/${encodeURIComponent(accountCode)}/series/${encodeURIComponent(seriesId)}/class/${encodeURIComponent(perpetualClassCode)}`;
   }
   function classUrl(accountCode, eventId, perpetualClassCode, event) {
     if (accountCode === 'uciworldcup') return (event && event.url) || null;
@@ -2677,7 +2677,7 @@
       const sClassUrl = seriesClassUrl(sm.account.accountCode, ser.seriesId, sm.cls.perpetualClassCode);
       const serName = escape(ser.seriesName || '—');
       const serNameHtml = sUrl
-        ? `<a class="sqorz-link" href="${escape(sUrl)}" target="_blank" rel="noopener noreferrer" title="Ouvrir le championnat sur Sqorz">${serName}</a>`
+        ? `<a class="bmx-link" href="${escape(sUrl)}" target="_blank" rel="noopener noreferrer" title="Ouvrir le championnat sur Sqorz">${serName}</a>`
         : serName;
 
       const dates = rankEvents
@@ -2702,7 +2702,7 @@
         const evUrl = eventUrl(sm.account.accountCode, ev.eventId);
         const evName = escape(ev.eventName || ev.eventShortName || '—');
         const evNameHtml = evUrl
-          ? `<a class="sqorz-link" href="${escape(evUrl)}" target="_blank" rel="noopener noreferrer" title="Ouvrir la manche sur Sqorz">${evName}</a>`
+          ? `<a class="bmx-link" href="${escape(evUrl)}" target="_blank" rel="noopener noreferrer" title="Ouvrir la manche sur Sqorz">${evName}</a>`
           : evName;
         return `<tr${hasResult ? '' : ' class="absent"'}>
           <td class="st-date">${escape(fmtDate(evDate))}</td>
@@ -2752,7 +2752,7 @@
               <div class="champ-rank">
                 <div class="rank-pill ${pillClass}" title="Classement général du championnat">${rk != null ? rk : '—'}</div>
                 <div class="champ-rank-text">
-                  <div class="lbl">${sClassUrl ? `<a class="sqorz-link" href="${escape(sClassUrl)}" target="_blank" rel="noopener noreferrer" title="Voir le classement général sur Sqorz">Classement général</a>` : 'Classement général'}</div>
+                  <div class="lbl">${sClassUrl ? `<a class="bmx-link" href="${escape(sClassUrl)}" target="_blank" rel="noopener noreferrer" title="Voir le classement général sur Sqorz">Classement général</a>` : 'Classement général'}</div>
                   <div class="champ-rank-sub">${[totalTxt, pctTxt].filter(Boolean).join(' · ')}</div>
                 </div>
               </div>
@@ -2860,7 +2860,7 @@
 
   // ===== ONGLET UCI supprimé au profit du rendu générique par partie (voir spec §7) =====
 
-  // --- Favoris partagés (état inter-outils, cf. SqorzCommon.toggleFav) ---
+  // --- Favoris partagés (état inter-outils, cf. BmxCommon.toggleFav) ---
   document.addEventListener('click', e => {
     const btn = e.target.closest('[data-fav-pilot]');
     if (!btn || btn.disabled || typeof toggleFav !== 'function') return;
@@ -3273,7 +3273,7 @@
   }
 
   // ===== INDICE DE PERFORMANCE (spec indice-perf-design, §4 + §7.4) =====
-  // Helpers purs dans SqorzCommon ; ici : perfYearOf + perfEngagement/
+  // Helpers purs dans BmxCommon ; ici : perfYearOf + perfEngagement/
   // perfLevel/computePerfIndices (findClassCompetitors est spécifique à l'app).
   const perfYearOf = d => (d || '').slice(0, 4) || '????';
 
@@ -3432,7 +3432,7 @@
         const evUrl = eventUrl(account.accountCode, event.eventId, event);
         const evName = escape(event.eventName);
         const evNameHtml = evUrl
-          ? `<a class="sqorz-link" href="${escape(evUrl)}" target="_blank" rel="noopener noreferrer" title="Ouvrir sur Sqorz">${evName}</a>`
+          ? `<a class="bmx-link" href="${escape(evUrl)}" target="_blank" rel="noopener noreferrer" title="Ouvrir sur Sqorz">${evName}</a>`
           : evName;
 
         html.push(`<div class="event">`);
@@ -3464,7 +3464,7 @@
           const clUrl = classUrl(m.account.accountCode, m.event.eventId, cls.perpetualClassCode, m.event);
           const clName = escape(cls.className);
           const clNameHtml = clUrl
-            ? `<a class="sqorz-link" href="${escape(clUrl)}" target="_blank" rel="noopener noreferrer" title="Ouvrir la catégorie sur Sqorz">${clName}</a>`
+            ? `<a class="bmx-link" href="${escape(clUrl)}" target="_blank" rel="noopener noreferrer" title="Ouvrir la catégorie sur Sqorz">${clName}</a>`
             : clName;
           html.push(`
             <div class="class-line">
@@ -3777,7 +3777,9 @@
         <div class="pilot-picker-list">${items}</div>
       </div>`);
     }
-    const pilotCardHtml = renderPilotCard(primaryMatches, primarySeriesMatches, stats || uciStats, primaryUciMatches, perfIndices.global.career, primaryUecMatches);
+    // Compteurs de la carte sur TOUS les niveaux (FR + UEC + UCI), pas le FR seul.
+    const cardStats = levelData.global.events.length ? computeStats(levelData.global.events) : (stats || uciStats);
+    const pilotCardHtml = renderPilotCard(primaryMatches, primarySeriesMatches, cardStats, primaryUciMatches, perfIndices.global.career, primaryUecMatches);
 
     // Rangée 1 : parties (D11, D13)
     let partsNavHtml = '';
@@ -3785,7 +3787,7 @@
       const navHtml = partsAvailable.map((l) => {
         const count = levelData[l.key].events.length;
         const on = l.key === activePart;
-        return `<button type="button" class="tab-btn${on ? ' active' : ''}" data-part-btn="${l.key}" role="tab" aria-selected="${String(on)}">${l.label}<span class="tab-badge">${count}</span></button>`;
+        return `<button type="button" class="tab-btn${on ? ' active' : ''}" data-part-btn="${l.key}" role="tab" aria-selected="${String(on)}">${l.label}<span class="tab-badge" title="${count} engagement(s) : une course = une catégorie sur une épreuve (20 pouces + cruiser le même jour = 2)">${count}</span></button>`;
       }).join('');
       partsNavHtml = rowTabsHtml(navHtml, 'parts-row', pilotColor);
     }
@@ -4031,7 +4033,7 @@
   (() => {
     const base = window.location.protocol === 'file:'
       ? '../sqorz_hub/index.html'
-      : 'https://ludsoc.github.io/sqorz-hub/';
+      : 'https://ludsoc.github.io/bmx-race-hub/';
     document.getElementById('hubBackLink').href = base;
   })();
 
@@ -4076,7 +4078,7 @@
   // PWA : enregistre le service worker (app shell en cache, réseau d'abord)
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./service-worker.js').catch(e => console.warn('[sqorz] service worker :', e.message));
+      navigator.serviceWorker.register('./service-worker.js').catch(e => console.warn('[bmx] service worker :', e.message));
     });
   }
 </script>

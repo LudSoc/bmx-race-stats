@@ -1,13 +1,13 @@
-/* Sqorz Hub — socle partagé (common.js).
+/* BMX-Race — socle partagé (common.js).
  *
- * Fonctions pures et chargeur d'index communs aux outils (sqorz-stats, sqorz-club,
- * sqorz-head2head, sqorz-category). Hébergé par sqorz-stats, chargé en premier par
- * chaque app via :
- *   <script src="https://ludsoc.github.io/sqorz-stats/common.js"></script>
- * (sqorz-stats lui-même utilise <script src="./common.js"></script>).
+ * Fonctions pures et chargeur d'index communs aux outils (bmx-race-stats, bmx-race-club,
+ * bmx-race-head2head, bmx-race-category, bmx-race-rankings). Hébergé par bmx-race-stats,
+ * chargé en premier par chaque app via :
+ *   <script src="https://ludsoc.github.io/bmx-race-stats/common.js"></script>
+ * (bmx-race-stats lui-même utilise <script src="./common.js"></script>).
  *
  * 100 % SANS DOM : aucune référence à document/window/localStorage ici (sauf
- * `window.SqorzCommon` en toute fin pour l'exposition). L'affichage passe par les
+ * `window.BmxCommon` en toute fin pour l'exposition). L'affichage passe par les
  * callbacks onStatus/onProgress du chargeur. Testé par `node --test tests/common.test.js`.
  */
 (function () {
@@ -63,7 +63,7 @@
   }
   // Contre-la-montre : runs en solo, `result` vaut 1 pour tout le monde (1er de son
   // run) et ne dit rien du classement — seuls le chrono et le rang final comptent.
-  // Phases Sqorz : "Time Trial" (TT) et "Super Final" (TTF). Accepte les formes
+  // Phases BMX : "Time Trial" (TT) et "Super Final" (TTF). Accepte les formes
   // expansées (phaseName/phaseCode) et slim (n/pc).
   function isTimeTrialPhase(d) {
     if (!d) return false;
@@ -142,7 +142,7 @@
   // Affichage via callbacks (pas de DOM ici) : onStatus(text, isError), onProgress(done, total).
   // quiet = true : aucun status/progression (chargement d'arrière-plan) ; les erreurs
   // restent visibles en console et remontent à l'appelant (qui dégrade gracieusement).
-  const INDEX_CACHE_NAME = 'sqorz-index-v1';
+  const INDEX_CACHE_NAME = 'bmx-index-v1';
 
   async function openIndexCache(tag) {
     if (typeof caches === 'undefined') return null;
@@ -180,7 +180,7 @@
   }
 
   async function loadIndexCached({
-    metaUrl, cacheKey, sources, tag = '[sqorz]', label = 'Index', estimatedSize = 0,
+    metaUrl, cacheKey, sources, tag = '[bmx]', label = 'Index', estimatedSize = 0,
     quiet = false, expandOpts = null, onStatus = null, onProgress = null,
   }) {
     const status = onStatus || (() => {});
@@ -251,7 +251,7 @@
   // Chargement optionnel de field-strength-{fr,uec}.json (R2 + cache, jamais
   // bloquant) : retourne { classes, medFs } ou null (fallback silencieux v1).
   // Le format est validé (v === 1) pour ignorer les futures versions inconnues.
-  async function loadFieldStrength({ metaUrl, url, cacheKey, tag = '[sqorz:fs]' }) {
+  async function loadFieldStrength({ metaUrl, url, cacheKey, tag = '[bmx:fs]' }) {
     const fail = m => { console.warn(tag + ' ' + m); return null; };
     let wantSha = null;
     try {
@@ -465,14 +465,36 @@
 
   // ===== État partagé inter-outils (même origine → localStorage commun) =====
   // Convention d'écosystème (cf. pilier « état partagé ») :
-  //   sqorz.favs.pilots : [{ key, name }] — key = norm('Prénom NOM')
-  //   sqorz.favs.clubs  : [{ key, name }] — key = code normalisé compatible club_stats ('joue-t')
-  //   sqorz.recent      : [{ t, k, n, at }] — t ∈ { pilots, clubs }, 20 derniers, tous outils confondus.
+  //   bmx.favs.pilots : [{ key, name }] — key = norm('Prénom NOM')
+  //   bmx.favs.clubs  : [{ key, name }] — key = code normalisé compatible club_stats ('joue-t')
+  //   bmx.recent      : [{ t, k, n, at }] — t ∈ { pilots, clubs }, 20 derniers, tous outils confondus.
   // Les favoris n'ont pas d'UI ici : chaque app lit/écrit la même langue (le hub les affichera).
-  const FAV_KEYS = { pilots: 'sqorz.favs.pilots', clubs: 'sqorz.favs.clubs' };
-  const SHARED_RECENT_KEY = 'sqorz.recent';
+  const FAV_KEYS = { pilots: 'bmx.favs.pilots', clubs: 'bmx.favs.clubs' };
+  const SHARED_RECENT_KEY = 'bmx.recent';
   const SHARED_RECENT_MAX = 20;
   const hasLS = () => typeof localStorage !== 'undefined';
+  // Migration one-shot depuis les clés historiques « sqorz.* » (écrites par les
+  // versions précédentes, avant le renommage bmx-race) : on recopie vers la clé
+  // neuve puis on purge l'ancienne — les favoris/récents survivent au renommage.
+  function migrateLegacyKeys() {
+    if (!hasLS()) return;
+    try {
+      const legacyFavs = { pilots: 'sqorz.favs.pilots', clubs: 'sqorz.favs.clubs' };
+      for (const type of ['pilots', 'clubs']) {
+        if (localStorage.getItem(FAV_KEYS[type]) == null) {
+          const old = localStorage.getItem(legacyFavs[type]);
+          if (old != null) localStorage.setItem(FAV_KEYS[type], old);
+          localStorage.removeItem(legacyFavs[type]);
+        }
+      }
+      if (localStorage.getItem(SHARED_RECENT_KEY) == null) {
+        const old = localStorage.getItem('sqorz.recent');
+        if (old != null) localStorage.setItem(SHARED_RECENT_KEY, old);
+        localStorage.removeItem('sqorz.recent');
+      }
+    } catch (e) { /* stockage indisponible : migration non bloquante */ }
+  }
+  migrateLegacyKeys();
   function readJsonArray(key) {
     if (!hasLS()) return [];
     try { const v = JSON.parse(localStorage.getItem(key)); return Array.isArray(v) ? v : []; }
@@ -509,7 +531,7 @@
     return readJsonArray(SHARED_RECENT_KEY).slice(0, n);
   }
 
-  window.SqorzCommon = {
+  window.BmxCommon = {
     norm, escape, humanError, zScore,
     isFinalPhase, isMotoPhase, isSemiPhase, isTimeTrialPhase, isNotTimedPhase, num, perfHasKnockout,
     expandIndex, INDEX_CACHE_NAME, openIndexCache, loadIndexCached,
@@ -521,4 +543,7 @@
     renderDataDates, setTextStatus, setBarProgress,
     getFavs, isFav, toggleFav, pushRecent, getRecent,
   };
+  // Rétro-compatibilité pendant la transition (ancienne version déployée) :
+  // expose aussi l'ancien nom — sera supprimé une fois tout le monde renommé.
+  window.SqorzCommon = window.BmxCommon;
 })();

@@ -26,7 +26,7 @@
 const { createHash } = require('crypto');
 const fs = require('fs');
 
-const PERF_FIELD_K = 0.3;   // (dupliqué côté client : SqorzCommon.PERF_FIELD_K — testé égal)
+const PERF_FIELD_K = 0.3;   // (dupliqué côté client : BmxCommon.PERF_FIELD_K — testé égal)
 const FIELD_PASSES = 2;
 
 const norm = s => (s || '').toLowerCase()

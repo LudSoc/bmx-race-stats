@@ -1,8 +1,8 @@
-const CACHE_NAME = 'sqorz-v4';
+const CACHE_NAME = 'bmx-v5';
 // Cache applicatif des index piloté par meta.json (chantier 2) : on le conserve
 // lors des purges d'activation (il vit sur le même domaine ludsoc.github.io).
-const INDEX_CACHE_NAME = 'sqorz-index-v1';
-// Chemins RELATIFS : l'app vit sur un sous-chemin (ex. /sqorz-stats/) — pas à la racine
+const INDEX_CACHE_NAME = 'bmx-index-v1';
+// Chemins RELATIFS : l'app vit sur un sous-chemin (ex. /bmx-race-stats/) — pas à la racine
 const ASSETS = ['./', './index.html'];
 // Index de données volumineux régénérés chaque semaine : on ne les met JAMAIS en cache
 // (ils passent directement par le navigateur, comme avant)

@@ -6,7 +6,7 @@ const fs = require('fs');
 const path = require('path');
 
 const src = fs.readFileSync(path.join(__dirname, '..', 'common.js'), 'utf8');
-const SC = new Function('window', src + '\nreturn window.SqorzCommon;')({});
+const SC = new Function('window', src + '\nreturn window.BmxCommon;')({});
 
 // --- utils ---
 test('norm : casse/accents/espaces', () => {
@@ -211,10 +211,34 @@ test('favoris : toggle/isFav/getFavs, types isolés', () => {
 
 test('favoris : JSON corrompu → [] sans throw', () => {
   withLS(store => {
-    store['sqorz.favs.pilots'] = 'pas du json{{{';
+    store['bmx.favs.pilots'] = 'pas du json{{{';
     assert.deepEqual(SC.getFavs('pilots'), []);
     assert.equal(SC.isFav('pilots', 'x'), false);
   });
+});
+
+test('migration : clés héritées « sqorz.* » recopiées puis purgées (renommage bmx-race)', () => {
+  const store = {
+    'sqorz.favs.pilots': JSON.stringify([{ key: 'lea martin', name: 'Léa Martin', at: 1 }]),
+    'sqorz.favs.clubs': JSON.stringify([{ key: 'besanc', name: 'BMX BESANCON (BESANC)', at: 2 }]),
+    'sqorz.recent': JSON.stringify([{ t: 'clubs', k: 'besanc', n: 'BMX BESANCON (BESANC)', at: 3 }]),
+  };
+  const prev = global.localStorage;
+  global.localStorage = {
+    getItem: k => (k in store ? store[k] : null),
+    setItem: (k, v) => { store[k] = String(v); },
+    removeItem: k => { delete store[k]; },
+  };
+  try {
+    const M = new Function('window', src + '\nreturn window.BmxCommon;')({});
+    assert.deepEqual(M.getFavs('pilots').map(f => f.key), ['lea martin'], 'favoris pilotes migrés');
+    assert.deepEqual(M.getFavs('clubs').map(f => f.key), ['besanc'], 'favoris clubs migrés');
+    assert.equal(M.getRecent(10)[0].k, 'besanc', 'récents migrés');
+    assert.equal('sqorz.favs.pilots' in store, false, 'clé héritée pilotes purgée');
+    assert.equal('sqorz.recent' in store, false, 'clé héritée récents purgée');
+  } finally {
+    global.localStorage = prev;
+  }
 });
 
 test('récents : dédupliqués, plus récent d’abord, plafonnés', () => {

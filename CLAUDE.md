@@ -1,4 +1,4 @@
-# sqorz_stats — Documentation CLAUDE.md
+# bmx-race-stats — Documentation CLAUDE.md
 
 ## Vue d'ensemble
 
@@ -227,7 +227,7 @@ Depuis la spec `docs/superpowers/specs/2026-09-03-uec-jstiming-design.md`, les c
 ## PWA
 
 - `manifest.json` lié dans `<head>` (`<link rel="manifest">`, `theme-color`, `apple-touch-icon`) ; `start_url`/`scope` relatifs (`./`)
-- `service-worker.js` enregistré (`navigator.serviceWorker.register('./service-worker.js')`) ; `CACHE_NAME = 'sqorz-v2'`
+- `service-worker.js` enregistré (`navigator.serviceWorker.register('./service-worker.js')`) ; `CACHE_NAME = 'bmx-v5'`
 - Stratégie : réseau d'abord, fallback cache ; fallback de navigation vers le shell ; `pilots-index.json`/`uci-index.json` jamais mis en cache
 - Hors-ligne : shell uniquement (l'index de 79 Mo reste en ligne)
 
@@ -257,7 +257,7 @@ Toutes les requêtes API passent par un worker Cloudflare qui met en cache les r
 
 ### Cache navigateur (`localStorage`)
 
-L'application ne fait **aucun appel API au runtime** (tout vient des index) : le seul cache localStorage restant est le **cache des résultats de recherche** (`sqorzResultsCache`, TTL 6 h, clé = query normalisée, stocké sous forme *slim*). L'ancien cache de réponses API (`sqorzCache`/`fetchJsonCached`) a été supprimé (code mort).
+L'application ne fait **aucun appel API au runtime** (tout vient des index) : le seul cache localStorage restant est le **cache des résultats de recherche** (`bmxResultsCache`, TTL 6 h, clé = query normalisée, stocké sous forme *slim*). L'ancien cache de réponses API (`bmxCache`/`fetchJsonCached`) a été supprimé (code mort).
 
 Le cache *slim* compresse automatiquement les clés JSON pour économiser de l'espace :
 

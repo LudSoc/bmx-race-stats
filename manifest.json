@@ -1,7 +1,7 @@
 {
-  "name": "Résultats Sqorz — Historique pilote",
-  "short_name": "Sqorz",
-  "description": "Historique et résultats pilote Sqorz",
+  "name": "BMX-Race — Historique pilote",
+  "short_name": "BMX-Race",
+  "description": "Historique et résultats pilote BMX-Race",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

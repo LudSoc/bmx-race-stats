@@ -16,7 +16,7 @@ function corsPreflightResp() {
 async function proxyWithKv(request, env) {
   const url = new URL(request.url);
   const path = url.pathname;
-  const key = 'sqorz:' + path;
+  const key = 'bmx:' + path;
 
   const cached = await env.SQORZ_CACHE.get(key, 'text');
   if (cached !== null) {

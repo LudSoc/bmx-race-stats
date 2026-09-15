@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Génère pilots-index.json (région FR) et uci-index.json (région UCI, Mondiaux BMX) depuis Sqorz.
+// Génère pilots-index.json (région FR) et uci-index.json (région UCI, Mondiaux BMX) depuis l'API Sqorz (source de données).
 // Exécuté par GitHub Actions chaque semaine ; les fichiers sont commités dans le repo.
 // Usage : node build-index.js [regionCode...] — par défaut FR + UCI (ex: node build-index.js UCI)
 
@@ -255,7 +255,7 @@ async function main() {
     await buildRegion(regionCode, outFile);
     built.push(outFile);
   }
-  // Forces de plateau (indice v2) sur les index Sqorz générés — spec force-plateau.
+  // Forces de plateau (indice v2) sur les index générés — spec force-plateau.
   // Exécuté après les régions pour lire les fichiers frais.
   const { computeFieldFiles } = require('./build-field.js');
   computeFieldFiles(built, { outFile: 'field-strength-fr.json', label: 'FR+UCI' });

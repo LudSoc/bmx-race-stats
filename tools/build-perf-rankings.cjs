@@ -20,7 +20,7 @@ const path = require('path');
 const DIR = __dirname;
 const SQORZ = path.join(DIR, '..');
 const commonSrc = fs.readFileSync(path.join(SQORZ, 'common.js'), 'utf8');
-const SC = new Function('window', commonSrc + '\nreturn window.SqorzCommon;')({});
+const SC = new Function('window', commonSrc + '\nreturn window.BmxCommon;')({});
 const NATIONAL = new Set(['ffc', 'ffcbmxne', 'ffcbmxno', 'ffcbmxso', 'ffcbmxsudest']);
 
 // Sources fusionnées par nom normalisé (un pilote FR+UEC+UCI n'a qu'une ligne).

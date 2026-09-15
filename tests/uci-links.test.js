@@ -19,11 +19,11 @@ function stmt(start) {
   return html.slice(i, html.indexOf(';', i) + 1);
 }
 const commonSrc = fs.readFileSync(path.join(__dirname, '..', 'common.js'), 'utf8');
-const SC = new Function('window', commonSrc + '\nreturn window.SqorzCommon;')({});
+const SC = new Function('window', commonSrc + '\nreturn window.BmxCommon;')({});
 const H = new Function(
   'window', 'escape',
   [
-    stmt('const SQORZ_WEB_BASE ='),
+    stmt('const SQORZ_SITE ='),
     block('function eventUrl(accountCode, eventId, event) {'),
     block('function classUrl(accountCode, eventId, perpetualClassCode, event) {'),
     block('function slimMatch(m) {'),
