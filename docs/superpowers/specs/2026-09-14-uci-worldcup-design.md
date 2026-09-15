@@ -43,6 +43,12 @@ Référence API : `GET https://www.uci.org/api/calendar/results/{eventCode}?disc
   `total` = nb de résultats, `series: []` (comme UEC).
 - Coureurs : `{ fn, ln, rank: Number, gn: nationality, age: Number }`, `d: []` (pas de phases —
   même régime que l'UCI Challenge : rang final seul, constance par défaut).
+- **Limite actée le 2026-09-14 : pas de détail par manche.** L'API UCI ne publie que le
+  classement général (`General Classification`, pas de heats) ; Sqorz ne les a pas ;
+  Chronorace (iframe live-timing, API `/api/results/generic/` aux routes non documentées)
+  demanderait un reverse-engineering fragile. Conséquences assumées : timeline sans phases
+  CDM, h2h « même course » exclut la CDM, constance par défaut — l'indice reste valable
+  (rang final ×1,05).
 - Noms directs (`firstname`/`lastname` API — pas de découpage comme JSTiming).
 
 ## 4. Niveaux & coefs — **D2 — ACTÉ : fusion dans le niveau UCI existant**
