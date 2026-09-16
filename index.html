@@ -687,6 +687,20 @@
     border:1px solid color-mix(in srgb, var(--pilot-color, var(--accent)) 30%, var(--line));
     display:inline-flex; align-items:center; gap:5px;
   }
+  .pilot-grade{
+    font-size:12.5px; font-weight:800; letter-spacing:.2px;
+    padding:4px 12px; border-radius:99px;
+    display:inline-flex; align-items:center; gap:5px;
+    text-transform:uppercase;
+  }
+  .pilot-grade.grade-elite{
+    color:var(--accent); background:color-mix(in srgb, var(--accent) 12%, var(--card-soft));
+    border:1px solid color-mix(in srgb, var(--accent) 40%, var(--line));
+  }
+  .pilot-grade.grade-national{
+    color:var(--ink-2); background:var(--card-soft);
+    border:1px solid var(--line);
+  }
   .pilot-index{
     font-size:12.5px; font-weight:800; color:var(--accent);
     padding:4px 12px; border-radius:99px;
@@ -1354,6 +1368,7 @@
   let wcIndex = null; // index Coupe du monde UCI — fusionné dans le niveau UCI (même coef, pas de recouvrement)
   let perfFrField = null;  // { classes, medFs } — forces de plateau FR (indice v2, optionnel)
   let perfUecField = null; // idem UEC — silent fallback v1 si absents
+  let lrpLevels = null;    // nom normalisé -> { level:'national'|'regional', elite } (pilots-lrp-2026.json, optionnel)
   // --- Noms complets des clubs (clubs.json, cf. club_stats/tools/clubs/README.md) ---
   // Normalisation compatible club_stats (conserve '-' et la ponctuation : JOUE-T ≠ JOUE T).
   const normClubCode = s => (s || '').trim().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
@@ -1835,6 +1850,32 @@
     statusEl.classList.remove('loading');
     setStatus('');
     showDataDates();
+    // LRP (Liste Régionale de Progression) : définit le niveau national d'un
+    // pilote (< 13 ans jamais national). En arrière-plan, badge mis à jour à l'arrivée.
+    loadLrpLevels();
+  }
+
+  // Liste LRP (pilots-lrp-2026.json) → map nom normalisé -> { level, elite }.
+  // L'élite y est portée par trancheKey (eh/ef/u23h/u23f) et positionnée en national.
+  async function loadLrpLevels() {
+    try {
+      const res = await fetch('./pilots-lrp-2026.json', { cache: 'force-cache' });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const data = await res.json();
+      const map = new Map();
+      for (const p of data.pilots || []) {
+        const key = norm(`${p.prenom || ''} ${p.nom || ''}`).trim();
+        if (!key || (p.level !== 'national' && p.level !== 'regional')) continue;
+        const elite = p.categorieFra ? /ELITE/.test(String(p.categorieFra).toUpperCase()) : false;
+        map.set(key, { level: p.level, elite });
+      }
+      lrpLevels = map;
+    } catch (e) {
+      console.warn('[bmx] pilots-lrp-2026.json indisponible :', e && e.message);
+      lrpLevels = null;
+    }
+    // Re-rendu uniquement si un pilote est affiché (le badge LRP change le statut).
+    if (lastSearchKey || document.querySelector('.pilot-card')) renderFiltered();
   }
 
   async function loadSecondaryIndexes() {
@@ -2783,6 +2824,27 @@
     return PILOT_COLORS[Math.abs(hash) % PILOT_COLORS.length];
   }
 
+  const ELITE_CLASS_CODES = new Set(['EH', 'EF', 'ME', 'WE']);
+  // Catégorie Élite dans les épreuves : codes stricts uniquement (EH/EF FR,
+  // ME/WE UEC/Coupe du monde). Le libellé est peu fiable (EFR/EHR intitulés
+  // « ELITE … » / « OPEN … » alors qu'il s'agit de circuit régional).
+  function isEliteClass(cls) {
+    return !!cls && ELITE_CLASS_CODES.has((cls.perpetualClassCode || '').toUpperCase());
+  }
+
+  // Statut pilote : « Élite » si le pilote est en catégorie Élite (liste LRP en
+  // priorité, sinon classes EH/EF/ME/WE des épreuves), « National » s'il est listé
+  // national dans la LRP (jamais avant 13 ans), sinon aucun badge.
+  function pilotGrade(matches = [], seriesMatches = [], uciMatches = [], uecMatches = [], fullName = '', age = null) {
+    const all = [...matches, ...seriesMatches, ...uciMatches, ...uecMatches];
+    // Élite durables : LRP (catégorie Élite) puis événements.
+    if (lrpLevels && fullName && lrpLevels.get(norm(fullName).trim())?.elite) return 'elite';
+    if (all.some(m => isEliteClass(m.cls))) return 'elite';
+    if (age != null && age < 13) return null;
+    if (lrpLevels && fullName && lrpLevels.get(norm(fullName).trim())?.level === 'national') return 'national';
+    return null;
+  }
+
   function renderPilotCard(matches, seriesMatches, stats, uciMatches = [], perfCareer = null, uecMatches = []) {
     const sortedEv = [...matches].sort((a, b) =>
       (b.event.eventDate || '').localeCompare(a.event.eventDate || ''));
@@ -2841,6 +2903,12 @@
         ${stats.dsq > 0 ? `<span class="dnx-badge dsq">${stats.dsq} DSQ</span>` : ''}
       </div>` : '';
 
+    // Statut du pilote (Élite / National) — badge sur toute la carrière
+    const grade = pilotGrade(matches, seriesMatches, uciMatches, uecMatches, fullName, age);
+    const gradeHtml = grade
+      ? `<span class="pilot-grade grade-${grade}" title="${grade === 'elite' ? 'Coureur en catégorie Élite (EH/EF/ME/WE)' : 'Coureur du circuit national (comptes FFC)'}">${grade === 'elite' ? '⚡ Élite' : '🇫🇷 National'}</span>`
+      : '';
+
     return `
       <div class="pilot-card card" style="--pilot-color:${color}" role="region" aria-labelledby="pilotNameHeading">
         <div class="pilot-avatar" aria-hidden="true">${avatarInner}</div>
@@ -2849,6 +2917,7 @@
           <div class="pilot-badges">
             <button class="fav-btn${favNow ? ' on' : ''}" data-fav-pilot="${escape(norm(fullName))}" data-fav-name="${escape(fullName)}" title="${favNow ? 'Suivi ✓ — cliquer pour ne plus suivre' : 'Suivre ce pilote'}">${favNow ? '★' : '☆'}</button>
             ${perfCareer != null ? `<span class="pilot-index" title="Indice de performance carrière (tous niveaux, 0–1000)">🏅 ${perfCareer}</span>` : ''}
+            ${gradeHtml}
             ${age != null ? `<span class="pilot-age" title="Âge">🎂 ${age} ans</span>` : ''}
             ${club ? `<a class="pilot-club" href="${CLUB_BASE}?club=${encodeURIComponent(normClubCode(club))}" target="_blank" rel="noopener noreferrer" title="Stats du club">📍 ${escape(clubDisplayName(club))}</a>` : ''}
           </div>
