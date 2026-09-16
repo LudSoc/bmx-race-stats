@@ -29,7 +29,6 @@ const H = new Function(
     block('function specialResultLabel(r) {'),
     block('function fmtResult(n) {'),
     block('function percentile(rank, total){'),
-    block('function isSemiPhase(d) {'),
     block('function isKnockoutPhase(d) {'),
     block('function frPhaseName(raw) {'),
     block('function phaseTag(d, ctx) {'),
@@ -75,8 +74,8 @@ function ttMatch(rank) {
 
 test('computeStats : Super Final TT 2e → pas de victoire en finale', () => {
   const s = H.computeStats([ttMatch(2)]);
-  assert.equal(s.finalWins, 0, 'pas de victoire factice');
-  assert.equal(s.finalPodiums, 0, 'pas de podium de phase factice');
+  assert.equal(s.finalWins, undefined, 'champ finalWins supprimé (code mort)');
+  assert.equal(s.finalPodiums, undefined, 'champ finalPodiums supprimé (code mort)');
   assert.equal(s.wins, 0, '2e du final ≠ victoire');
   assert.equal(s.podiums, 1, 'podium via rang final conservé');
   assert.equal(s.finalsReached, 1, 'top 8 via rang final');
@@ -90,6 +89,6 @@ test('computeStats : vraie finale gagnée toujours comptée', () => {
     { phaseName: 'Finale', result: 1 },
   ];
   const s = H.computeStats([m]);
-  assert.equal(s.finalWins, 1, 'victoire en peloton conservée');
-  assert.equal(s.wins, 1);
+  assert.equal(s.wins, 1, 'victoire en peloton conservée');
+  assert.equal(s.finalsReached, 1);
 });

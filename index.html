@@ -172,10 +172,6 @@
   /* Results filter bar */
   .results-filters{padding:14px 18px; display:flex; gap:18px; flex-wrap:wrap; align-items:flex-end}
   .results-filters .field{flex:1 1 180px; max-width:260px}
-  .results-filters .summary-info{
-    flex:1 1 100%; font-size:12px; color:var(--muted);
-    border-top:1px solid var(--line); padding-top:10px; margin-top:2px;
-  }
   @media (max-width:640px){
     .results-filters .field{max-width:none}
   }
@@ -231,66 +227,6 @@
     background:linear-gradient(90deg,var(--teal),var(--sky),var(--lavender));
   }
 
-  /* Stats */
-  .stats-hero{
-    display:grid; gap:14px; margin-bottom:16px;
-    grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
-  }
-  .stats-detail{display:flex; flex-direction:column; gap:16px; margin-bottom:20px}
-  .stat-group{display:flex; flex-direction:column; gap:8px}
-  .stat-group-title{
-    font-size:11px; font-weight:600; color:var(--muted);
-    text-transform:uppercase; letter-spacing:.6px;
-  }
-  .stat.stat-hero{padding:18px 20px}
-  .stat.stat-hero .k{font-size:12px}
-  .stat.stat-hero .v{font-size:34px}
-  .stat.stat-hero .sub{font-size:12.5px}
-  .stat[title]{cursor:help}
-
-  .stats{display:grid; grid-template-columns:repeat(auto-fill, minmax(160px, 1fr)); gap:12px; margin-bottom:0}
-  .stat{
-    background:var(--card); border:1px solid var(--line); border-radius:12px;
-    padding:14px 16px; box-shadow:var(--shadow); position:relative; overflow:hidden;
-  }
-  .stat::before{
-    content:""; position:absolute; left:0; top:0; bottom:0; width:4px;
-    background:var(--stat-color, var(--accent)); opacity:.85;
-  }
-  .stat::after{
-    /* lavis très léger pour suggérer la teinte sans saturer */
-    content:""; position:absolute; inset:0; pointer-events:none;
-    background:linear-gradient(135deg,
-      color-mix(in srgb, var(--stat-color, var(--accent)) 7%, transparent),
-      transparent 55%);
-  }
-  .stat.gold      { --stat-color: var(--gold) }
-  .stat.silver    { --stat-color: var(--silver) }
-  .stat.bronze    { --stat-color: var(--bronze) }
-  .stat.good      { --stat-color: var(--mint) }
-  .stat.mint      { --stat-color: var(--mint) }
-  .stat.peach     { --stat-color: var(--peach) }
-  .stat.apricot   { --stat-color: var(--apricot) }
-  .stat.butter    { --stat-color: var(--butter) }
-  .stat.lime      { --stat-color: var(--lime) }
-  .stat.teal      { --stat-color: var(--teal) }
-  .stat.sky       { --stat-color: var(--sky) }
-  .stat.blueberry { --stat-color: var(--blueberry) }
-  .stat.lav       { --stat-color: var(--lavender) }
-  .stat.lilac     { --stat-color: var(--lilac) }
-  .stat.lavender  { --stat-color: var(--lavender) }
-  .stat.berry     { --stat-color: var(--berry) }
-  .stat.rose      { --stat-color: var(--rose) }
-  .stat.coral     { --stat-color: var(--coral) }
-  .stat.grape     { --stat-color: var(--grape) }
-  .stat.sage      { --stat-color: var(--good) }
-  .stat .k{font-size:11px; color:var(--muted); text-transform:uppercase; font-weight:600; letter-spacing:.5px; position:relative}
-  .stat .v{
-    font-size:24px; font-weight:700; margin-top:2px; line-height:1.1; position:relative;
-    color:var(--ink);
-  }
-  .stat .sub{font-size:12px; color:var(--muted); margin-top:2px; position:relative}
-
   /* Graphiques (SVG natif) */
   .charts-grid{
     display:grid; gap:14px; margin-bottom:20px;
@@ -327,7 +263,6 @@
   .chart .bar.mint{fill:var(--mint)}
   .chart .bar.sky{fill:var(--sky)}
   .chart .bar.lilac{fill:var(--lilac)}
-  .chart .bar.lavender{fill:var(--lavender)}
   .chart .bar-value{font-size:15px; fill:var(--ink); font-weight:700}
   .chart .bar-label{font-size:13px; fill:var(--ink-2); font-weight:500}
   .chart .donut-center{font-size:30px; font-weight:700; fill:var(--ink)}
@@ -346,7 +281,7 @@
   }
 
   /* Section title */
-  h2.section-title, h3.stat-group-title, h3.chart-title{margin:0}
+  h2.section-title, h3.chart-title{margin:0}
   .section-title{
     display:flex; align-items:baseline; gap:10px; margin:8px 0 12px;
     font-size:14px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.6px;
@@ -659,12 +594,6 @@
     line-height:1.1; margin-bottom:10px; letter-spacing:-.6px;
   }
   .pilot-badges{ display:flex; gap:8px; flex-wrap:wrap; align-items:center }
-  .pilot-plate{
-    font-size:12px; font-weight:700; letter-spacing:.4px;
-    padding:4px 12px; border-radius:99px;
-    background:var(--pilot-color, var(--accent)); color:#fff;
-    font-variant-numeric:tabular-nums;
-  }
   .pilot-club{
     font-size:12.5px; font-weight:500; color:var(--ink-2);
     padding:4px 12px; border-radius:99px;
@@ -845,12 +774,6 @@
     .card{padding:14px}
     .filters{padding:16px}
 
-    .stats-hero{grid-template-columns:repeat(2, 1fr); gap:10px}
-    .stat.stat-hero{padding:14px 16px}
-    .stat.stat-hero .v{font-size:26px}
-    .stat.stat-hero .sub{font-size:12px}
-    .stats{grid-template-columns:repeat(2, 1fr); gap:10px}
-
     /* Phases : wrap sur plusieurs lignes pour tout voir sans scroll latéral */
     .phases{flex-wrap:wrap; gap:5px}
     .phase{flex-shrink:1; max-width:100%}
@@ -960,11 +883,6 @@
       scroll-snap-align:start;
     }
   }
-  @media (max-width:380px){
-    .stats-hero{grid-template-columns:1fr}
-    .stats{grid-template-columns:1fr}
-  }
-
   /* Comparaison de pilotes */
   .compare-section{
     padding:14px 0 4px;
@@ -979,11 +897,6 @@
     font-size:12px; font-weight:600; color:var(--muted);
     text-transform:uppercase; letter-spacing:.5px;
   }
-  .compare-close-btn{
-    background:none; border:none; color:var(--muted); cursor:pointer;
-    font-size:16px; padding:3px 8px; border-radius:6px; line-height:1;
-  }
-  .compare-close-btn:hover{color:var(--bad); background:color-mix(in srgb,var(--bad) 10%, transparent)}
   .compare-pilots{
     display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px;
   }
@@ -1176,10 +1089,6 @@
   @media (max-width:768px){
     .stats-dashboard{ grid-template-columns:1fr }
   }
-
-  /* Stat card: subtle hover */
-  .stat{ transition:transform .15s ease, box-shadow .15s ease }
-  .stat:hover{ transform:translateY(-1px); box-shadow:var(--shadow-xl, var(--shadow)) }
 
   /* Carte filtre — aucun changement en has-results */
   body.has-results .card.filters{
@@ -1726,21 +1635,6 @@
     });
   }
 
-  function setSearchMode(mode) {
-    if (mode === 'cancel') {
-      searchBtn.textContent = 'Annuler';
-      searchBtn.setAttribute('aria-label', 'Annuler la recherche en cours');
-      searchBtn.classList.add('btn-danger');
-      searchBtn.disabled = false;
-      resultsEl.setAttribute('aria-busy', 'true');
-    } else {
-      searchBtn.textContent = 'Chercher';
-      searchBtn.setAttribute('aria-label', 'Lancer la recherche');
-      searchBtn.classList.remove('btn-danger');
-      resultsEl.setAttribute('aria-busy', 'false');
-      updateSearchEnabled();
-    }
-  }
   function renderSkeleton() {
     const heroCard = `
       <div class="skeleton-card">
@@ -1768,7 +1662,6 @@
       <div class="charts-grid" aria-hidden="true">${chartCard.repeat(3)}</div>
     `;
   }
-  let currentAbort = null;
 
   // Sources de données : bucket public Cloudflare R2 d'abord, puis assets de release, puis fichier local en secours.
   // En dev local (localhost/127.0.0.1), on inverse : fichiers du dossier en premier (same-origin,
@@ -2052,9 +1945,6 @@
     return Math.max(1, Math.round(100 * rank / total));
   }
 
-  function isSemiPhase(d) {
-    return /semi/i.test(d.phaseName || '');
-  }
   function isKnockoutPhase(d) {
     const n = (d.phaseName || '').toLowerCase();
     if (/repech|last.chance/.test(n)) return false;
@@ -2101,15 +1991,11 @@
   function computeStats(matches) {
     const s = {
       entries: matches.length,
-      events: new Set(),
-      orgs: new Set(),
       pilots: new Set(),
-      wins: 0, podiums: 0, top8: 0,
+      wins: 0, podiums: 0,
       dnf: 0, dns: 0, dsq: 0,
-      finalsReached: 0, finalWins: 0, finalPodiums: 0,
-      semiFinalsReached: 0, semiFinalWins: 0,
+      finalsReached: 0,
       finalPhasesReached: 0,
-      eventsWithMotos: 0,
       motosRaced: 0, motoWins: 0, motoTop4: 0,
       gateResults: {},
       bestRank: null,
@@ -2118,14 +2004,11 @@
       topTen: 0, topQuarter: 0, topHalf: 0,
       totalParticipantsSum: 0,
       firstDate: null, lastDate: null,
-      byClass: {},
     };
     for (const m of matches) {
       if (!m?.competitor) continue;
       const c = m.competitor;
       const ev = m.event;
-      s.events.add(ev.eventId);
-      s.orgs.add(m.account.accountName);
       s.pilots.add(`${c.firstName} ${c.lastName}`);
 
       if (typeof c.rank === 'number') {
@@ -2137,7 +2020,6 @@
         } else {
           if (c.rank === 1) s.wins++;
           if (c.rank <= 3) s.podiums++;
-          if (c.rank <= 8) s.top8++;
           if (s.bestRank == null || c.rank < s.bestRank) s.bestRank = c.rank;
           s.rankSum += c.rank;
           s.rankCount++;
@@ -2179,15 +2061,6 @@
       const finalPh = details.find(d => isFinalPhase(d) && !isTimeTrialPhase(d));
       if ((finalPh && finalPh.result != null) || (classified && c.rank <= 8)) {
         s.finalsReached++;
-        if (finalPh && finalPh.result != null) {
-          if (finalPh.result === 1) s.finalWins++;
-          if (finalPh.result <= 3) s.finalPodiums++;
-        }
-      }
-      const semiPh = details.find(isSemiPhase);
-      if (semiPh && semiPh.result != null) {
-        s.semiFinalsReached++;
-        if (semiPh.result === 1) s.semiFinalWins++;
       }
       if (details.some(d => isKnockoutPhase(d) && !isTimeTrialPhase(d) && d.result != null) || classified) {
         s.finalPhasesReached++;
@@ -2207,19 +2080,12 @@
           }
         }
       }
-      if (hasMoto) s.eventsWithMotos++;
 
       const d = ev.eventDate;
       if (d) {
         if (!s.firstDate || d < s.firstDate) s.firstDate = d;
         if (!s.lastDate || d > s.lastDate) s.lastDate = d;
       }
-
-      const cn = m.cls.className;
-      if (!s.byClass[cn]) s.byClass[cn] = { entries: 0, bestRank: null };
-      s.byClass[cn].entries++;
-      if (typeof c.rank === 'number' && (s.byClass[cn].bestRank == null || c.rank < s.byClass[cn].bestRank))
-        s.byClass[cn].bestRank = c.rank;
     }
     s.avgRank = s.rankCount ? (s.rankSum / s.rankCount) : null;
     s.avgPct = s.pctCount ? (s.pctSum / s.pctCount) : null;
