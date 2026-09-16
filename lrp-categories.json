@@ -1,0 +1,223 @@
+{
+  "_meta": {
+    "title": "Mapping LRP 2026 → catégories canoniques",
+    "version": 1,
+    "updated": "2026-09-15",
+    "source": "liste-ref.txt"
+  },
+  "categories": {
+    "CRUISER FEMME 17/29": {
+      "trancheKey": "crF17-29",
+      "level": "regional",
+      "sex": "F",
+      "catInter": "CRUISER WOMEN 17/29"
+    },
+    "CRUISER FEMME 30+": {
+      "trancheKey": "crF30p",
+      "level": "regional",
+      "sex": "F",
+      "catInter": "CRUISER WOMEN 30+"
+    },
+    "CRUISER HOMME 17/24": {
+      "trancheKey": "crM17-24",
+      "level": "regional",
+      "sex": "M",
+      "catInter": "CRUISER MEN 17/24"
+    },
+    "CRUISER HOMME 25/29": {
+      "trancheKey": "crM25-29",
+      "level": "regional",
+      "sex": "M",
+      "catInter": "CRUISER MEN 25/29"
+    },
+    "CRUISER HOMME 30/39": {
+      "trancheKey": "crM30-39",
+      "level": "regional",
+      "sex": "M",
+      "catInter": "CRUISER MEN 30/39"
+    },
+    "CRUISER HOMME 40/44": {
+      "trancheKey": "crM40-44",
+      "level": "regional",
+      "sex": "M",
+      "catInter": "CRUISER MEN 40/44"
+    },
+    "CRUISER HOMME 45+": {
+      "trancheKey": "crM45p",
+      "level": "regional",
+      "sex": "M",
+      "catInter": "CRUISER MEN 45+"
+    },
+    "ELITE FEMME": {
+      "trancheKey": "ef",
+      "level": "national",
+      "sex": "F",
+      "catInter": "WOMEN ELITE"
+    },
+    "ELITE HOMME": {
+      "trancheKey": "eh",
+      "level": "national",
+      "sex": "M",
+      "catInter": "MEN ELITE"
+    },
+    "ELITE U23 FEMME": {
+      "trancheKey": "u23f",
+      "level": "national",
+      "sex": "F",
+      "catInter": "WOMEN U23"
+    },
+    "ELITE U23 HOMME": {
+      "trancheKey": "u23h",
+      "level": "national",
+      "sex": "M",
+      "catInter": "MEN U23"
+    },
+    "FEMME 17+": {
+      "trancheKey": "f17p",
+      "level": "regional",
+      "sex": "F",
+      "catInter": "SANS OBJET"
+    },
+    "FEMME 17+ NATIONALE": {
+      "trancheKey": "f17p",
+      "level": "national",
+      "sex": "F",
+      "catInter": "WOMEN 17+"
+    },
+    "HOMME 17/24": {
+      "trancheKey": "m17-24",
+      "level": "regional",
+      "sex": "M",
+      "catInter": "SANS OBJET"
+    },
+    "HOMME 17/24 NATIONAL": {
+      "trancheKey": "m17-24",
+      "level": "national",
+      "sex": "M",
+      "catInter": "MEN 17/24"
+    },
+    "HOMME 25/29": {
+      "trancheKey": "m25-29",
+      "level": "regional",
+      "sex": "M",
+      "catInter": "SANS OBJET"
+    },
+    "HOMME 25/29 NATIONAL": {
+      "trancheKey": "m25-29",
+      "level": "national",
+      "sex": "M",
+      "catInter": "MEN 25/29"
+    },
+    "HOMME 30+": {
+      "trancheKey": "m30p",
+      "level": "regional",
+      "sex": "M",
+      "catInter": "SANS OBJET"
+    },
+    "HOMME 30+ NATIONAL": {
+      "trancheKey": "m30p",
+      "level": "national",
+      "sex": "M",
+      "catInter": "MEN 30+"
+    },
+    "U11 FILLE": {
+      "trancheKey": "fU11",
+      "level": "regional",
+      "sex": "F",
+      "catInter": "SANS OBJET"
+    },
+    "U11 GARÇON": {
+      "trancheKey": "gU11",
+      "level": "regional",
+      "sex": "M",
+      "catInter": "SANS OBJET"
+    },
+    "U13 FILLE": {
+      "trancheKey": "fU13",
+      "level": "regional",
+      "sex": "F",
+      "catInter": "SANS OBJET"
+    },
+    "U13 GARÇON": {
+      "trancheKey": "gU13",
+      "level": "regional",
+      "sex": "M",
+      "catInter": "SANS OBJET"
+    },
+    "U15 FILLE": {
+      "trancheKey": "fU15",
+      "level": "regional",
+      "sex": "F",
+      "catInter": "SANS OBJET"
+    },
+    "U15 FILLE NATIONALE": {
+      "trancheKey": "fU15",
+      "level": "national",
+      "sex": "F",
+      "catInter": "GIRLS 14"
+    },
+    "U15 GARÇON": {
+      "trancheKey": "gU15",
+      "level": "regional",
+      "sex": "M",
+      "catInter": "SANS OBJET"
+    },
+    "U15 GARÇON NATIONAL": {
+      "trancheKey": "gU15",
+      "level": "national",
+      "sex": "M",
+      "catInter": "BOYS 13"
+    },
+    "U17 FILLE": {
+      "trancheKey": "fU17",
+      "level": "regional",
+      "sex": "F",
+      "catInter": "SANS OBJET"
+    },
+    "U17 FILLE NATIONALE": {
+      "trancheKey": "fU17",
+      "level": "national",
+      "sex": "F",
+      "catInter": "GIRLS 16"
+    },
+    "U17 GARÇON": {
+      "trancheKey": "gU17",
+      "level": "regional",
+      "sex": "M",
+      "catInter": "SANS OBJET"
+    },
+    "U17 GARÇON NATIONAL": {
+      "trancheKey": "gU17",
+      "level": "national",
+      "sex": "M",
+      "catInter": "BOYS 15"
+    },
+    "U19 FEMME": {
+      "trancheKey": "u19f",
+      "level": "national",
+      "sex": "F",
+      "catInter": "WOMEN JUNIOR"
+    },
+    "U19 HOMME": {
+      "trancheKey": "u19h",
+      "level": "national",
+      "sex": "M",
+      "catInter": "MEN JUNIOR"
+    },
+    "U9 FILLE": {
+      "trancheKey": "fU9",
+      "level": "regional",
+      "sex": "F",
+      "catInter": "SANS OBJET"
+    },
+    "U9 GARÇON": {
+      "trancheKey": "gU9",
+      "level": "regional",
+      "sex": "M",
+      "catInter": "SANS OBJET"
+    }
+  },
+  "anomalies": [
+    "SANS OBJET"
+  ]
+}

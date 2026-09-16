@@ -4075,9 +4075,20 @@
   })();
 </script>
 <script>
-  // PWA : enregistre le service worker (app shell en cache, réseau d'abord)
+  // PWA : enregistre le service worker (app shell en cache, réseau d'abord).
+  // En localhost on ne l'enregistre JAMAIS : un SW périmé (scope antérieur)
+  // casse le chargement local (respondWith(undefined) → ERR_FAILED). On purge
+  // les éventuels SW restants pour que le rechargement soit propre.
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
+      const dev = ['127.0.0.1', 'localhost', '::1'].includes(location.hostname);
+      if (dev) {
+        navigator.serviceWorker.getRegistrations().then(list => {
+          if (!list.length) return;
+          Promise.all(list.map(r => r.unregister())).then(() => location.reload());
+        });
+        return;
+      }
       navigator.serviceWorker.register('./service-worker.js').catch(e => console.warn('[bmx] service worker :', e.message));
     });
   }

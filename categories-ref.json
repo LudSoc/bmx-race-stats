@@ -1,0 +1,2989 @@
+{
+  "_meta": {
+    "title": "Référentiel des catégories BMX Race",
+    "version": 3,
+    "scope": "Ensemble des 206 codes FR + 55 codes UCI Mondiaux + 4 codes World Cup + 47 codes UEC. Namespace par source (collisions G10..G16 entre FR et UEC résolues).",
+    "reference": "Annexes FFC 2026 — Annexe 2 (internationales) / Annexe 3 (nationales)",
+    "buildingBlocks": "index des événements pilots-index.json (2023-2026), LRP 2026",
+    "updated": "2026-09-15",
+    "decisionLog": [
+      "FFC BMX * (zone nord-est/ouest, sud-est/ouest) = courses NATIONALES",
+      "Suffixe N = national (y compris porté par des orgas de comité)",
+      "Un même code peut changer de niveau selon l'orga (ex. H1724 @FED=national / @comité=régional)",
+      "Couverture complète de l'index (206 codes). Libellés CdF « Fille/Garçon N ans » ramenés aux tranches U canoniques (Annexe 3). Codes Novice/espoir isolés (suffixe GNR). Supercross = derby 20\" réservé (FED). UFF/G = Challenge France national.",
+      "Ajout des codes internationaux sous namespaces séparés categoriesUci/WC/Uec (level 'uci'/'uec'). Collisions FR/UEC (G10..G16) résolues par namespace.",
+      "Niveau 'club' supprimé : les 4 codes spécifiques au club ESC BICROSS (C15+F, C1724, C1729, C30+) reclassés 'regional'."
+    ]
+  },
+  "orgLevels": {
+    "^FEDERATION FRANCAISE DE CYCLISME": "national",
+    "^FFC BMX ": "national",
+    "default": "regional"
+  },
+  "levels": [
+    "national",
+    "regional",
+    "departemental",
+    "uec",
+    "uci"
+  ],
+  "categories": {
+    "10FR": {
+      "label": "Fille 10 ans",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "UU11 Fille",
+      "trancheKey": "fU11",
+      "level": "regional",
+      "note": "Clubs/comités — libellé local « Fille 10 ans » = tranche U11."
+    },
+    "10GR": {
+      "label": "Garçon 10 ans",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "UU11 Garçon",
+      "trancheKey": "gU11",
+      "level": "regional",
+      "note": "Clubs/comités — libellé local « Garçon 10 ans » = tranche U11."
+    },
+    "11FR": {
+      "label": "Fille 11 ans",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "UU13 Fille",
+      "trancheKey": "fU13",
+      "level": "regional",
+      "note": "Clubs/comités — libellé local « Fille 11 ans » = tranche U13."
+    },
+    "11GR": {
+      "label": "Garçon 11 ans",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "UU13 Garçon",
+      "trancheKey": "gU13",
+      "level": "regional",
+      "note": "Clubs/comités — libellé local « Garçon 11 ans » = tranche U13."
+    },
+    "12FR": {
+      "label": "Fille 12 ans",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "UU13 Fille",
+      "trancheKey": "fU13",
+      "level": "regional",
+      "note": "Clubs/comités — libellé local « Fille 12 ans » = tranche U13."
+    },
+    "12GR": {
+      "label": "Garçon 12 ans",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "UU13 Garçon",
+      "trancheKey": "gU13",
+      "level": "regional",
+      "note": "Clubs/comités — libellé local « Garçon 12 ans » = tranche U13."
+    },
+    "13FR": {
+      "label": "Fille 13 ans",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "UU15 Fille",
+      "trancheKey": "fU15",
+      "level": "regional",
+      "note": "Clubs/comités — libellé local « Fille 13 ans » = tranche U15."
+    },
+    "13GR": {
+      "label": "Garçon 13 ans",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "UU15 Garçon",
+      "trancheKey": "gU15",
+      "level": "regional",
+      "note": "Clubs/comités — libellé local « Garçon 13 ans » = tranche U15."
+    },
+    "14FR": {
+      "label": "Fille 14 ans",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "UU15 Fille",
+      "trancheKey": "fU15",
+      "level": "regional",
+      "note": "Clubs/comités — libellé local « Fille 14 ans » = tranche U15."
+    },
+    "14GR": {
+      "label": "Garçon 14 ans",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "UU15 Garçon",
+      "trancheKey": "gU15",
+      "level": "regional",
+      "note": "Clubs/comités — libellé local « Garçon 14 ans » = tranche U15."
+    },
+    "7FR": {
+      "label": "Fille 7 ans",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "UU7 Fille",
+      "trancheKey": "fU7",
+      "level": "regional",
+      "note": "Clubs/comités — libellé local « Fille 7 ans » = tranche U7."
+    },
+    "7GR": {
+      "label": "Garçon 7 ans",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "UU7 Garçon",
+      "trancheKey": "gU7",
+      "level": "regional",
+      "note": "Clubs/comités — libellé local « Garçon 7 ans » = tranche U7."
+    },
+    "8FR": {
+      "label": "Fille 8 ans",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "UU9 Fille",
+      "trancheKey": "fU9",
+      "level": "regional",
+      "note": "Clubs/comités — libellé local « Fille 8 ans » = tranche U9."
+    },
+    "8GR": {
+      "label": "Garçon 8 ans",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "UU9 Garçon",
+      "trancheKey": "gU9",
+      "level": "regional",
+      "note": "Clubs/comités — libellé local « Garçon 8 ans » = tranche U9."
+    },
+    "9FR": {
+      "label": "Fille 9 ans",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "UU11 Fille",
+      "trancheKey": "fU11",
+      "level": "regional",
+      "note": "Clubs/comités — libellé local « Fille 9 ans » = tranche U11."
+    },
+    "9GR": {
+      "label": "Garçon 9 ans",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "UU11 Garçon",
+      "trancheKey": "gU11",
+      "level": "regional",
+      "note": "Clubs/comités — libellé local « Garçon 9 ans » = tranche U11."
+    },
+    "C15+F": {
+      "label": "15 ANS ET PLUS FEMMES",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "Femme 15+ (régional)",
+      "trancheKey": "f15p",
+      "level": "regional",
+      "note": "ESC BICROSS DE MARTRAGNY."
+    },
+    "C1724": {
+      "label": "17 - 24 ans",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "Homme 17/24 (régional)",
+      "trancheKey": "m17-24",
+      "level": "regional",
+      "note": "ESC BICROSS DE MARTRAGNY."
+    },
+    "C1729": {
+      "label": "17 - 29 ANS HOMMES",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "Homme 17/29 (régional)",
+      "trancheKey": "m17-29",
+      "level": "regional",
+      "note": "ESC BICROSS DE MARTRAGNY."
+    },
+    "C30+": {
+      "label": "30 ANS ET PLUS HOMMES",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "Homme 30+ (régional)",
+      "trancheKey": "m30p",
+      "level": "regional",
+      "note": "ESC BICROSS DE MARTRAGNY."
+    },
+    "CR1329R": {
+      "label": "CRUISER 13/29",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser OPEN 13/29",
+      "trancheKey": "crOpenM",
+      "level": "regional",
+      "status": "anomaly",
+      "note": "Tranche élargie Bretagne — répartir par LRP."
+    },
+    "CR1329R.C": {
+      "label": "CRUISER 13/29 FILLE",
+      "format": "cruiser",
+      "sex": "F",
+      "tranche": "Cruiser OPEN 13/29",
+      "trancheKey": "crOpenF",
+      "level": "regional",
+      "status": "anomaly"
+    },
+    "CR1724": {
+      "label": "Cruiser Homme 17/24",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 17/24",
+      "trancheKey": "crM17-24",
+      "level": "national",
+      "competition": [
+        "challenge-national"
+      ],
+      "note": "Équivaut CRH1724N (codage 2024+)."
+    },
+    "CR1724N": {
+      "label": "Cruiser Homme 17/24 National",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 17/24",
+      "trancheKey": "crM17-24",
+      "level": "national",
+      "note": "FFC BMX SUD EST (2023)."
+    },
+    "CR2529": {
+      "label": "Cruiser Homme 25/29",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 25/29",
+      "trancheKey": "crM25-29",
+      "level": "national",
+      "competition": [
+        "challenge-national"
+      ]
+    },
+    "CR2529N": {
+      "label": "Cruiser Homme 25/29 National",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 25/29",
+      "trancheKey": "crM25-29",
+      "level": "national",
+      "note": "FED (2023)."
+    },
+    "CR30+R": {
+      "label": "CRUISER 30+",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser OPEN 30+",
+      "trancheKey": "crOpenM",
+      "level": "regional",
+      "status": "anomaly",
+      "note": "Tranche élargie Bretagne."
+    },
+    "CR30+R.C": {
+      "label": "CRUISER 30+ FILLE",
+      "format": "cruiser",
+      "sex": "F",
+      "tranche": "Cruiser OPEN 30+",
+      "trancheKey": "crOpenF",
+      "level": "regional",
+      "status": "anomaly"
+    },
+    "CR3034": {
+      "label": "Cruiser Homme 30/34",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 30/39",
+      "trancheKey": "crM30-39",
+      "level": "national",
+      "note": "FED (2023)."
+    },
+    "CR3039": {
+      "label": "Cruiser Homme 30/39",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 30/39",
+      "trancheKey": "crM30-39",
+      "level": "national",
+      "competition": [
+        "challenge-national"
+      ]
+    },
+    "CR3039N": {
+      "label": "Cruiser Homme 30/39 National",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 30/39",
+      "trancheKey": "crM30-39",
+      "level": "national"
+    },
+    "CR3539": {
+      "label": "Cruiser Homme 35/39",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 30/39",
+      "trancheKey": "crM30-39",
+      "level": "national",
+      "note": "FED (2023)."
+    },
+    "CR4044": {
+      "label": "Cruiser Homme 40/44",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 40/44",
+      "trancheKey": "crM40-44",
+      "level": "national",
+      "competition": [
+        "challenge-national"
+      ]
+    },
+    "CR4044N": {
+      "label": "Cruiser Homme 40/44 National",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 40/44",
+      "trancheKey": "crM40-44",
+      "level": "national"
+    },
+    "CR45+": {
+      "label": "Cruiser Homme 45+",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 45+",
+      "trancheKey": "crM45p",
+      "level": "national",
+      "competition": [
+        "challenge-national"
+      ]
+    },
+    "CRF17+": {
+      "label": "Cruiser Femme 17+",
+      "format": "cruiser",
+      "sex": "F",
+      "tranche": "Cruiser Femme 17/29",
+      "trancheKey": "crF17-29",
+      "level": "national",
+      "note": "FED (1 course, 2026)."
+    },
+    "CRF17+R": {
+      "label": "CRUISER FEMME 17+",
+      "format": "cruiser",
+      "sex": "F",
+      "tranche": "Cruiser Femme 17/29",
+      "trancheKey": "crF17-29",
+      "level": "regional",
+      "status": "ambiguous",
+      "note": "FED + Sarrians — résolution par LRP."
+    },
+    "CRF1729": {
+      "label": "Cruiser Femme 17/29",
+      "format": "cruiser",
+      "sex": "F",
+      "tranche": "Cruiser Femme 17/29",
+      "trancheKey": "crF17-29",
+      "level": "national",
+      "competition": [
+        "championnat-comite"
+      ],
+      "note": "Porté par FFC BMX *."
+    },
+    "CRF1729N": {
+      "label": "Cruiser Femme 17/29 Nationale",
+      "format": "cruiser",
+      "sex": "F",
+      "tranche": "Cruiser Femme 17/29",
+      "trancheKey": "crF17-29",
+      "level": "national",
+      "competition": [
+        "coupe-de-france"
+      ],
+      "note": "Annexe 3 : catégorie unique Cruiser Femme 17+ (X**)."
+    },
+    "CRF1729R": {
+      "label": "CRUISER FEMME",
+      "format": "cruiser",
+      "sex": "F",
+      "tranche": "Cruiser Femme 17/29",
+      "trancheKey": "crF17-29",
+      "level": "regional",
+      "status": "ambiguous",
+      "note": "Libellé sans tranche — répartition par LRP."
+    },
+    "CRF1924": {
+      "label": "Cruiser Femme 19/24",
+      "format": "cruiser",
+      "sex": "F",
+      "tranche": "Cruiser Femme 17/29",
+      "trancheKey": "crF17-29",
+      "level": "national",
+      "status": "ambiguous",
+      "note": "Tranche fine FED (2023). Résolution par LRP."
+    },
+    "CRF2529": {
+      "label": "Cruiser Femme 25/29",
+      "format": "cruiser",
+      "sex": "F",
+      "tranche": "Cruiser Femme 17/29",
+      "trancheKey": "crF17-29",
+      "level": "national",
+      "status": "ambiguous",
+      "note": "Tranche fine FED (2023). Résolution par LRP."
+    },
+    "CRF30+": {
+      "label": "Cruiser Femme 30+",
+      "format": "cruiser",
+      "sex": "F",
+      "tranche": "Cruiser Femme 30+",
+      "trancheKey": "crF30p",
+      "level": "national"
+    },
+    "CRF30+N": {
+      "label": "Cruiser Femme 30+ Nationale",
+      "format": "cruiser",
+      "sex": "F",
+      "tranche": "Cruiser Femme 30+",
+      "trancheKey": "crF30p",
+      "level": "national",
+      "competition": [
+        "coupe-de-france"
+      ]
+    },
+    "CRF30+R": {
+      "label": "CRUISER FEMME 30+",
+      "format": "cruiser",
+      "sex": "F",
+      "tranche": "Cruiser Femme 30+",
+      "trancheKey": "crF30p",
+      "level": "regional"
+    },
+    "CRF3039": {
+      "label": "Cruiser Femme 30/39",
+      "format": "cruiser",
+      "sex": "F",
+      "tranche": "Cruiser Femme 30+",
+      "trancheKey": "crF30p",
+      "level": "national",
+      "competition": [
+        "championnat-comite"
+      ],
+      "note": "Sous-tranche à fusionner dans 30+."
+    },
+    "CRF40+": {
+      "label": "Cruiser Femme 40+",
+      "format": "cruiser",
+      "sex": "F",
+      "tranche": "Cruiser Femme 30+",
+      "trancheKey": "crF30p",
+      "level": "national",
+      "competition": [
+        "championnat-comite"
+      ],
+      "note": "Sous-tranche à fusionner dans 30+."
+    },
+    "CRH1724": {
+      "label": "Cruiser Homme 17/24",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 17/24",
+      "trancheKey": "crM17-24",
+      "level": "national",
+      "competition": [
+        "championnat-comite"
+      ],
+      "note": "Porté par FFC BMX *."
+    },
+    "CRH1724N": {
+      "label": "Cruiser Homme 17/24 National",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 17/24",
+      "trancheKey": "crM17-24",
+      "level": "national",
+      "competition": [
+        "coupe-de-france"
+      ],
+      "note": "N chez des comités = national (décision)."
+    },
+    "CRH1724R": {
+      "label": "CRUISER HOMME 17/24",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 17/24",
+      "trancheKey": "crM17-24",
+      "level": "regional"
+    },
+    "CRH1729": {
+      "label": "Cruiser Homme 17/29",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 17/29 (provisoire)",
+      "trancheKey": "crM17-29",
+      "level": "national",
+      "status": "ambiguous",
+      "note": "FED (2023). Résolution par LRP."
+    },
+    "CRH2529": {
+      "label": "Cruiser Homme 25/29",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 25/29",
+      "trancheKey": "crM25-29",
+      "level": "national",
+      "competition": [
+        "championnat-comite"
+      ],
+      "note": "Porté par FFC BMX *."
+    },
+    "CRH2529N": {
+      "label": "Cruiser Homme 25/29 National",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 25/29",
+      "trancheKey": "crM25-29",
+      "level": "national",
+      "competition": [
+        "coupe-de-france"
+      ]
+    },
+    "CRH2529R": {
+      "label": "CRUISER HOMME 25/29",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 25/29",
+      "trancheKey": "crM25-29",
+      "level": "regional"
+    },
+    "CRH3034": {
+      "label": "Cruiser Homme 30/34",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 30/39",
+      "trancheKey": "crM30-39",
+      "level": "national",
+      "competition": [
+        "championnat-comite"
+      ],
+      "note": "Sous-tranche 30/34 locale."
+    },
+    "CRH3034R": {
+      "label": "CRUISER HOMME 30/39",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 30/39",
+      "trancheKey": "crM30-39",
+      "level": "regional",
+      "status": "anomaly",
+      "note": "Code 30/34, libellé 30/39 — classer au niveau (régional) avant le code."
+    },
+    "CRH3039": {
+      "label": "Cruiser Homme 30/39",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 30/39",
+      "trancheKey": "crM30-39",
+      "level": "national",
+      "note": "FED (3 courses)."
+    },
+    "CRH3039N": {
+      "label": "Cruiser Homme 30/39 National",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 30/39",
+      "trancheKey": "crM30-39",
+      "level": "national",
+      "competition": [
+        "coupe-de-france"
+      ]
+    },
+    "CRH3039R": {
+      "label": "CRUISER HOMME 30/39",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 30/39",
+      "trancheKey": "crM30-39",
+      "level": "regional",
+      "status": "ambiguous",
+      "note": "Orgas hétérogènes (FED + club + CRPDL)."
+    },
+    "CRH3539": {
+      "label": "Cruiser Homme 35/39",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 30/39",
+      "trancheKey": "crM30-39",
+      "level": "national",
+      "competition": [
+        "championnat-comite"
+      ],
+      "note": "Sous-tranche 35/39 locale."
+    },
+    "CRH3539R": {
+      "label": "CRUISER HOMME 30/39",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 30/39",
+      "trancheKey": "crM30-39",
+      "level": "regional",
+      "status": "anomaly",
+      "note": "Code 35/39, libellé 30/39 — incohérent avec CRH3034R (classer au niveau)."
+    },
+    "CRH40+": {
+      "label": "Cruiser Homme 40+",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 40+",
+      "trancheKey": "crM40p",
+      "level": "national",
+      "competition": [
+        "indoor"
+      ]
+    },
+    "CRH40+R": {
+      "label": "CRUISER HOMME 40+",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 40+",
+      "trancheKey": "crM40p",
+      "level": "regional",
+      "status": "ambiguous",
+      "note": "FED + Sarrians + CRPDL — résolution par LRP."
+    },
+    "CRH4044": {
+      "label": "Cruiser Homme 40/44",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 40/44",
+      "trancheKey": "crM40-44",
+      "level": "national",
+      "competition": [
+        "championnat-comite"
+      ],
+      "note": "Porté par FFC BMX *."
+    },
+    "CRH4044N": {
+      "label": "Cruiser Homme 40/44 National",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 40/44",
+      "trancheKey": "crM40-44",
+      "level": "national",
+      "competition": [
+        "coupe-de-france"
+      ]
+    },
+    "CRH4044R": {
+      "label": "CRUISER HOMME 40/44",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 40/44",
+      "trancheKey": "crM40-44",
+      "level": "regional"
+    },
+    "CRH4044Rxx": {
+      "label": "CRUISER HOMME 40/44",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 40/44",
+      "trancheKey": "crM40-44",
+      "level": "regional",
+      "note": "Variante BMX CCVL (2 courses)."
+    },
+    "CRH4049": {
+      "label": "Cruiser Homme 40/49",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 40+ (provisoire)",
+      "trancheKey": "crM40p",
+      "level": "national",
+      "status": "ambiguous",
+      "note": "FED (2023). Résolution par LRP."
+    },
+    "CRH45+": {
+      "label": "Cruiser Homme 45+",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 45+",
+      "trancheKey": "crM45p",
+      "level": "national",
+      "competition": [
+        "championnat-comite"
+      ],
+      "note": "Porté par FFC BMX *."
+    },
+    "CRH45+N": {
+      "label": "Cruiser Homme 45+ National",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 45+",
+      "trancheKey": "crM45p",
+      "level": "national"
+    },
+    "CRH45+R": {
+      "label": "CRUISER HOMME 45+",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 45+",
+      "trancheKey": "crM45p",
+      "level": "regional"
+    },
+    "CRH4549": {
+      "label": "Cruiser Homme 45/49",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 45+",
+      "trancheKey": "crM45p",
+      "level": "national",
+      "competition": [
+        "championnat-comite"
+      ],
+      "note": "Sous-tranche 45/49 à fusionner dans 45+."
+    },
+    "CRH50+": {
+      "label": "Cruiser Homme 50+",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 45+",
+      "trancheKey": "crM45p",
+      "level": "national",
+      "competition": [
+        "championnat-comite"
+      ],
+      "note": "Sous-tranche 50+ à fusionner dans 45+."
+    },
+    "CRU15F": {
+      "label": "Cruiser U15 Fille",
+      "format": "cruiser",
+      "sex": "F",
+      "tranche": "Cruiser U15 Fille",
+      "trancheKey": "crU15F",
+      "level": "national",
+      "competition": [
+        "championnat-comite"
+      ],
+      "note": "Porté par FFC BMX *."
+    },
+    "CRU15FN": {
+      "label": "Cruiser U15 Fille Nationale",
+      "format": "cruiser",
+      "sex": "F",
+      "tranche": "Cruiser U15 Fille",
+      "trancheKey": "crU15F",
+      "level": "national"
+    },
+    "CRU15FR": {
+      "label": "CRUISER U15 FILLE",
+      "format": "cruiser",
+      "sex": "F",
+      "tranche": "Cruiser U15 Fille",
+      "trancheKey": "crU15F",
+      "level": "regional"
+    },
+    "CRU15G": {
+      "label": "Cruiser U15 Garçon",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser U15 Garçon",
+      "trancheKey": "crU15G",
+      "level": "national",
+      "competition": [
+        "championnat-comite"
+      ],
+      "note": "Porté par FFC BMX *."
+    },
+    "CRU15GN": {
+      "label": "Cruiser U15 Garçon National",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser U15 Garçon",
+      "trancheKey": "crU15G",
+      "level": "national"
+    },
+    "CRU15GR": {
+      "label": "CRUISER U15 GARÇON",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser U15 Garçon",
+      "trancheKey": "crU15G",
+      "level": "regional"
+    },
+    "CRU17F": {
+      "label": "Cruiser U17 Fille",
+      "format": "cruiser",
+      "sex": "F",
+      "tranche": "Cruiser U17 Fille",
+      "trancheKey": "crU17F",
+      "level": "national",
+      "competition": [
+        "championnat-comite"
+      ],
+      "note": "Porté par FFC BMX *."
+    },
+    "CRU17FN": {
+      "label": "Cruiser U17 Fille Nationale",
+      "format": "cruiser",
+      "sex": "F",
+      "tranche": "Cruiser U17 Fille",
+      "trancheKey": "crU17F",
+      "level": "national"
+    },
+    "CRU17FR": {
+      "label": "CRUISER U17 FILLE",
+      "format": "cruiser",
+      "sex": "F",
+      "tranche": "Cruiser U17 Fille",
+      "trancheKey": "crU17F",
+      "level": "regional"
+    },
+    "CRU17G": {
+      "label": "Cruiser U17 Garçon",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser U17 Garçon",
+      "trancheKey": "crU17G",
+      "level": "national",
+      "competition": [
+        "championnat-comite"
+      ],
+      "note": "Porté par FFC BMX *."
+    },
+    "CRU17GN": {
+      "label": "Cruiser U17 Garçon National",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser U17 Garçon",
+      "trancheKey": "crU17G",
+      "level": "national"
+    },
+    "CRU17GR": {
+      "label": "CRUISER U17 GARÇON",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser U17 Garçon",
+      "trancheKey": "crU17G",
+      "level": "regional"
+    },
+    "CRU19F": {
+      "label": "Cruiser U19 Fille",
+      "format": "cruiser",
+      "sex": "F",
+      "tranche": "Cruiser U19 Fille",
+      "trancheKey": "crU19F",
+      "level": "national",
+      "status": "ambiguous",
+      "note": "FED (1 course, 2023)."
+    },
+    "CRU19HR": {
+      "label": "CRUISER 34 ANS ET -",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser OPEN 34 ans et moins",
+      "trancheKey": "crOpenM",
+      "level": "regional",
+      "status": "anomaly",
+      "note": "Code U19H détourné en cruiser open senior (Gironde, BFC, CCVL) — réattribuer par libellé+orga."
+    },
+    "EF": {
+      "label": "Elite Femme",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "Elite Femme",
+      "trancheKey": "ef",
+      "level": "national"
+    },
+    "EFR": {
+      "label": "Elite Régionale Femme",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "Elite Femme",
+      "trancheKey": "ef",
+      "level": "regional",
+      "status": "ambiguous",
+      "note": "ELITE REGIONALE FEMME/FILLE + « OPEN PRO », ELITE JUNIOR FEMME."
+    },
+    "EH": {
+      "label": "Elite Homme",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "Elite Homme",
+      "trancheKey": "eh",
+      "level": "national"
+    },
+    "EHR": {
+      "label": "Elite Régionale Homme",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "Elite Homme",
+      "trancheKey": "eh",
+      "level": "regional",
+      "status": "ambiguous",
+      "note": "ELITE REGIONALE + « OPEN 17+ HOMME » + ELITE JUNIOR HOMME."
+    },
+    "F10": {
+      "label": "Fille 10 ans (CdF zones)",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "fU11",
+      "trancheKey": "fU11",
+      "level": "national",
+      "note": "Catégorie CdF « Fille 10 » = tranche U canonique."
+    },
+    "F11": {
+      "label": "Fille 11 ans (CdF zones)",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "fU13",
+      "trancheKey": "fU13",
+      "level": "national",
+      "note": "Catégorie CdF « Fille 11 » = tranche U canonique."
+    },
+    "F12": {
+      "label": "Fille 12 ans (CdF zones)",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "fU13",
+      "trancheKey": "fU13",
+      "level": "national",
+      "note": "Catégorie CdF « Fille 12 » = tranche U canonique."
+    },
+    "F13": {
+      "label": "Fille 13 ans (CdF zones)",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "fU15",
+      "trancheKey": "fU15",
+      "level": "national",
+      "note": "Catégorie CdF « Fille 13 » = tranche U canonique."
+    },
+    "F13N": {
+      "label": "Fille 13 Nationale",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "fU15",
+      "trancheKey": "fU15",
+      "level": "national",
+      "note": "FED — Championnat de France / Nationale."
+    },
+    "F14": {
+      "label": "Fille 14 ans (CdF zones)",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "fU15",
+      "trancheKey": "fU15",
+      "level": "national",
+      "note": "Catégorie CdF « Fille 14 » = tranche U canonique."
+    },
+    "F14N": {
+      "label": "Fille 14 Nationale",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "fU15",
+      "trancheKey": "fU15",
+      "level": "national",
+      "note": "FED — Championnat de France / Nationale."
+    },
+    "F15": {
+      "label": "Fille 15 ans (CdF zones)",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "fU17",
+      "trancheKey": "fU17",
+      "level": "national",
+      "note": "Catégorie CdF « Fille 15 » = tranche U canonique."
+    },
+    "F15+R": {
+      "label": "Open Femmes",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "Femmes 17+ (Open)",
+      "trancheKey": "f17p",
+      "level": "regional",
+      "status": "anomaly",
+      "note": "« OPEN Femmes » (Comité de Bretagne) — toutes tranches mélangées."
+    },
+    "F15C": {
+      "label": "Fille 15 Championnat",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "U17 Fille",
+      "trancheKey": "fU17",
+      "level": "national",
+      "note": "FED — Championnat unique de France."
+    },
+    "F15N": {
+      "label": "Fille 15 Nationale",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "fU17",
+      "trancheKey": "fU17",
+      "level": "national",
+      "note": "FED — Championnat de France / Nationale."
+    },
+    "F16": {
+      "label": "Fille 16 ans (CdF zones)",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "fU17",
+      "trancheKey": "fU17",
+      "level": "national",
+      "note": "Catégorie CdF « Fille 16 » = tranche U canonique."
+    },
+    "F16C": {
+      "label": "Fille 16 Championnat",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "U17 Fille",
+      "trancheKey": "fU17",
+      "level": "national",
+      "note": "FED — Championnat unique de France."
+    },
+    "F16N": {
+      "label": "Fille 16 Nationale",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "fU17",
+      "trancheKey": "fU17",
+      "level": "national",
+      "note": "FED — Championnat de France / Nationale."
+    },
+    "F17+": {
+      "label": "Femme 17+",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "Femme 17+",
+      "trancheKey": "f17p",
+      "level": "national",
+      "competition": [
+        "championnat-de-france"
+      ],
+      "note": "Déclinaison sans le mot \"Nationale\"."
+    },
+    "F17+N": {
+      "label": "Femme 17+ Nationale",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "Femme 17+",
+      "trancheKey": "f17p",
+      "level": "national",
+      "competition": [
+        "coupe-de-france",
+        "indoor"
+      ]
+    },
+    "F17+R": {
+      "label": "FEMME 17+",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "Femme 17+",
+      "trancheKey": "f17p",
+      "level": "regional"
+    },
+    "F1724": {
+      "label": "Femme 17/24",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "Femme 17/24",
+      "trancheKey": "f17-24",
+      "level": "national",
+      "competition": [
+        "championnat-comite"
+      ],
+      "note": "Porté par FFC BMX *."
+    },
+    "F1724N": {
+      "label": "Femme 17/24 Nationale",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "Femme 17/24",
+      "trancheKey": "f17-24",
+      "level": "national",
+      "note": "1 course (2023)."
+    },
+    "F1724R": {
+      "label": "FEMME 17+",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "Femme 17+ ou 17/24 (à trancher)",
+      "trancheKey": "f17p",
+      "level": "regional",
+      "status": "anomaly",
+      "note": "Code 17/24 portant un libellé 17+ (CRPDL). Résolution par LRP."
+    },
+    "F25+": {
+      "label": "Femme 25+",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "Femme 25+",
+      "trancheKey": "f25p",
+      "level": "national",
+      "competition": [
+        "championnat-comite"
+      ],
+      "note": "Porté par FFC BMX *."
+    },
+    "F25+N": {
+      "label": "Femme 25+ Nationale",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "Femme 25+",
+      "trancheKey": "f25p",
+      "level": "national",
+      "note": "1 course (2023)."
+    },
+    "F25+R": {
+      "label": "U11 FILLE 10 ans",
+      "format": "20p",
+      "sex": "F",
+      "tranche": null,
+      "trancheKey": null,
+      "level": null,
+      "status": "excluded",
+      "note": "Code senior réutilisé à tort pour des U11 (DROME ARDECHE, HAUTS-DE-FRANCE, CD28) — à traiter dans le volet jeunes."
+    },
+    "F8": {
+      "label": "Fille 8 ans et moins (CdF zones)",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "fU9",
+      "trancheKey": "fU9",
+      "level": "national",
+      "note": "Catégorie CdF « Fille 8 » = tranche U canonique."
+    },
+    "F9": {
+      "label": "Fille 9 ans (CdF zones)",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "fU11",
+      "trancheKey": "fU11",
+      "level": "national",
+      "note": "Catégorie CdF « Fille 9 » = tranche U canonique."
+    },
+    "G10": {
+      "label": "Garçon 10 ans (CdF zones)",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "gU11",
+      "trancheKey": "gU11",
+      "level": "national",
+      "note": "Catégorie CdF « Garçon 10 » = tranche U canonique."
+    },
+    "G11": {
+      "label": "Garçon 11 ans (CdF zones)",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "gU13",
+      "trancheKey": "gU13",
+      "level": "national",
+      "note": "Catégorie CdF « Garçon 11 » = tranche U canonique."
+    },
+    "G12": {
+      "label": "Garçon 12 ans (CdF zones)",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "gU13",
+      "trancheKey": "gU13",
+      "level": "national",
+      "note": "Catégorie CdF « Garçon 12 » = tranche U canonique."
+    },
+    "G13": {
+      "label": "Garçon 13 ans (CdF zones)",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "gU15",
+      "trancheKey": "gU15",
+      "level": "national",
+      "note": "Catégorie CdF « Garçon 13 » = tranche U canonique."
+    },
+    "G13N": {
+      "label": "Garçon 13 National",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U15 Garçon",
+      "trancheKey": "gU15",
+      "level": "national",
+      "note": "FED — Championnat de France / National."
+    },
+    "G14": {
+      "label": "Garçon 14 ans (CdF zones)",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "gU15",
+      "trancheKey": "gU15",
+      "level": "national",
+      "note": "Catégorie CdF « Garçon 14 » = tranche U canonique."
+    },
+    "G14N": {
+      "label": "Garçon 14 National",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U15 Garçon",
+      "trancheKey": "gU15",
+      "level": "national",
+      "note": "FED — Championnat de France / National."
+    },
+    "G15": {
+      "label": "Garçon 15 ans (CdF zones)",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "gU17",
+      "trancheKey": "gU17",
+      "level": "national",
+      "note": "Catégorie CdF « Garçon 15 » = tranche U canonique."
+    },
+    "G15C": {
+      "label": "Garçon 15 Championnat",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U17 Garçon",
+      "trancheKey": "gU17",
+      "level": "national",
+      "note": "FED — Championnat unique de France."
+    },
+    "G15N": {
+      "label": "Garçon 15 National",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U17 Garçon",
+      "trancheKey": "gU17",
+      "level": "national",
+      "note": "FED — Championnat de France / National."
+    },
+    "G16": {
+      "label": "Garçon 16 ans (CdF zones)",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "gU17",
+      "trancheKey": "gU17",
+      "level": "national",
+      "note": "Catégorie CdF « Garçon 16 » = tranche U canonique."
+    },
+    "G16C": {
+      "label": "Garçon 16 Championnat",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U17 Garçon",
+      "trancheKey": "gU17",
+      "level": "national",
+      "note": "FED — Championnat unique de France."
+    },
+    "G16N": {
+      "label": "Garçon 16 National",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U17 Garçon",
+      "trancheKey": "gU17",
+      "level": "national",
+      "note": "FED — Championnat de France / National."
+    },
+    "G8": {
+      "label": "Garçon 8 ans et moins (CdF zones)",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "gU9",
+      "trancheKey": "gU9",
+      "level": "national",
+      "note": "Catégorie CdF « Garçon 8 » = tranche U canonique."
+    },
+    "G9": {
+      "label": "Garçon 9 ans (CdF zones)",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "gU11",
+      "trancheKey": "gU11",
+      "level": "national",
+      "note": "Catégorie CdF « Garçon 9 » = tranche U canonique."
+    },
+    "H17+": {
+      "label": "Homme 17+",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "Homme 17+",
+      "trancheKey": "m17p",
+      "level": "national",
+      "competition": [
+        "indoor"
+      ]
+    },
+    "H1724": {
+      "label": "Homme 17/24",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "Homme 17/24",
+      "trancheKey": "m17-24",
+      "level": "national",
+      "levelByOrg": {
+        "^FEDERATION FRANCAISE DE CYCLISME": "national",
+        "^FFC BMX ": "national"
+      },
+      "competition": [
+        "challenge-national",
+        "championnat-de-france"
+      ],
+      "note": "Niveau national partout (décision FFC BMX *=national). Chez FED = Challenge National / Chpt de France."
+    },
+    "H1724N": {
+      "label": "Homme 17/24 National",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "Homme 17/24",
+      "trancheKey": "m17-24",
+      "level": "national",
+      "competition": [
+        "coupe-de-france"
+      ],
+      "note": "CDF Homme 17/24 — pilotes nationaux (LRP)."
+    },
+    "H1724R": {
+      "label": "HOMME 17/24 (parfois \"17/29\")",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "Homme 17/24",
+      "trancheKey": "m17-24",
+      "level": "regional",
+      "competition": [
+        "coupe-regionale",
+        "cne"
+      ],
+      "note": "Coupes de comité/département. Certaines orgas (BFC) étirent à 17/29 — répartir par LRP ou classe 17/29 à trancher."
+    },
+    "H1729": {
+      "label": "Homme 25/29 (2023)",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "Homme 17/29 (provisoire)",
+      "trancheKey": "m17-29",
+      "level": "national",
+      "status": "ambiguous",
+      "note": "Code 17/29 portant un libellé 25/29 (FED 2023). Résolution par LRP."
+    },
+    "H1729R": {
+      "label": "OPEN Hommes",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "OPEN Hommes",
+      "trancheKey": "mOpen",
+      "level": "regional",
+      "status": "anomaly",
+      "note": "Code détourné (toutes tranches hommes mélangées, COMITE DE BRETAGNE)."
+    },
+    "H2529": {
+      "label": "Homme 25/29",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "Homme 25/29",
+      "trancheKey": "m25-29",
+      "level": "national",
+      "competition": [
+        "championnat-comite"
+      ],
+      "note": "Porté par FFC BMX *."
+    },
+    "H2529N": {
+      "label": "Homme 25/29 National",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "Homme 25/29",
+      "trancheKey": "m25-29",
+      "level": "national",
+      "competition": [
+        "coupe-de-france"
+      ]
+    },
+    "H2529R": {
+      "label": "HOMME 25/29",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "Homme 25/29",
+      "trancheKey": "m25-29",
+      "level": "regional"
+    },
+    "H30+": {
+      "label": "Homme 30+",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "Homme 30+",
+      "trancheKey": "m30p",
+      "level": "national",
+      "competition": [
+        "championnat-comite"
+      ],
+      "note": "Porté par FFC BMX *."
+    },
+    "H30+N": {
+      "label": "Homme 30+ National",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "Homme 30+",
+      "trancheKey": "m30p",
+      "level": "national",
+      "competition": [
+        "coupe-de-france"
+      ]
+    },
+    "H30+R": {
+      "label": "HOMME 30+",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "Homme 30+",
+      "trancheKey": "m30p",
+      "level": "regional"
+    },
+    "H3034": {
+      "label": "Homme 30/34",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "Homme 30+",
+      "trancheKey": "m30p",
+      "level": "national",
+      "competition": [
+        "championnat-comite"
+      ],
+      "note": "Sous-tranche 30/34 locale (FFC BMX *)."
+    },
+    "H3039": {
+      "label": "Homme 30+ (2023)",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "Homme 30/39 (provisoire)",
+      "trancheKey": "m30-39",
+      "level": "national",
+      "status": "ambiguous",
+      "note": "2 courses FED en 2023, libellé \"Homme 30+\". Résolution par LRP."
+    },
+    "H35+": {
+      "label": "Homme 35+",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "Homme 30+",
+      "trancheKey": "m30p",
+      "level": "national",
+      "competition": [
+        "championnat-comite"
+      ],
+      "note": "Sous-tranche 35+ locale (FFC BMX *)."
+    },
+    "H40+": {
+      "label": "Homme 40+ (2023)",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "Homme 30+",
+      "trancheKey": "m30p",
+      "level": "national",
+      "note": "FED (1 course, 2023) — sous-tranche 40+ à fusionner dans 30+."
+    },
+    "JF": {
+      "label": "U19 Fille",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "U19 Fille",
+      "trancheKey": "u19f",
+      "level": "national",
+      "note": "FED — libellés « U19 Fille » / « Junior Fille »."
+    },
+    "JFR": {
+      "label": "U19 Fille (régionale)",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "U19 Fille",
+      "trancheKey": "u19f",
+      "level": "regional",
+      "status": "ambiguous",
+      "note": "Labellé « U19 FEMME » (Sarrians, FED)."
+    },
+    "JH": {
+      "label": "U19 Homme",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U19 Homme",
+      "trancheKey": "u19h",
+      "level": "national",
+      "note": "FED — libellés « U19 Homme » / « Junior Homme »."
+    },
+    "JHR": {
+      "label": "U19 Homme (régional)",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U19 Homme",
+      "trancheKey": "u19h",
+      "level": "regional",
+      "status": "ambiguous",
+      "note": "Labellé « U19 HOMME » (Sarrians, FED)."
+    },
+    "MA30+": {
+      "label": "Masters 30+",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "Homme 30+ / Masters",
+      "trancheKey": "m30p",
+      "level": "regional",
+      "note": "Comité de Bretagne."
+    },
+    "SF": {
+      "label": "Supercross Fille",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "Supercross Fille",
+      "trancheKey": "sf",
+      "level": "national",
+      "note": "Derby supercross / Supercross du Calvados."
+    },
+    "SFR": {
+      "label": "Supercross Fille (interrégional)",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "Supercross Fille",
+      "trancheKey": "sf",
+      "level": "national",
+      "status": "ambiguous",
+      "note": "Label « SUPERCROSS FILLE » / « du Calvados » (FED, Sarrians)."
+    },
+    "SG": {
+      "label": "Supercross Garçon",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "Supercross Garçon",
+      "trancheKey": "sg",
+      "level": "national",
+      "note": "Derby supercross / Supercross du Calvados."
+    },
+    "SGR": {
+      "label": "Supercross Garçon (interrégional)",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "Supercross Garçon",
+      "trancheKey": "sg",
+      "level": "national",
+      "status": "ambiguous",
+      "note": "Label « SUPERCROSS GARÇON » / « du Calvados » (FED, Sarrians)."
+    },
+    "TT15": {
+      "label": "Time Trial U15+",
+      "format": "tt",
+      "sex": "X",
+      "tranche": "Time Trial U15+",
+      "trancheKey": "tt",
+      "level": "regional",
+      "status": "anomaly",
+      "note": "Contre-la-montre (CRPDL) — format hors Annexe 2/3."
+    },
+    "U11": {
+      "label": "U11 (catégorie)",
+      "format": "20p",
+      "sex": "X",
+      "tranche": "U11",
+      "trancheKey": "u11",
+      "level": "regional",
+      "status": "ambiguous",
+      "note": "Libellés hétérogènes (« Ux », « Under x », « Ux GARÇONS ») — Bretagne, ESC BICROSS."
+    },
+    "U11.C": {
+      "label": "U11 Fille (Bretagne)",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "U11 Fille",
+      "trancheKey": "fU11",
+      "level": "regional",
+      "note": "Comité de Bretagne — libellé « U{yr} FILLE »."
+    },
+    "U11F": {
+      "label": "U11 Fille (Challenge)",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "U11 Fille",
+      "trancheKey": "fU11",
+      "level": "national",
+      "note": "FED + clubs — Challenge de France."
+    },
+    "U11FR": {
+      "label": "U11 Fille (régionale)",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "U11 Fille",
+      "trancheKey": "fU11",
+      "level": "regional",
+      "note": "CRPDL, Bourgogne FC, comités, clubs — libellés parfois mixtes."
+    },
+    "U11G": {
+      "label": "U11 Garçon (Challenge)",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U11 Garçon",
+      "trancheKey": "gU11",
+      "level": "national",
+      "note": "FED + clubs — Challenge de France."
+    },
+    "U11GNR": {
+      "label": "U11 Garçon Novice",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U11",
+      "trancheKey": "gU11N",
+      "level": "regional",
+      "status": "ambiguous",
+      "note": "NoVICE/Espoir + libellés mélangés (U9/U15, GARÇON et FILLE, âges multiples)."
+    },
+    "U11GR": {
+      "label": "U11 Garçon (régionale)",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U11 Garçon",
+      "trancheKey": "gU11",
+      "level": "regional",
+      "note": "CRPDL, Bourgogne FC, Région Sud, comités — libellés parfois mixtes."
+    },
+    "U13": {
+      "label": "U13 (catégorie)",
+      "format": "20p",
+      "sex": "X",
+      "tranche": "U13",
+      "trancheKey": "u13",
+      "level": "regional",
+      "status": "ambiguous",
+      "note": "Libellés hétérogènes (« Ux », « Under x », « Ux GARÇONS ») — Bretagne, ESC BICROSS."
+    },
+    "U13.C": {
+      "label": "U13 Fille (Bretagne)",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "U13 Fille",
+      "trancheKey": "fU13",
+      "level": "regional",
+      "note": "Comité de Bretagne — libellé « U{yr} FILLE »."
+    },
+    "U13F": {
+      "label": "U13 Fille (Challenge)",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "U13 Fille",
+      "trancheKey": "fU13",
+      "level": "national",
+      "note": "FED + clubs — Challenge de France."
+    },
+    "U13FR": {
+      "label": "U13 Fille (régionale)",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "U13 Fille",
+      "trancheKey": "fU13",
+      "level": "regional",
+      "note": "CRPDL, Bourgogne FC, comités, clubs — libellés parfois mixtes."
+    },
+    "U13G": {
+      "label": "U13 Garçon (Challenge)",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U13 Garçon",
+      "trancheKey": "gU13",
+      "level": "national",
+      "note": "FED + clubs — Challenge de France."
+    },
+    "U13GNR": {
+      "label": "U13 Garçon Novice",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U13",
+      "trancheKey": "gU13N",
+      "level": "regional",
+      "status": "ambiguous",
+      "note": "NoVICE/Espoir + libellés mélangés (U9/U15, GARÇON et FILLE, âges multiples)."
+    },
+    "U13GR": {
+      "label": "U13 Garçon (régionale)",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U13 Garçon",
+      "trancheKey": "gU13",
+      "level": "regional",
+      "note": "CRPDL, Bourgogne FC, Région Sud, comités — libellés parfois mixtes."
+    },
+    "U15": {
+      "label": "U15 (catégorie)",
+      "format": "20p",
+      "sex": "X",
+      "tranche": "U15",
+      "trancheKey": "u15",
+      "level": "regional",
+      "status": "ambiguous",
+      "note": "Libellés hétérogènes (« Ux », « Under x », « Ux GARÇONS ») — Bretagne, ESC BICROSS."
+    },
+    "U15.C": {
+      "label": "U15 Fille (Bretagne)",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "U15 Fille",
+      "trancheKey": "fU15",
+      "level": "regional",
+      "note": "Comité de Bretagne — libellé « U{yr} FILLE »."
+    },
+    "U15F": {
+      "label": "U15 Fille (Challenge)",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "U15 Fille",
+      "trancheKey": "fU15",
+      "level": "national",
+      "note": "FED + clubs — Challenge de France."
+    },
+    "U15FR": {
+      "label": "U15 Fille (régionale)",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "U15 Fille",
+      "trancheKey": "fU15",
+      "level": "regional",
+      "note": "CRPDL, Bourgogne FC, comités, clubs — libellés parfois mixtes."
+    },
+    "U15G": {
+      "label": "U15 Garçon (Challenge)",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U15 Garçon",
+      "trancheKey": "gU15",
+      "level": "national",
+      "note": "FED + clubs — Challenge de France."
+    },
+    "U15GNR": {
+      "label": "U15 Garçon Novice",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U15",
+      "trancheKey": "gU15N",
+      "level": "regional",
+      "status": "ambiguous",
+      "note": "NoVICE/Espoir + libellés mélangés (U9/U15, GARÇON et FILLE, âges multiples)."
+    },
+    "U15GR": {
+      "label": "U15 Garçon (régionale)",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U15 Garçon",
+      "trancheKey": "gU15",
+      "level": "regional",
+      "note": "CRPDL, Bourgogne FC, Région Sud, comités — libellés parfois mixtes."
+    },
+    "U17": {
+      "label": "U17 (catégorie)",
+      "format": "20p",
+      "sex": "X",
+      "tranche": "U17",
+      "trancheKey": "u17",
+      "level": "regional",
+      "status": "ambiguous",
+      "note": "Libellés hétérogènes (« Ux », « Under x », « Ux GARÇONS ») — Bretagne, ESC BICROSS."
+    },
+    "U17F": {
+      "label": "U17 Fille (Challenge)",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "U17 Fille",
+      "trancheKey": "fU17",
+      "level": "national",
+      "note": "FED + clubs — Challenge de France."
+    },
+    "U17FCHL": {
+      "label": "U17 Fille Challenge",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "U17 Fille",
+      "trancheKey": "fU17",
+      "level": "national",
+      "note": "FED — Challenge de France U17 Fille."
+    },
+    "U17FR": {
+      "label": "U17 Fille (régionale)",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "U17 Fille",
+      "trancheKey": "fU17",
+      "level": "regional",
+      "note": "CRPDL, Bourgogne FC, comités, clubs — libellés parfois mixtes."
+    },
+    "U17FRCHP": {
+      "label": "U17 Fille Championnat",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "U17 Fille",
+      "trancheKey": "fU17",
+      "level": "national",
+      "note": "FED — Championnat U17 Fille."
+    },
+    "U17G": {
+      "label": "U17 Garçon (Challenge)",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U17 Garçon",
+      "trancheKey": "gU17",
+      "level": "national",
+      "note": "FED + clubs — Challenge de France."
+    },
+    "U17GCHL": {
+      "label": "U17 Garçon Challenge",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U17 Garçon",
+      "trancheKey": "gU17",
+      "level": "national",
+      "note": "FED — Challenge de France U17 Garçon."
+    },
+    "U17GNR": {
+      "label": "U17 Garçon Novice",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U17",
+      "trancheKey": "gU17N",
+      "level": "regional",
+      "status": "ambiguous",
+      "note": "NoVICE/Espoir + libellés mélangés (U9/U15, GARÇON et FILLE, âges multiples)."
+    },
+    "U17GR": {
+      "label": "U17 Garçon (régionale)",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U17 Garçon",
+      "trancheKey": "gU17",
+      "level": "regional",
+      "note": "CRPDL, Bourgogne FC, Région Sud, comités — libellés parfois mixtes."
+    },
+    "U17GRCHP": {
+      "label": "U17 Garçon Championnat",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U17 Garçon",
+      "trancheKey": "gU17",
+      "level": "national",
+      "note": "FED — Championnat U17 Garçon."
+    },
+    "U19F": {
+      "label": "U19 Fille",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "U19 Fille",
+      "trancheKey": "u19f",
+      "level": "national"
+    },
+    "U19FR": {
+      "label": "U19 Fille (régionale)",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "U19 Fille",
+      "trancheKey": "u19f",
+      "level": "regional",
+      "status": "ambiguous",
+      "note": "Liens CD37/CD28, comités — libellés « U19 ET + FEMME/FILLE », FEMME 30+."
+    },
+    "U19H": {
+      "label": "U19 Homme",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U19 Homme",
+      "trancheKey": "u19h",
+      "level": "national"
+    },
+    "U19HR": {
+      "label": "U19 Homme (régional)",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U19 Homme",
+      "trancheKey": "u19h",
+      "level": "regional",
+      "status": "ambiguous",
+      "note": "CD37/CD28, comités — libellés « U19 ET + HOMME/GARÇON », U19 HOMME REGIONAL."
+    },
+    "U23F": {
+      "label": "U23 Femme",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "U23 Femme",
+      "trancheKey": "u23f",
+      "level": "national"
+    },
+    "U23FR": {
+      "label": "U23 Femme (régionale)",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "U23 Femme",
+      "trancheKey": "u23f",
+      "level": "regional",
+      "status": "anomaly",
+      "note": "Code à suffixe R utilisé 1× coté FED."
+    },
+    "U23H": {
+      "label": "U23 Homme",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U23 Homme",
+      "trancheKey": "u23h",
+      "level": "national"
+    },
+    "U23HR": {
+      "label": "U23 Homme (régional)",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U23 Homme",
+      "trancheKey": "u23h",
+      "level": "regional",
+      "status": "anomaly",
+      "note": "Code à suffixe R utilisé 1× coté FED."
+    },
+    "U7": {
+      "label": "U7 (catégorie)",
+      "format": "20p",
+      "sex": "X",
+      "tranche": "U7",
+      "trancheKey": "u7",
+      "level": "regional",
+      "status": "ambiguous",
+      "note": "Libellés hétérogènes (« Ux », « Under x », « Ux GARÇONS ») — Bretagne, ESC BICROSS."
+    },
+    "U7.C": {
+      "label": "U7 Fille (Bretagne)",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "U7 Fille",
+      "trancheKey": "fU7",
+      "level": "regional",
+      "note": "Comité de Bretagne — libellé « U{yr} FILLE »."
+    },
+    "U7FR": {
+      "label": "U7 Fille (régionale)",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "U7 Fille",
+      "trancheKey": "fU7",
+      "level": "regional",
+      "note": "CRPDL, Bourgogne FC, comités, clubs — libellés parfois mixtes."
+    },
+    "U7GR": {
+      "label": "U7 Garçon (régionale)",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U7 Garçon",
+      "trancheKey": "gU7",
+      "level": "regional",
+      "note": "CRPDL, Bourgogne FC, Région Sud, comités — libellés parfois mixtes."
+    },
+    "U9": {
+      "label": "U9 (catégorie)",
+      "format": "20p",
+      "sex": "X",
+      "tranche": "U9",
+      "trancheKey": "u9",
+      "level": "regional",
+      "status": "ambiguous",
+      "note": "Libellés hétérogènes (« Ux », « Under x », « Ux GARÇONS ») — Bretagne, ESC BICROSS."
+    },
+    "U9.C": {
+      "label": "U9 Fille (Bretagne)",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "U9 Fille",
+      "trancheKey": "fU9",
+      "level": "regional",
+      "note": "Comité de Bretagne — libellé « U{yr} FILLE »."
+    },
+    "U9F": {
+      "label": "U9 Fille (Challenge)",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "U9 Fille",
+      "trancheKey": "fU9",
+      "level": "national",
+      "note": "FED + clubs — Challenge de France."
+    },
+    "U9FR": {
+      "label": "U9 Fille (régionale)",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "U9 Fille",
+      "trancheKey": "fU9",
+      "level": "regional",
+      "note": "CRPDL, Bourgogne FC, comités, clubs — libellés parfois mixtes."
+    },
+    "U9G": {
+      "label": "U9 Garçon (Challenge)",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U9 Garçon",
+      "trancheKey": "gU9",
+      "level": "national",
+      "note": "FED + clubs — Challenge de France."
+    },
+    "U9GR": {
+      "label": "U9 Garçon (régionale)",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U9 Garçon",
+      "trancheKey": "gU9",
+      "level": "regional",
+      "note": "CRPDL, Bourgogne FC, Région Sud, comités — libellés parfois mixtes."
+    }
+  },
+  "categoriesUci": {
+    "U-12B_CR": {
+      "label": "Cruiser Boys 12/Under",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser U15 Garçon",
+      "trancheKey": "crU15G",
+      "level": "uci",
+      "note": "World Challenge — pas d'équivalent exact, rapprochement.",
+      "status": "ambiguous"
+    },
+    "U-12G_CR": {
+      "label": "Cruiser Girls 12/Under",
+      "format": "cruiser",
+      "sex": "F",
+      "tranche": "Cruiser U15 Fille",
+      "trancheKey": "crU15F",
+      "level": "uci",
+      "note": "World Challenge — pas d'équivalent exact, rapprochement.",
+      "status": "ambiguous"
+    },
+    "U0-12B_CR": {
+      "label": "12 & Under Cruiser Boys",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser U15 Garçon",
+      "trancheKey": "crU15G",
+      "level": "uci",
+      "note": "World Challenge — pas d'équivalent exact, rapprochement.",
+      "status": "ambiguous"
+    },
+    "U0-12G_CR": {
+      "label": "12 & Under Cruiser Girls",
+      "format": "cruiser",
+      "sex": "F",
+      "tranche": "Cruiser U15 Fille",
+      "trancheKey": "crU15F",
+      "level": "uci",
+      "note": "World Challenge — pas d'équivalent exact, rapprochement.",
+      "status": "ambiguous"
+    },
+    "U10B_20": {
+      "label": "Boys 10",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U11 Garçon",
+      "trancheKey": "gU11",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U10G_20": {
+      "label": "Girls 10",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "U11 Fille",
+      "trancheKey": "fU11",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U11B_20": {
+      "label": "Boys 11",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U13 Garçon",
+      "trancheKey": "gU13",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U11G_20": {
+      "label": "Girls 11",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "U13 Fille",
+      "trancheKey": "fU13",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U12B_20": {
+      "label": "Boys 12",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U13 Garçon",
+      "trancheKey": "gU13",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U12G_20": {
+      "label": "Girls 12",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "U13 Fille",
+      "trancheKey": "fU13",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U13-14B_CR": {
+      "label": "13 & 14 Cruiser Boys",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser U15 Garçon",
+      "trancheKey": "crU15G",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U13-14G_CR": {
+      "label": "13 & 14 Cruiser Girls",
+      "format": "cruiser",
+      "sex": "F",
+      "tranche": "Cruiser U15 Fille",
+      "trancheKey": "crU15F",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U13-16G_CR": {
+      "label": "Cruiser Girls 13-16",
+      "format": "cruiser",
+      "sex": "F",
+      "tranche": "Cruiser U17 Fille",
+      "trancheKey": "crU17F",
+      "level": "uci",
+      "note": "World Challenge — pas d'équivalent exact, rapprochement.",
+      "status": "ambiguous"
+    },
+    "U13B_20": {
+      "label": "Boys 13",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U15 Garçon",
+      "trancheKey": "gU15",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U13G_20": {
+      "label": "Girls 13",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "U15 Fille",
+      "trancheKey": "fU15",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U14B_20": {
+      "label": "Boys 14",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U15 Garçon",
+      "trancheKey": "gU15",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U14G_20": {
+      "label": "Girls 14",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "U15 Fille",
+      "trancheKey": "fU15",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U15-16B_CR": {
+      "label": "15 & 16 Cruiser Boys",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser U17 Garçon",
+      "trancheKey": "crU17G",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U15-16G_CR": {
+      "label": "15 & 16 Cruiser Girls",
+      "format": "cruiser",
+      "sex": "F",
+      "tranche": "Cruiser U17 Fille",
+      "trancheKey": "crU17F",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U15B_20": {
+      "label": "Boys 15",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U17 Garçon",
+      "trancheKey": "gU17",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U15G_20": {
+      "label": "Girls 15",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "U17 Fille",
+      "trancheKey": "fU17",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U16B_20": {
+      "label": "Boys 16",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U17 Garçon",
+      "trancheKey": "gU17",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U16G_20": {
+      "label": "Girls 16",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "U17 Fille",
+      "trancheKey": "fU17",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U17-24M_20": {
+      "label": "Men 17-24",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "Homme 17/24",
+      "trancheKey": "m17-24",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U17-24M_CR": {
+      "label": "17-24 Cruiser Men",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 17/24",
+      "trancheKey": "crM17-24",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U17-24W_20": {
+      "label": "Women 17-24",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "Femme 17/24",
+      "trancheKey": "f17-24",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U17-24W_CR": {
+      "label": "17-24 Cruiser Women",
+      "format": "cruiser",
+      "sex": "F",
+      "tranche": "Cruiser Femme 17/29",
+      "trancheKey": "crF17-29",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U17-29W_CR": {
+      "label": "Cruiser Women 17-29",
+      "format": "cruiser",
+      "sex": "F",
+      "tranche": "Cruiser Femme 17/29",
+      "trancheKey": "crF17-29",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U25+W_20": {
+      "label": "Women 25+",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "Femme 25+",
+      "trancheKey": "f25p",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U25-29M_20": {
+      "label": "Men 25-29",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "Homme 25/29",
+      "trancheKey": "m25-29",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U25-29M_CR": {
+      "label": "25-29 Cruiser Men",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 25/29",
+      "trancheKey": "crM25-29",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U25-29W_20": {
+      "label": "Women 25-29",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "Femme 25+",
+      "trancheKey": "f25p",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U25-29W_CR": {
+      "label": "25-29 Cruiser Women",
+      "format": "cruiser",
+      "sex": "F",
+      "tranche": "Cruiser Femme 17/29",
+      "trancheKey": "crF17-29",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U30+M_20_M": {
+      "label": "Masters 30+ Men",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "Homme 30+",
+      "trancheKey": "m30p",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U30+W_20_M": {
+      "label": "Masters 30+ Women",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "Femme 30+",
+      "trancheKey": "f30p",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U30-34M_20": {
+      "label": "Men 30-34",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "Homme 30+",
+      "trancheKey": "m30p",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U30-34M_CR": {
+      "label": "30-34 Cruiser Men",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 30/39",
+      "trancheKey": "crM30-39",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U30-34W_20": {
+      "label": "Women 30-34",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "Femme 30+",
+      "trancheKey": "f30p",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U30-34W_CR": {
+      "label": "30-34 Cruiser Women",
+      "format": "cruiser",
+      "sex": "F",
+      "tranche": "Cruiser Femme 30+",
+      "trancheKey": "crF30p",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U30-39W_CR": {
+      "label": "30-39 Cruiser Women",
+      "format": "cruiser",
+      "sex": "F",
+      "tranche": "Cruiser Femme 30+",
+      "trancheKey": "crF30p",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U35+M_20": {
+      "label": "Men 35+",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "Homme 30+",
+      "trancheKey": "m30p",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U35+W_20": {
+      "label": "Women 35+",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "Femme 30+",
+      "trancheKey": "f30p",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U35-39M_CR": {
+      "label": "35-39 Cruiser Men",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 30/39",
+      "trancheKey": "crM30-39",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U35-39W_CR": {
+      "label": "35-39 Cruiser Women",
+      "format": "cruiser",
+      "sex": "F",
+      "tranche": "Cruiser Femme 30+",
+      "trancheKey": "crF30p",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U40+W_CR": {
+      "label": "Cruiser Women 40+",
+      "format": "cruiser",
+      "sex": "F",
+      "tranche": "Cruiser Femme 30+",
+      "trancheKey": "crF30p",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U40-44M_CR": {
+      "label": "40-44 Cruiser Men",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 40/44",
+      "trancheKey": "crM40-44",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U40-44W_CR": {
+      "label": "40-44 Cruiser Women",
+      "format": "cruiser",
+      "sex": "F",
+      "tranche": "Cruiser Femme 30+",
+      "trancheKey": "crF30p",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U45-49M_CR": {
+      "label": "45-49 Cruiser Men",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 45+",
+      "trancheKey": "crM45p",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U45-49W_CR": {
+      "label": "45-49 Cruiser Women",
+      "format": "cruiser",
+      "sex": "F",
+      "tranche": "Cruiser Femme 30+",
+      "trancheKey": "crF30p",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U50+M_CR": {
+      "label": "50 & Over Cruiser Men",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 45+",
+      "trancheKey": "crM45p",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U50+W_CR": {
+      "label": "50 & Over Cruiser Women",
+      "format": "cruiser",
+      "sex": "F",
+      "tranche": "Cruiser Femme 30+",
+      "trancheKey": "crF30p",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U8B_20": {
+      "label": "Boys 8",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U9 Garçon",
+      "trancheKey": "gU9",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U8G_20": {
+      "label": "Girls 8",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "U9 Fille",
+      "trancheKey": "fU9",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U9B_20": {
+      "label": "Boys 9",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U11 Garçon",
+      "trancheKey": "gU11",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    },
+    "U9G_20": {
+      "label": "Girls 9",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "U11 Fille",
+      "trancheKey": "fU11",
+      "level": "uci",
+      "note": "Championnats du Monde BMX Racing."
+    }
+  },
+  "categoriesWorldCup": {
+    "ME": {
+      "label": "Men Elite",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "Elite Homme",
+      "trancheKey": "eh",
+      "level": "uci",
+      "note": "Coupe du monde UCI (Elite/U23)."
+    },
+    "MU23": {
+      "label": "Men U23",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U23 Homme",
+      "trancheKey": "u23h",
+      "level": "uci",
+      "note": "Coupe du monde UCI (Elite/U23)."
+    },
+    "WE": {
+      "label": "Women Elite",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "Elite Femme",
+      "trancheKey": "ef",
+      "level": "uci",
+      "note": "Coupe du monde UCI (Elite/U23)."
+    },
+    "WU23": {
+      "label": "Women U23",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "U23 Femme",
+      "trancheKey": "u23f",
+      "level": "uci",
+      "note": "Coupe du monde UCI (Elite/U23)."
+    }
+  },
+  "categoriesUec": {
+    "B06": {
+      "label": "Boys 6",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U7 Garçon",
+      "trancheKey": "gU7",
+      "level": "uec",
+      "note": "Coupe d'Europe et Championnats d'Europe."
+    },
+    "B07": {
+      "label": "Boys 7",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U7 Garçon",
+      "trancheKey": "gU7",
+      "level": "uec",
+      "note": "Coupe d'Europe et Championnats d'Europe."
+    },
+    "B08": {
+      "label": "Boys 8",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U9 Garçon",
+      "trancheKey": "gU9",
+      "level": "uec",
+      "note": "Coupe d'Europe et Championnats d'Europe."
+    },
+    "B09": {
+      "label": "Boys 9",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U11 Garçon",
+      "trancheKey": "gU11",
+      "level": "uec",
+      "note": "Coupe d'Europe et Championnats d'Europe."
+    },
+    "B10": {
+      "label": "Boys 10",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U11 Garçon",
+      "trancheKey": "gU11",
+      "level": "uec",
+      "note": "Coupe d'Europe et Championnats d'Europe."
+    },
+    "B11": {
+      "label": "Boys 11",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U13 Garçon",
+      "trancheKey": "gU13",
+      "level": "uec",
+      "note": "Coupe d'Europe et Championnats d'Europe."
+    },
+    "B12": {
+      "label": "Boys 12",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U13 Garçon",
+      "trancheKey": "gU13",
+      "level": "uec",
+      "note": "Coupe d'Europe et Championnats d'Europe."
+    },
+    "B13": {
+      "label": "Boys 13",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U15 Garçon",
+      "trancheKey": "gU15",
+      "level": "uec",
+      "note": "Coupe d'Europe et Championnats d'Europe."
+    },
+    "B14": {
+      "label": "Boys 14",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U15 Garçon",
+      "trancheKey": "gU15",
+      "level": "uec",
+      "note": "Coupe d'Europe et Championnats d'Europe."
+    },
+    "B15": {
+      "label": "Boys 15",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U17 Garçon",
+      "trancheKey": "gU17",
+      "level": "uec",
+      "note": "Coupe d'Europe et Championnats d'Europe."
+    },
+    "B16": {
+      "label": "Boys 16",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U17 Garçon",
+      "trancheKey": "gU17",
+      "level": "uec",
+      "note": "Coupe d'Europe et Championnats d'Europe."
+    },
+    "B17": {
+      "label": "Men 17-24",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "Homme 17/24",
+      "trancheKey": "m17-24",
+      "level": "uec",
+      "note": "Coupe d'Europe et Championnats d'Europe."
+    },
+    "B25": {
+      "label": "Men 25+",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "Homme 25/29",
+      "trancheKey": "m25-29",
+      "level": "uec",
+      "note": "pas d'équivalent exact en catégories FR — rapprochement.",
+      "status": "ambiguous"
+    },
+    "B30": {
+      "label": "Men 30-34",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "Homme 30+",
+      "trancheKey": "m30p",
+      "level": "uec",
+      "note": "Coupe d'Europe et Championnats d'Europe."
+    },
+    "B35": {
+      "label": "Men 35+",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "Homme 30+",
+      "trancheKey": "m30p",
+      "level": "uec",
+      "note": "Coupe d'Europe et Championnats d'Europe."
+    },
+    "C12": {
+      "label": "Cruisers 12-",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser U15 Garçon",
+      "trancheKey": "crU15G",
+      "level": "uec",
+      "note": "Coupe d'Europe et Championnats d'Europe."
+    },
+    "C13": {
+      "label": "Cruisers 13/14",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser U15 Garçon",
+      "trancheKey": "crU15G",
+      "level": "uec",
+      "note": "Coupe d'Europe et Championnats d'Europe."
+    },
+    "C15": {
+      "label": "Cruisers 15/16",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser U17 Garçon",
+      "trancheKey": "crU17G",
+      "level": "uec",
+      "note": "Coupe d'Europe et Championnats d'Europe."
+    },
+    "C17": {
+      "label": "Cruisers 17-29",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 17/29",
+      "trancheKey": "crM17-29",
+      "level": "uec",
+      "note": "Coupe d'Europe et Championnats d'Europe."
+    },
+    "C25": {
+      "label": "Cruisers 25-29",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 25/29",
+      "trancheKey": "crM25-29",
+      "level": "uec",
+      "note": "Coupe d'Europe et Championnats d'Europe."
+    },
+    "C30": {
+      "label": "Cruisers 30-44",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 30/39",
+      "trancheKey": "crM30-39",
+      "level": "uec",
+      "note": "pas d'équivalent exact en catégories FR — rapprochement.",
+      "status": "ambiguous"
+    },
+    "C35": {
+      "label": "Cruisers 35-39",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 30/39",
+      "trancheKey": "crM30-39",
+      "level": "uec",
+      "note": "Coupe d'Europe et Championnats d'Europe."
+    },
+    "C40": {
+      "label": "Cruisers 40-44",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 40/44",
+      "trancheKey": "crM40-44",
+      "level": "uec",
+      "note": "Coupe d'Europe et Championnats d'Europe."
+    },
+    "C45": {
+      "label": "Cruisers 45+",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 45+",
+      "trancheKey": "crM45p",
+      "level": "uec",
+      "note": "Coupe d'Europe et Championnats d'Europe."
+    },
+    "C50": {
+      "label": "Cruisers 50+",
+      "format": "cruiser",
+      "sex": "M",
+      "tranche": "Cruiser Homme 45+",
+      "trancheKey": "crM45p",
+      "level": "uec",
+      "note": "Coupe d'Europe et Championnats d'Europe."
+    },
+    "D13": {
+      "label": "Cruiser Girls 16-",
+      "format": "cruiser",
+      "sex": "F",
+      "tranche": "Cruiser U17 Fille",
+      "trancheKey": "crU17F",
+      "level": "uec",
+      "note": "pas d'équivalent exact en catégories FR — rapprochement.",
+      "status": "ambiguous"
+    },
+    "D17": {
+      "label": "Cruisers Women",
+      "format": "cruiser",
+      "sex": "F",
+      "tranche": "Cruiser Femme 17/29",
+      "trancheKey": "crF17-29",
+      "level": "uec",
+      "note": "pas d'équivalent exact en catégories FR — rapprochement.",
+      "status": "ambiguous"
+    },
+    "D30": {
+      "label": "Cruiser Women 30-39",
+      "format": "cruiser",
+      "sex": "F",
+      "tranche": "Cruiser Femme 30+",
+      "trancheKey": "crF30p",
+      "level": "uec",
+      "note": "Coupe d'Europe et Championnats d'Europe."
+    },
+    "D40": {
+      "label": "Cruiser Women 40+",
+      "format": "cruiser",
+      "sex": "F",
+      "tranche": "Cruiser Femme 30+",
+      "trancheKey": "crF30p",
+      "level": "uec",
+      "note": "Coupe d'Europe et Championnats d'Europe."
+    },
+    "G07": {
+      "label": "Girls 7-10",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "U7 Fille",
+      "trancheKey": "fU7",
+      "level": "uec",
+      "note": "pas d'équivalent exact en catégories FR — rapprochement.",
+      "status": "ambiguous"
+    },
+    "G08": {
+      "label": "Girls 8",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "U9 Fille",
+      "trancheKey": "fU9",
+      "level": "uec",
+      "note": "Coupe d'Europe et Championnats d'Europe."
+    },
+    "G09": {
+      "label": "Girls 9",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "U11 Fille",
+      "trancheKey": "fU11",
+      "level": "uec",
+      "note": "Coupe d'Europe et Championnats d'Europe."
+    },
+    "G10": {
+      "label": "Girls 10",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "U11 Fille",
+      "trancheKey": "fU11",
+      "level": "uec",
+      "note": "Coupe d'Europe et Championnats d'Europe."
+    },
+    "G11": {
+      "label": "Girls 11",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "U13 Fille",
+      "trancheKey": "fU13",
+      "level": "uec",
+      "note": "Coupe d'Europe et Championnats d'Europe."
+    },
+    "G12": {
+      "label": "Girls 12",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "U13 Fille",
+      "trancheKey": "fU13",
+      "level": "uec",
+      "note": "Coupe d'Europe et Championnats d'Europe."
+    },
+    "G13": {
+      "label": "Girls 13",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "U15 Fille",
+      "trancheKey": "fU15",
+      "level": "uec",
+      "note": "Coupe d'Europe et Championnats d'Europe."
+    },
+    "G14": {
+      "label": "Girls 14",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "U15 Fille",
+      "trancheKey": "fU15",
+      "level": "uec",
+      "note": "Coupe d'Europe et Championnats d'Europe."
+    },
+    "G15": {
+      "label": "Girls 15",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "U17 Fille",
+      "trancheKey": "fU17",
+      "level": "uec",
+      "note": "Coupe d'Europe et Championnats d'Europe."
+    },
+    "G16": {
+      "label": "Girls 16",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "U17 Fille",
+      "trancheKey": "fU17",
+      "level": "uec",
+      "note": "Coupe d'Europe et Championnats d'Europe."
+    },
+    "G17": {
+      "label": "Women 17+",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "Femme 17+",
+      "trancheKey": "f17p",
+      "level": "uec",
+      "note": "Coupe d'Europe et Championnats d'Europe."
+    },
+    "G25": {
+      "label": "Women 25+",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "Femme 25+",
+      "trancheKey": "f25p",
+      "level": "uec",
+      "note": "Coupe d'Europe et Championnats d'Europe."
+    },
+    "ME": {
+      "label": "Men Elite",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "Elite Homme",
+      "trancheKey": "eh",
+      "level": "uec",
+      "note": "Coupe d'Europe et Championnats d'Europe."
+    },
+    "MJ": {
+      "label": "Men Junior",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U19 Homme",
+      "trancheKey": "u19h",
+      "level": "uec",
+      "note": "Coupe d'Europe et Championnats d'Europe."
+    },
+    "MU": {
+      "label": "Men U23",
+      "format": "20p",
+      "sex": "M",
+      "tranche": "U23 Homme",
+      "trancheKey": "u23h",
+      "level": "uec",
+      "note": "Coupe d'Europe et Championnats d'Europe."
+    },
+    "WE": {
+      "label": "Women Elite",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "Elite Femme",
+      "trancheKey": "ef",
+      "level": "uec",
+      "note": "Coupe d'Europe et Championnats d'Europe."
+    },
+    "WJ": {
+      "label": "Women Junior & U23",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "U19 Femme",
+      "trancheKey": "u19f",
+      "level": "uec",
+      "note": "pas d'équivalent exact en catégories FR — rapprochement.",
+      "status": "ambiguous"
+    },
+    "WU": {
+      "label": "Women U23",
+      "format": "20p",
+      "sex": "F",
+      "tranche": "U23 Femme",
+      "trancheKey": "u23f",
+      "level": "uec",
+      "note": "Coupe d'Europe et Championnats d'Europe."
+    }
+  }
+}

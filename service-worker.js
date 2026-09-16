@@ -41,14 +41,16 @@ self.addEventListener('fetch', e => {
       caches.open(CACHE_NAME).then(cache => cache.put(e.request, clone));
       return response;
     })
-    .catch(() => caches.match(e.request));
+    .catch(() => caches.match(e.request))
+    // Jamais de réponse `undefined` : respondWith(undefined) → TypeError.
+    .then(r => r || new Response('', { status: 404, statusText: 'Not Found' }));
 
   // Navigations : réseau d'abord, sinon shell en cache (l'app s'ouvre hors-ligne)
   if (e.request.mode === 'navigate') {
     e.respondWith(
       freshFetch.then(r =>
-        r || caches.match(new URL('./', self.location).href)
-      )
+        r.ok ? r : caches.match(new URL('./', self.location).href)
+      ).then(r => r || new Response('', { status: 503, statusText: 'Service Unavailable' }))
     );
     return;
   }
