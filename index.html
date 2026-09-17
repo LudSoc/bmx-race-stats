@@ -169,11 +169,16 @@
   }
   .recent-clear:hover{color:var(--bad); background:color-mix(in srgb,var(--bad) 10%, transparent)}
 
-  /* Results filter bar */
-  .results-filters{padding:14px 18px; display:flex; gap:18px; flex-wrap:wrap; align-items:flex-end}
-  .results-filters .field{flex:1 1 180px; max-width:260px}
+  /* Results filter bar — encart ~65 % + bouton comparer dans sa prolongation */
+  .results-toolbar{display:flex; gap:12px; align-items:stretch; margin-bottom:18px}
+  .results-filters{flex:0 0 65%; padding:12px 14px; display:flex; gap:14px; align-items:flex-end; margin-bottom:0}
+  .results-filters .field{flex:1 1 0; min-width:0}
+  .btn-compare{flex:1 1 auto; align-self:stretch; display:flex; align-items:center; justify-content:center}
   @media (max-width:640px){
-    .results-filters .field{max-width:none}
+    .results-toolbar{flex-direction:column; align-items:stretch}
+    .results-filters{width:100%; flex:1 1 auto}
+    .results-filters .field{flex:1 1 100%}
+    .btn-compare{align-self:stretch}
   }
   label{font-size:11px; font-weight:600; color:var(--muted); margin-bottom:6px; text-transform:uppercase; letter-spacing:.5px}
   .control{
@@ -1194,25 +1199,25 @@
     <div class="recent-row" id="recentSearches" aria-label="Recherches récentes" hidden></div>
   </div>
 
-  <div class="card results-filters" id="resultsFilters" role="group" aria-label="Filtres des résultats" hidden>
-    <div class="field">
-      <label for="yearSel">Année</label>
-      <select id="yearSel" class="control">
-        <option value="">Toutes les années</option>
-      </select>
+  <div class="results-toolbar">
+    <div class="card results-filters" id="resultsFilters" role="group" aria-label="Filtres des résultats" hidden>
+      <div class="field">
+        <label for="yearSel">Année</label>
+        <select id="yearSel" class="control">
+          <option value="">Toutes les années</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="sortSel">Trier courses par</label>
+        <select id="sortSel" class="control">
+          <option value="date-desc">Date (plus récent → plus ancien)</option>
+          <option value="date-asc">Date (plus ancien → plus récent)</option>
+          <option value="rank-asc">Classement final (meilleur → moins bon)</option>
+          <option value="rank-desc">Classement final (moins bon → meilleur)</option>
+        </select>
+      </div>
     </div>
-    <div class="field">
-      <label for="sortSel">Trier par</label>
-      <select id="sortSel" class="control">
-        <option value="date-desc">Date (plus récent → plus ancien)</option>
-        <option value="date-asc">Date (plus ancien → plus récent)</option>
-        <option value="rank-asc">Classement final (meilleur → moins bon)</option>
-        <option value="rank-desc">Classement final (moins bon → meilleur)</option>
-      </select>
-    </div>
-    <div class="field" style="flex:0 0 auto; align-self:flex-end">
-      <button type="button" id="compareToggleBtn" class="btn" style="white-space:nowrap" disabled>⚡ Comparer pilotes</button>
-    </div>
+    <button type="button" id="compareToggleBtn" class="btn btn-compare" style="white-space:nowrap" disabled>⚡ Comparer pilotes</button>
   </div>
 
   <div class="card compare-input-card" id="compareInputCard" hidden>
@@ -1237,23 +1242,15 @@
 </main>
 
 <footer>
-  <span>Données issues de <a href="https://our.sqorz.com/orgs" target="_blank" rel="noopener noreferrer">Sqorz</a> et <a href="https://www.jstiming.nl" target="_blank" rel="noopener noreferrer">JSTiming</a></span>
+  <span>Données issues de <a href="https://our.sqorz.com/orgs" target="_blank" rel="noopener noreferrer">Sqorz</a> (France, Mondiaux), <a href="https://www.jstiming.nl" target="_blank" rel="noopener noreferrer">JSTiming</a> (Europe UEC) et <a href="https://www.uci.org" target="_blank" rel="noopener noreferrer">UCI</a> (Coupe du monde)</span>
   <span class="footer-sep">·</span>
   <span>© <span id="footerYear"></span></span>
-  <span class="footer-sep">·</span>
-  <button type="button" id="clearCacheBtn" class="btn btn-ghost" style="font-size:12px;padding:4px 10px">Vider le cache</button>
   <span class="footer-sep">·</span>
   <span>Projet communautaire non officiel, non affilié à Sqorz</span>
   <span id="dataDateWrap" hidden><span class="footer-sep">·</span><span>Données du <span id="dataDate"></span></span></span>
 </footer>
 <script>
   document.getElementById('footerYear').textContent = new Date().getFullYear();
-  document.getElementById('clearCacheBtn').addEventListener('click', () => {
-    if (confirm('Vider tout le cache local ? La prochaine recherche rechargera toutes les données depuis Sqorz.')) {
-      localStorage.clear();
-      location.reload();
-    }
-  });
 </script>
 
 <script src="./common.js"></script>
@@ -1840,6 +1837,7 @@
     compareActive = false;
     comparePart = null;
     activeSubtabs = {}; // nouvelle recherche : on repart sur Stats partout
+    currentPart = null; // nouvelle recherche : on repart sur Global
     selectedPilotKey = null;
     selectedComparePilotKey = null;
     lastUciMatches = [];
@@ -1888,6 +1886,7 @@
   let lastCompareUecMatches = []; // matches UEC du 2ᵉ pilote (comparaison par niveau, spec UEC)
   let compareActive = false;
   let comparePart = null; // niveau de comparaison H2H ; null = partie active de la fiche (D16)
+  let currentPart = null; // partie active en session (null → Global) ; réinit à chaque nouvelle recherche
   let activeSubtabs = {}; // sous-vue active par partie (ex. {global:'courses'}) — survit aux re-rendus (tri, refresh arrière-plan) ; Stats par défaut
   // Sous-vue à activer : le choix mémorisé s'il existe encore, sinon la première.
   // Testé (helper pur).
@@ -3586,8 +3585,8 @@
 
     // Parties disponibles = niveaux avec au moins un engagement ou un classement (D4)
     const partsAvailable = LEVELS.filter(l => levelData[l.key].events.length || levelData[l.key].series.length);
-    const storedPart = localStorage.getItem('partPref');
-    const activePart = partsAvailable.some(l => l.key === storedPart) ? storedPart : (partsAvailable[0]?.key ?? null);
+    // ===== Partie active : Global au premier rendu, choix de session ensuite =====
+    const activePart = partsAvailable.some(l => l.key === currentPart) ? currentPart : (partsAvailable[0]?.key ?? null);
 
     const bestRankOf = g => {
       let best = null;
@@ -3773,11 +3772,11 @@
       renderFiltered();
       return;
     }
-    // Changer de partie (rangée 1) : mémorise partPref (D7), sous-vue remise sur Stats (D14)
+    // Changer de partie (rangée 1) : mémorise en session, sous-vue remise sur Stats (D14)
     const partBtn = e.target.closest('[data-part-btn]');
     if (partBtn && resultsEl.contains(partBtn)) {
       const key = partBtn.dataset.partBtn;
-      localStorage.setItem('partPref', key);
+      currentPart = key;
       resultsEl.querySelectorAll('.tab-panel[data-part]').forEach(p => {
         p.classList.toggle('active', p.dataset.part === key);
       });

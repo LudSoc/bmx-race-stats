@@ -28,8 +28,10 @@ test('dégradation gracieuse si le CDN common.js est en retard (helpers absents)
   assert.ok(src.includes("typeof toggleFav !== 'function'"), 'toggleFav gardé au clic');
 });
 
-test('pied de page : Sqorz et JSTiming (données UEC utilisées ici)', () => {
-  assert.ok(src.includes('>Sqorz</a> et <a href="https://www.jstiming.nl"'), 'double attribution');
+test('pied de page : toutes les sources citées (Sqorz, JSTiming, UCI)', () => {
+  assert.ok(src.includes('>Sqorz</a> (France, Mondiaux)'), 'Sqorz France');
+  assert.ok(src.includes('>JSTiming</a> (Europe UEC)'), 'JSTiming Europe UEC');
+  assert.ok(src.includes('>UCI</a> (Coupe du monde)'), 'UCI Coupe du monde');
 });
 
 test('aide indice : tous les coefficients cités (anti-dérive doc/code)', () => {

@@ -52,6 +52,8 @@ test('clubs.json : copie conforme au canonique club_stats', () => {
   assert.equal(mapping.USCBMX.name, 'US CAGNES BMX');
 });
 
-test('pied de page : Sqorz et JSTiming (données UEC utilisées ici)', () => {
-  assert.ok(src.includes('>Sqorz</a> et <a href="https://www.jstiming.nl"'), 'double attribution');
+test('pied de page : toutes les sources citées (Sqorz, JSTiming, UCI)', () => {
+  assert.ok(src.includes('>Sqorz</a> (France, Mondiaux)'), 'Sqorz France');
+  assert.ok(src.includes('>JSTiming</a> (Europe UEC)'), 'JSTiming Europe UEC');
+  assert.ok(src.includes('>UCI</a> (Coupe du monde)'), 'UCI Coupe du monde');
 });
