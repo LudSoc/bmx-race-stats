@@ -26,6 +26,10 @@ jobs:
           node build-uciworldcup.js
           # (build-index.js et build-uec.js génèrent aussi field-strength-{fr,uec}.json
           # via build-field.js — indice v2, spec force-plateau)
+          node tools/build-perf-rankings.cjs
+          # Classement perf (indice 365 j, pool FR+) consommé par l'outil ranking/ :
+          # fichier ~770 Ko commité (freshe à chaque run), copié vers le site par
+          # le workflow sync de bmx-race-tools (cf. stats/CLAUDE.md « Chaîne de fraîcheur »).
 
       - name: Vérifier si les index ont changé (sha256 vs meta commité)
         id: changed
@@ -90,7 +94,7 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add pilots-index.meta.json uci-index.meta.json uec-index.meta.json uci-worldcup-index.meta.json field-strength-fr.meta.json field-strength-uec.meta.json
+          git add pilots-index.meta.json uci-index.meta.json uec-index.meta.json uci-worldcup-index.meta.json field-strength-fr.meta.json field-strength-uec.meta.json perf-rankings.json
           if git diff --cached --quiet; then
             echo "Aucun changement — rien à commiter."
           else
