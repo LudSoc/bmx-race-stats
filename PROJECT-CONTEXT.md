@@ -32,8 +32,6 @@ C'est un outil de la suite « BMX-Race » (frères : `bmx-race-head2head`, `bmx-
 | `tests/common.test.js` | Tests unitaires du socle partagé (`node --test tests/`) : utils, score de rang (cas Merlin Guigo), constance/proxy finale, dates par source, expansion, chargeur (fetch stubbé). |
 | `tests/field-strength.test.js` | Tests indice v2 (`node --test tests/`) : parité consts build/client, fixture bout-en-bout (`[fs, n]`, DNF exclu), parité formule build/app sur échantillons réels (FR chrono, UEC, DNF, séries), `loadFieldStrength`, shrinkage. |
 | `.github/workflows/build-index.yml` | Cron hebdo (lundi 3h UTC) : `node build-index.js` + `node build-uec.js` (dont `field-strength-{fr,uec}.json` via `build-field.js`), publication R2 (10 fichiers) et commit des metas. |
-| `worker.js` | Cloudflare Worker : proxy de cache API Sqorz (KV). Utile pour chauffer le cache, pas utilisé par l'app. |
-| `warm-kv.sh` | Script shell qui pré-chauffe le KV Cloudflare via le worker proxy. |
 | `service-worker.js` | Service Worker PWA : cache des assets (app shell uniquement). |
 | `manifest.json` + `icons/` | PWA manifest + icônes. |
 | `404.html` | Page 404 avec liens vers les outils de la suite. |
@@ -146,8 +144,8 @@ Rendu : `renderPerfComponent` (composant « 🏅 Indice de performance » dans l
 
 ## Cache & infra
 
-### Cloudflare Worker (`worker.js`)
-- Proxy `https://our.sqorz.com/json/*` → KV `SQORZ_CACHE`, TTL 7j pour `/json/region/` + `/json/org/`, 4h sinon. CORS `*`. Utilisé par `warm-kv.sh` (et potentiellement d'autres outils de la suite), **pas par cette app** (qui lit l'index local).
+### Cloudflare Worker — supprimé (2026-10-06)
+- Le proxy `https://our.sqorz.com/json/*` → KV `SQORZ_CACHE` (TTL 7j `/json/region/` + `/json/org/`, 4h sinon) et son script de pré-chauffe `warm-kv.sh` ont été **supprimés** : aucune app de la suite ne les utilisait (tout passe par les index). `worker.js` et `warm-kv.sh` ne sont plus dans le dépôt.
 
 ### Service Worker (`service-worker.js`)
 - Enregistré dans `index.html` (`navigator.serviceWorker.register('./service-worker.js')`). Chemins **relatifs** (`./`, `./index.html`) — l'app vit sur un sous-chemin (/bmx-race-stats/). Stratégie réseau d'abord avec fallback cache ; fallback de navigation vers le shell hors-ligne.

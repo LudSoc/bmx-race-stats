@@ -39,7 +39,7 @@ Points forts constatés :
 
 1. **Croissance du repo git (98 Mo mesurés)** : `pilots-index.json` (79 Mo) est committé **chaque semaine** par le workflow. Le champ `generated` (timestamp) change à chaque build → commit hebdo systématique, même sans changement de données. Risque : limite GitHub (avertissement 50 Mo, limite dure 100 Mo/fichier), clones très lents, historique qui gonfle.
 2. **Aucun test** : ni unitaire (`node --test` possible), ni e2e, ni validation de forme de l'index dans le workflow. Une régression (ex. le bug `fetchJson`) peut passer inaperçue.
-3. **`worker.js` + `warm-kv.sh` inutilisés par l'app** (héritage de l'archi « cache API ») : documenter leur statut (utiles aux outils frères) ou les retirer.
+3. **Service worker (si activé) à corriger pour le sous-chemin** : `ASSETS = ['/', '/index.html']` — sur `ludsoc.github.io/sqorz-stats/`, `/` pointe vers la racine du domaine. Utiliser des chemins relatifs (`'./'`, `'./index.html'`). *(corrigé avec la stratégie réseau d'abord, chemins relatifs)*
 4. **Service worker (si activé) à corriger pour le sous-chemin** : `ASSETS = ['/', '/index.html']` — sur `ludsoc.github.io/sqorz-stats/`, `/` pointe vers la racine du domaine. Utiliser des chemins relatifs (`'./'`, `'./index.html'`).
 
 ### D. Robustesse

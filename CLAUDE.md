@@ -248,12 +248,9 @@ Classe de série : https://our.sqorz.com/org/{accountCode}/series/{seriesId}/cla
 
 ## Stratégie de cache
 
-### Cache proxy Cloudflare (`worker.js`)
+### Cache proxy Cloudflare — supprimé (2026-10-06)
 
-Toutes les requêtes API passent par un worker Cloudflare qui met en cache les réponses dans Cloudflare KV :
-
-- TTL **7 jours** pour `/json/region/` (données quasi-statiques)
-- TTL **4 heures** pour tous les autres endpoints
+Le worker `sqorz-proxy.ludovicsocie.workers.dev` (proxy `our.sqorz.com/json/*` → KV `SQORZ_CACHE`) et `warm-kv.sh` ont été **supprimés** : aucune app ne les appelait au runtime (tout passe par les index). Le worker, le KV et les fichiers `worker.js`/`warm-kv.sh` ne sont plus en service.
 
 ### Cache navigateur (`localStorage`)
 
@@ -320,11 +317,9 @@ La comparaison 2 pilotes a son propre mini-sélecteur de niveau (mêmes parties,
 | `uec-index.json` | Index UEC (Coupe/Championnats d'Europe) — ne pas éditer à la main |
 | `uci-worldcup-index.json` | Index Coupe du monde UCI (Elite/U23, API uci.org) — ne pas éditer à la main |
 | `uci-index.json` | Index UCI (Mondiaux BMX Racing) — ne pas éditer à la main |
-| `worker.js` | Cloudflare Worker — proxy de cache API |
 | `service-worker.js` | Service Worker — cache du shell de l'app (PWA, enregistré dans `index.html`, chemins relatifs, index de données exclus du cache) |
 | `pilots-index.json` | Index pré-calculé de tous les pilotes (ne pas éditer à la main) |
 | `manifest.json` | Manifest PWA |
-| `warm-kv.sh` | Script shell pour pré-chauffer le cache Cloudflare KV |
 
 ---
 
