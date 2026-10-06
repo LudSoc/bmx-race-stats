@@ -24,6 +24,10 @@ const RETRIES = 3;
 const CACHE_DIR = path.join('.cache', 'uec');
 const UA = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36';
 
+// Exclusions RGPD (opposition art. 21 / erreurs d'attribution) — cf. build-exclusions.js
+const { lazyExclusions, isExcluded } = require('./build-exclusions.js');
+const exclusions = lazyExclusions();
+
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const sha256 = s => createHash('sha256').update(s, 'utf8').digest('hex');
 const norm = s => (s || '').toLowerCase()
@@ -206,7 +210,7 @@ async function listPastEvents(orgUuid) {
 }
 
 // Construit l'entrée d'index d'un événement (ou null si rien d'exploitable).
-async function buildEvent(card) {
+async function buildEvent(card, stats) {
   const evUuid = card.uuid;
   const classOptions = new Map(); // class_code → nom lisible
   const classes = new Map();      // class_code → { name, total, competitors: Map<key, comp> }
@@ -307,6 +311,20 @@ async function buildEvent(card) {
 
   // --- 3. Assemblage des classes (slim) ---
   const outClasses = [];
+  const eventDate = jdToIso(card.start_date || evMeta.start_date);
+  const eventEndDate = jdToIso(card.end_date || evMeta.end_date) || eventDate;
+
+  // Filtre RGPD : un pilote exclu ne doit pas réapparaître via une classe
+  // récupérée par un round de course alors qu'il est absent du round overall.
+  for (const cls of classes.values()) {
+    for (const [k, comp] of [...cls.competitors]) {
+      if (isExcluded(exclusions, { firstName: comp.fn, lastName: comp.ln, account: 'uec', date: eventDate })) {
+        cls.competitors.delete(k);
+        if (stats) stats.excluded++;
+      }
+    }
+  }
+
   for (const [code, cls] of classes) {
     if (!cls.competitors.size) continue;
     const competitors = [...cls.competitors.values()]
@@ -322,7 +340,7 @@ async function buildEvent(card) {
     outClasses.push({
       className: classNameFor(code, cls.name, classOptions),
       perpetualClassCode: code,
-      total: cls.total || cls.competitors.size,
+      total: competitors.length,
       competitors,
     });
   }
@@ -332,8 +350,6 @@ async function buildEvent(card) {
     return null;
   }
 
-  const eventDate = jdToIso(card.start_date || evMeta.start_date);
-  const eventEndDate = jdToIso(card.end_date || evMeta.end_date) || eventDate;
   return {
     account: { accountCode: 'uec', accountName: 'UEC' },
     event: {
@@ -385,13 +401,21 @@ async function main() {
   const indexEvents = [];
   const perEventSizes = [];
   let skipped = 0;
+  let excluded = 0;
+  const exStats = { excluded: 0 };
   for (let i = 0; i < cards.length; i++) {
     const card = cards[i];
     process.stdout.write(`[${i + 1}/${cards.length}] ${card.name} (${card.start_date}) … `);
     let ev = null;
     try {
-      ev = await buildEvent(card);
+      exStats.excluded = 0;
+      ev = await buildEvent(card, exStats);
+      excluded += exStats.excluded;
     } catch (e) {
+      // Erreur de configuration des exclusions (secret absent/faux) : on RELANCE.
+      // Sinon l'événement serait compté « ignoré » et l'index sortirait vide sans
+      // bruit — un secret manquant deviendrait une republication de données.
+      if (e.fatal) throw e;
       console.log(`ERREUR événement: ${e.message}`);
       skipped++;
       continue;
@@ -423,6 +447,7 @@ async function main() {
   console.log('=== Terminé (uec-index.json) ===');
   console.log(`${indexEvents.length} événements indexés${skipped ? `, ${skipped} ignorés` : ''}, ${totalClasses} classes, ${totalCompetitors} entrées pilotes`);
   console.log(`Taille : ${(totalBytes / 1024 / 1024).toFixed(2)} Mo (non compressé)`);
+  if (excluded) console.log(`Exclusions RGPD : ${excluded} entrée(s) pilote retirée(s)`);
   if (perEventSizes.length) {
     const avg = perEventSizes.reduce((a, b) => a + b, 0) / perEventSizes.length;
     console.log(`Taille moyenne par événement : ${(avg / 1024).toFixed(0)} Ko`);

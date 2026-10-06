@@ -1,0 +1,7 @@
+{
+  "_doc": "Liste d'exclusion des pilotes (opposition art. 21 RGPD, erreurs d'attribution) — AUCUN NOM EN CLAIR : les identités sont des HMAC-SHA256 calculés avec le secret EXCLUDE_HMAC_KEY (stocké dans les secrets GitHub Actions, jamais ici). Appliquée à CHAQUE génération par build-index.js / build-uec.js / build-uciworldcup.js et tools/build-hub-search.cjs. Voir build-exclusions.js : format, hmacKey(), et règles d'écriture.",
+  "_vectorNote": "Auto-test du secret : hmacHex(VECTOR_PROBE, VECTOR_PROBE, secret). Si le secret ne correspond pas, le build REFUSE de tourner (sinon les oppositions ne s'appliqueraient pas en silence). Régénérer après une rotation du secret.",
+  "vector": "83c6f3d49e959b44250fcac227f64e56ce589a9a42373167a650f7a44d0961e8",
+  "version": 2,
+  "excluded": []
+}

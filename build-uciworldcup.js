@@ -29,6 +29,10 @@ const UA = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Geck
 // Manches 2023+ (aligné UEC). Ancien template sans accordion : ignorées avec avertissement.
 const MIN_YEAR = 2023;
 
+// Exclusions RGPD (opposition art. 21 / erreurs d'attribution) — cf. build-exclusions.js
+const { lazyExclusions, filterCompetitors } = require('./build-exclusions.js');
+const exclusions = lazyExclusions();
+
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const sha256 = s => createHash('sha256').update(s, 'utf8').digest('hex');
 
@@ -142,15 +146,18 @@ function slimRider(v) {
   if (Number.isFinite(age)) out.age = age;
   return out;
 }
-async function fetchResults(item) {
+async function fetchResults(item, dateIso, stats) {
   const q = `/calendar/results/${item.eventCode}?discipline=BMX&raceType=${encodeURIComponent(item.raceType || 'A')}&raceName=${encodeURIComponent(item.title)}`;
   const raw = await fetchCached(API + q);
   const data = JSON.parse(raw);
-  return (data.results || [])
+  const riders = (data.results || [])
     .filter(r => r && r.headerType === 'rider' && r.values)
     .map(r => slimRider(r.values))
-    .filter(Boolean)
-    .sort((a, b) => a.rank - b.rank);
+    .filter(Boolean);
+  // Exclusions RGPD (opposition art. 21 / erreurs d'attribution) — cf. build-exclusions.js
+  const f = filterCompetitors(riders, exclusions, { account: ORG.accountCode, date: dateIso });
+  if (stats) stats.excluded += f.dropped;
+  return f.kept.sort((a, b) => a.rank - b.rank);
 }
 
 // --- Nom d'événement : année + manche + lieu depuis l'URL + la page ---
@@ -193,6 +200,7 @@ async function main() {
   const indexEvents = [];
   const seenEventIds = new Set();
   let skipped = 0;
+  const exStats = { excluded: 0 };
   for (let i = 0; i < urls.length; i++) {
     const url = urls[i];
     process.stdout.write(`[${i + 1}/${urls.length}] ${url.split('/race-hub/')[1].slice(0, 60)} … `);
@@ -210,7 +218,7 @@ async function main() {
         if (!cls) { console.log(`\n  classe inconnue ignorée : ${it.label || it.title}`); continue; }
         let riders = [];
         try {
-          riders = await fetchResults(it);
+          riders = await fetchResults(it, meta.date, exStats);
         } catch (e) { console.log(`\n  API en échec (${it.eventCode}) : ${e.message}`); continue; }
         if (!riders.length) continue;
         classes.push({
@@ -243,6 +251,7 @@ async function main() {
   console.log('=== Terminé (uci-worldcup-index.json) ===');
   console.log(`${indexEvents.length} manches indexées${skipped ? `, ${skipped} ignorées` : ''}, ${totalCompetitors} entrées pilotes`);
   console.log(`Taille : ${(totalBytes / 1024).toFixed(0)} Ko (non compressé)`);
+  if (exStats.excluded) console.log(`Exclusions RGPD : ${exStats.excluded} entrée(s) pilote retirée(s)`);
 }
 
 if (require.main === module) {

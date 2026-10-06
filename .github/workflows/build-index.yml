@@ -19,17 +19,72 @@ jobs:
         with:
           node-version: '24'
 
+      - name: Vérifier le secret des exclusions RGPD
+        # EXCLUDE_HMAC_KEY est requis dès qu'excluded-pilots.json contient des
+        # règles "hmac" : sans lui (ou avec le mauvais), build-exclusions.js
+        # REFUSE de démarrer plutôt que de republier les résultats d'une personne
+        # ayant demandé son effacement. Ce contrôle échoue ici, avant les crawls.
+        env:
+          EXCLUDE_HMAC_KEY: ${{ secrets.EXCLUDE_HMAC_KEY }}
+        run: |
+          node - <<'EOF'
+          const fs = require('fs');
+          const doc = JSON.parse(fs.readFileSync('excluded-pilots.json', 'utf8'));
+          const n = (doc.excluded || []).filter(r => r && r.hmac).length;
+          const secret = process.env.EXCLUDE_HMAC_KEY || '';
+          if (!secret) {
+            if (n) {
+              console.error(`::error::excluded-pilots.json contient ${n} règle(s) "hmac" mais le secret EXCLUDE_HMAC_KEY n'est pas défini (Repository settings → Secrets). Configure-le, sinon les oppositions RGPD ne pourront pas être appliquées.`);
+              process.exit(1);
+            }
+            console.log('Aucune règle hmac dans la liste d’exclusion — pas de secret requis.');
+          } else {
+            // Charge réellement le fichier : vérifie le secret ET le vector.
+            const { loadExclusions } = require('./build-exclusions.js');
+            const ex = loadExclusions();
+            console.log(`Secret EXCLUDE_HMAC_KEY vérifié — ${ex.rules} règle(s) d’exclusion, dont ${ex.hmac} hmacée(s), ${ex.clear} en clair.`);
+          }
+          EOF
+
       - name: Générer les index (Sqorz + UEC/JSTiming + Coupe du monde UCI) et les forces de plateau
+        env:
+          EXCLUDE_HMAC_KEY: ${{ secrets.EXCLUDE_HMAC_KEY }}
         run: |
           node build-index.js
           node build-uec.js
           node build-uciworldcup.js
           # (build-index.js et build-uec.js génèrent aussi field-strength-{fr,uec}.json
           # via build-field.js — indice v2, spec force-plateau)
+          # Mini-index de recherche du hub (tous les pilotes + clubs) : doit être
+          # regénéré À CHAQUE run, sinon il garde les noms d'pilotes écartés des index
+          # (RGPD — liste d'exclusion, cf. build-exclusions.js) et un pilote ayant
+          # demandé à être effacé y resterait. Copié vers le site par le sync.
+          node tools/build-hub-search.cjs
           node tools/build-perf-rankings.cjs
           # Classement perf (indice 365 j, pool FR+) consommé par l'outil ranking/ :
           # fichier ~770 Ko commité (freshe à chaque run), copié vers le site par
           # le workflow sync de bmx-race-tools (cf. stats/CLAUDE.md « Chaîne de fraîcheur »).
+
+      - name: Vérifier que la LRP applique bien les exclusions RGPD
+        # La LRP est le SEUL fichier publié que la liste d'exclusion ne
+        # traversait pas : elle est importée à la main et n'est ni générée ni
+        # copiée par ce workflow. Sans ce contrôle, une opposition art. 17
+        # inscrite dans excluded-pilots.json serait appliquée aux index mais la
+        # personne resterait visible dans pilots-lrp-2026.json (300 Ko publié).
+        #
+        # reduce-lrp.cjs étant idempotent sur un fichier déjà réduit, le relire
+        # revient à re-appliquer les exclusions. Si le résultat diffère, c'est
+        # que la LRP n'a pas été réinjectée après l'inscription de l'opposition.
+        env:
+          EXCLUDE_HMAC_KEY: ${{ secrets.EXCLUDE_HMAC_KEY }}
+        run: |
+          node tools/reduce-lrp.cjs
+          if ! git diff --quiet -- pilots-lrp-2026.json; then
+            echo "::error::pilots-lrp-2026.json ne reflète pas excluded-pilots.json. Lance 'node tools/reduce-lrp.cjs', puis copie le résultat dans bmx-race-tools/stats/pilots-lrp-2026.json avant de relancer ce workflow."
+            git --no-pager diff --stat -- pilots-lrp-2026.json
+            exit 1
+          fi
+          echo "LRP conforme à la liste d'exclusion."
 
       - name: Vérifier si les index ont changé (sha256 vs meta commité)
         id: changed
@@ -94,7 +149,7 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add pilots-index.meta.json uci-index.meta.json uec-index.meta.json uci-worldcup-index.meta.json field-strength-fr.meta.json field-strength-uec.meta.json perf-rankings.json
+          git add pilots-index.meta.json uci-index.meta.json uec-index.meta.json uci-worldcup-index.meta.json field-strength-fr.meta.json field-strength-uec.meta.json perf-rankings.json hub-search.json
           if git diff --cached --quiet; then
             echo "Aucun changement — rien à commiter."
           else

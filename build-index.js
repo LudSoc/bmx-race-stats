@@ -6,6 +6,11 @@
 const SQORZ_BASE = 'https://our.sqorz.com';
 const DELAY_MS = 150;
 
+// Exclusions RGPD (opposition art. 21 / erreurs d'attribution) — cf. build-exclusions.js
+const { lazyExclusions, filterCompetitors } = require('./build-exclusions.js');
+const exclusions = lazyExclusions();
+const excludedApplied = new Map(); // clé normalisée → nb d'entrées retirées (trace)
+
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 async function fetchJson(url) {
@@ -113,14 +118,18 @@ async function buildRegion(regionCode, outFile) {
       const classes = (detail.classRanks || [])
         .filter(cls => (cls.competitorRankSummaries || []).length > 0)
         .map(cls => {
-          const summaries = cls.competitorRankSummaries || [];
+          const f = filterCompetitors(cls.competitorRankSummaries || [], exclusions,
+            { account: account.accountCode, date: ev.eventDate });
+          for (const [k, v] of f.droppedKeys) excludedApplied.set(k, (excludedApplied.get(k) || 0) + v);
+          if (!f.kept.length) return null;
           return {
             className: cls.className || '',
             perpetualClassCode: cls.perpetualClassCode || null,
-            total: summaries.length,
-            competitors: summaries.map(slimCompetitor),
+            total: f.kept.length,
+            competitors: f.kept.map(slimCompetitor),
           };
-        });
+        })
+        .filter(Boolean);
 
       if (classes.length === 0) continue;
 
@@ -172,17 +181,23 @@ async function buildRegion(regionCode, outFile) {
   }
 
   for (const { account, coOrgs, series, detail, rankEvents } of seriesByKey.values()) {
+    // Date de référence d'une série = sa manche la plus récente (pour un `from`).
+    const seriesDate = (rankEvents || []).map(e => e.eventDate || '').filter(Boolean).sort().pop() || '';
     const classes = (detail.seriesRankClasses || [])
       .filter(cls => (cls.seriesRankCompetitors || []).length > 0)
       .map(cls => {
-        const competitors = cls.seriesRankCompetitors || [];
+        const f = filterCompetitors(cls.seriesRankCompetitors || [], exclusions,
+          { account: account.accountCode, date: seriesDate });
+        for (const [k, v] of f.droppedKeys) excludedApplied.set(k, (excludedApplied.get(k) || 0) + v);
+        if (!f.kept.length) return null;
         return {
           className: cls.className || '',
           perpetualClassCode: cls.perpetualClassCode || null,
-          total: competitors.length,
-          competitors: competitors.map(slimSeriesCompetitor),
+          total: f.kept.length,
+          competitors: f.kept.map(slimSeriesCompetitor),
         };
-      });
+      })
+      .filter(Boolean);
 
     if (classes.length === 0) continue;
 
@@ -244,6 +259,10 @@ async function buildRegion(regionCode, outFile) {
   console.log(`${indexEvents.length} événements, ${totalCompetitors} entrées pilotes`);
   console.log(`${indexSeries.length} séries, ${totalSeriesCompetitors} entrées championnats`);
   console.log(`Taille : ${sizeMb} Mo (non compressé)`);
+  if (excludedApplied.size) {
+    const n = [...excludedApplied.values()].reduce((a, b) => a + b, 0);
+    console.log(`Exclusions RGPD : ${n} entrée(s) retirée(s) — ${excludedApplied.size} règle(s) appliquée(s)`);
+  }
 }
 
 async function main() {
