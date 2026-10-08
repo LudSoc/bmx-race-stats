@@ -2740,8 +2740,11 @@
                || sortedUciEv.find(m => m.competitor.groupName)?.competitor.groupName
                || sortedUecEv.find(m => m.competitor.groupName)?.competitor.groupName
                || null;
-    const age   = sortedEv.find(m => m.competitor.age != null)?.competitor.age
-               ?? sortedUciEv.find(m => m.competitor.age != null)?.competitor.age ?? null;
+    const byMatch = sortedEv.find(m => m.competitor.by != null)
+                 || sortedUciEv.find(m => m.competitor.by != null);
+    const birthYear = byMatch?.competitor.by ?? null;
+    // Âge dérivé (année de l'événement − année de naissance) pour pilotGrade (< 13).
+    const age = birthYear != null ? Number((byMatch.event.eventDate || '').slice(0, 4)) - birthYear : null;
 
     const initials = [firstName[0], lastName[0]].filter(Boolean).join('').toUpperCase() || '?';
     const color    = avatarColor(fullName.toLowerCase());
@@ -2783,7 +2786,7 @@
             <button class="fav-btn${favNow ? ' on' : ''}" data-fav-pilot="${escape(norm(fullName))}" data-fav-name="${escape(fullName)}" title="${favNow ? 'Suivi ✓ — cliquer pour ne plus suivre' : 'Suivre ce pilote'}">${favNow ? '★' : '☆'}</button>
             ${perfCareer != null ? `<span class="pilot-index" title="Indice de performance carrière (tous niveaux, 0–1000)">🏅 ${perfCareer}</span>` : ''}
             ${gradeHtml}
-            ${age != null ? `<span class="pilot-age" title="Âge">🎂 ${age} ans</span>` : ''}
+            ${birthYear != null ? `<span class="pilot-age" title="Année de naissance">🎂 Né(e) en ${birthYear}</span>` : ''}
             ${club ? `<a class="pilot-club" href="${CLUB_BASE}?club=${encodeURIComponent(normClubCode(club))}" target="_blank" rel="noopener noreferrer" title="Stats du club">📍 ${escape(clubDisplayName(club))}</a>` : ''}
           </div>
           ${dnxHtml}
@@ -2959,8 +2962,8 @@
     const p2Plate = p2Sorted.find(m => m.competitor.plate)?.competitor.plate || null;
     const p1Club = p1Sorted.find(m => m.competitor.groupName)?.competitor.groupName || null;
     const p2Club = p2Sorted.find(m => m.competitor.groupName)?.competitor.groupName || null;
-    const p1Age  = p1Sorted.find(m => m.competitor.age != null)?.competitor.age ?? null;
-    const p2Age  = p2Sorted.find(m => m.competitor.age != null)?.competitor.age ?? null;
+    const p1By  = p1Sorted.find(m => m.competitor.by != null)?.competitor.by ?? null;
+    const p2By  = p2Sorted.find(m => m.competitor.by != null)?.competitor.by ?? null;
     const p1Color = avatarColor(p1Name.toLowerCase());
     const _p2ColorRaw = avatarColor(p2Name.toLowerCase());
     const p2Color = _p2ColorRaw === p1Color
@@ -3025,11 +3028,11 @@
       <div class="compare-pilots">
         <div class="compare-pilot">
           <div class="cav" style="--cp-color:${p1Color}">${avInner(p1c, p1Plate)}</div>
-          <div><div class="cpname">${escape(p1Name)}</div><div class="cpsub">${escape(p1Club ? clubDisplayName(p1Club) : '—')}</div>${p1Age != null ? `<div class="cpsub">${p1Age} ans</div>` : ''}</div>
+          <div><div class="cpname">${escape(p1Name)}</div><div class="cpsub">${escape(p1Club ? clubDisplayName(p1Club) : '—')}</div>${p1By != null ? `<div class="cpsub">Né(e) en ${p1By}</div>` : ''}</div>
         </div>
         <div class="compare-pilot">
           <div class="cav" style="--cp-color:${p2Color}">${avInner(p2c, p2Plate)}</div>
-          <div><div class="cpname">${escape(p2Name)}</div><div class="cpsub">${escape(p2Club ? clubDisplayName(p2Club) : '—')}</div>${p2Age != null ? `<div class="cpsub">${p2Age} ans</div>` : ''}</div>
+          <div><div class="cpname">${escape(p2Name)}</div><div class="cpsub">${escape(p2Club ? clubDisplayName(p2Club) : '—')}</div>${p2By != null ? `<div class="cpsub">Né(e) en ${p2By}</div>` : ''}</div>
         </div>
       </div>
       <div class="compare-rows">${rowsHtml}</div>

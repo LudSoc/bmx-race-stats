@@ -147,11 +147,12 @@ for (const ev of (expanded.events || [])) {
         p.clubs.set(gn, (p.clubs.get(gn) || 0) + 1);
       }
       if (isCruiserCat(cls)) p.cru++;
-      // Année de naissance : votes (année d'épreuve − âge) par engagement (âge sportif).
-      if (Number.isInteger(c.age) && c.age >= 3 && c.age <= 80) {
-        const byy = Number(year) - c.age;
-        if (byy > 1900) p.byVotes.set(byy, (p.byVotes.get(byy) || 0) + 1);
-      }
+      // Année de naissance : soit déjà portée par l'index (by, âge à l'événement converti
+      // en build-index.js), soit dérivée (année d'épreuve − âge) pour les sources héritées.
+      const bySrc = c.by != null && c.by > 1900
+        ? c.by
+        : (Number.isInteger(c.age) && c.age >= 3 && c.age <= 80 ? Number(year) - c.age : NaN);
+      if (Number.isFinite(bySrc) && bySrc > 1900) p.byVotes.set(bySrc, (p.byVotes.get(bySrc) || 0) + 1);
       const catCode = cls.perpetualClassCode || cls.className || '';
       if (catCode) {
         p.cats.set(catCode, (p.cats.get(catCode) || 0) + 1);

@@ -99,7 +99,8 @@
       for (const cls of (ev.classes || [])) {
         for (const c of (cls.competitors || [])) {
           c.firstName = c.fn; c.lastName = c.ln; c.groupName = c.gn;
-          if (c.age === undefined) c.age = null;
+          // Année de naissance (by) exposée ; l'app dérive l'âge = année de l'événement − by.
+          if (c.by === undefined) c.by = null;
           if (detailsOpt === false) continue;
           let ds = (c.d || []);
           if (detailsOpt === 'chrono') ds = ds.filter(d => d.tm != null || d.ht != null || d.ct != null);

@@ -76,13 +76,13 @@ test('classForLabel : 4 classes stables + variantes', () => {
 
 test('slimRider : mapping API → slim, rangs invalides ignorés', () => {
   assert.deepEqual(
-    slimRider({ rank: '3', firstname: 'Mathis', lastname: 'RAGOT RICHARD', age: 28, nationality: 'FRA' }),
-    { fn: 'Mathis', ln: 'RAGOT RICHARD', rank: 3, gn: 'FRA', d: [], age: 28 });
-  assert.equal(slimRider({ rank: 'DNF', firstname: 'A', lastname: 'B' }), null, 'rang non numérique');
-  assert.equal(slimRider({ rank: '', firstname: 'A', lastname: 'B' }), null);
-  assert.equal(slimRider({ rank: '5', firstname: '', lastname: '' }), null, 'sans nom');
+    slimRider({ rank: '3', firstname: 'Mathis', lastname: 'RAGOT RICHARD', age: 28, nationality: 'FRA' }, 2026),
+    { fn: 'Mathis', ln: 'RAGOT RICHARD', rank: 3, gn: 'FRA', d: [], by: 1998 });
+  assert.equal(slimRider({ rank: 'DNF', firstname: 'A', lastname: 'B' }, 2026), null, 'rang non numérique');
+  assert.equal(slimRider({ rank: '', firstname: 'A', lastname: 'B' }, 2026), null);
+  assert.equal(slimRider({ rank: '5', firstname: '', lastname: '' }, 2026), null, 'sans nom');
   assert.deepEqual(
-    slimRider({ rank: '7', firstname: 'Jo', lastname: 'X', nationality: '' }),
+    slimRider({ rank: '7', firstname: 'Jo', lastname: 'X', nationality: '' }, 2026),
     { fn: 'Jo', ln: 'X', rank: 7, gn: '', d: [] }, 'sans âge ni pays');
 });
 

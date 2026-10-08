@@ -135,7 +135,7 @@ function classForLabel(label) {
 }
 
 // --- API résultats → compétiteurs slim ---
-function slimRider(v) {
+function slimRider(v, year) {
   const rank = parseInt(v.rank, 10);
   if (!Number.isFinite(rank)) return null;
   const fn = (v.firstname || '').trim();
@@ -143,16 +143,19 @@ function slimRider(v) {
   if (!fn && !ln) return null;
   const out = { fn, ln, rank, gn: (v.nationality || '').trim(), d: [] };
   const age = parseInt(v.age, 10);
-  if (Number.isFinite(age)) out.age = age;
+  if (Number.isFinite(age) && Number.isInteger(year) && age >= 1 && age <= 99 && year - age > 1900) {
+    out.by = year - age; // année de naissance dérivée (âge à l'événement)
+  }
   return out;
 }
 async function fetchResults(item, dateIso, stats) {
   const q = `/calendar/results/${item.eventCode}?discipline=BMX&raceType=${encodeURIComponent(item.raceType || 'A')}&raceName=${encodeURIComponent(item.title)}`;
   const raw = await fetchCached(API + q);
   const data = JSON.parse(raw);
+  const year = Number((dateIso || '').slice(0, 4)) || null;
   const riders = (data.results || [])
     .filter(r => r && r.headerType === 'rider' && r.values)
-    .map(r => slimRider(r.values))
+    .map(r => slimRider(r.values, year))
     .filter(Boolean);
   // Exclusions RGPD (opposition art. 21 / erreurs d'attribution) — cf. build-exclusions.js
   const f = filterCompetitors(riders, exclusions, { account: ORG.accountCode, date: dateIso });
