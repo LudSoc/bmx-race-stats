@@ -46,6 +46,17 @@ jobs:
           }
           EOF
 
+      - name: Récupérer clubs.json (canonique, pour hub-search)
+        # tools/build-hub-search.cjs cherche clubs.json dans un checkout frère
+        # (bmx-race-tools/, monorepo). Sans lui, l'étape de génération échoue
+        # après les 3 crawls et R2 n'est jamais mis à jour.
+        uses: actions/checkout@v4
+        with:
+          repository: LudSoc/bmx-race-tools
+          path: bmx-race-tools
+          sparse-checkout: clubs.json
+          sparse-checkout-cone-mode: false
+
       - name: Générer les index (Sqorz + UEC/JSTiming + Coupe du monde UCI) et les forces de plateau
         env:
           EXCLUDE_HMAC_KEY: ${{ secrets.EXCLUDE_HMAC_KEY }}
