@@ -60,6 +60,7 @@ jobs:
       - name: Générer les index (Sqorz + UEC/JSTiming + Coupe du monde UCI) et les forces de plateau
         env:
           EXCLUDE_HMAC_KEY: ${{ secrets.EXCLUDE_HMAC_KEY }}
+          CLUBS_JSON: bmx-race-tools/clubs.json # checkout auxiliaire (ci-dessus), dans le dépôt
         run: |
           node build-index.js
           node build-uec.js

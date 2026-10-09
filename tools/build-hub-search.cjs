@@ -20,7 +20,11 @@ const DIR = __dirname;
 const idx = JSON.parse(fs.readFileSync(path.join(DIR, '..', 'pilots-index.json'), 'utf8'));
 
 // clubs.json : monorepo en priorité (existe aussi dans le site publié).
+// Surcharge CI via CLUBS_JSON (chemin relatif à la racine du dépôt) : le
+// checkout GitHub Actions ne peut pas créer de dossier frère du workspace,
+// le checkout auxiliaire atterrit donc DANS le dépôt (path: bmx-race-tools).
 const CLUB_CANDIDATES = [
+  ...(process.env.CLUBS_JSON ? [path.join(DIR, '..', process.env.CLUBS_JSON)] : []),
   path.join(DIR, '..', '..', 'bmx-race-tools', 'clubs.json'),
   path.join(DIR, '..', '..', 'club_stats', 'clubs.json'),
 ];
